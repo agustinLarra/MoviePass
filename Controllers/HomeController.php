@@ -1,5 +1,13 @@
 <?php 
 
-echo "hola";
+namespace Controllers;
+
+class HomeController{
+
+    public function Index(){
+        echo 'hola';
+    }
+
+}
 
 ?>
