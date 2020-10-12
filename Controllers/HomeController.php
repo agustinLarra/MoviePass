@@ -13,6 +13,9 @@ class HomeController{
         include('Views/home.php');
     }
 
+
 }
+
+
 
 ?>
