@@ -7,7 +7,7 @@
 	require "Config/Autoload.php";
 	require "Config/Config.php";
 
-	//use Config\Autoload as Autoload;
+	use Config\Autoload as Autoload;
 	use Config\Router 	as Router;
 	use Config\Request 	as Request;
 		
@@ -15,13 +15,10 @@
 
 	session_start();
 
-	//require_once(VIEWS_PATH."header.php");
-
-	echo "probando";
-	
 	Router::Route(new Request());
+	require_once(VIEWS_PATH."login.html");
 
-	//require_once(VIEWS_PATH."footer.php");
-	echo "probando2";
+
+	echo "Corriendo todo hasta ahora";
 	
 ?>

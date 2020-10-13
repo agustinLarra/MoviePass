@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+		<!-- Cabecera -->
+<head>
+	<title>Login</title>
+	<meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="Template/css/login.css">
+</head>
+		
+<body>
+
+<div class="contenedor">
+        <h4> Iniciar Sesion </h4>
+            
+        <form action= "<?php echo FRONT_ROOT?>"
+
+        <form  method="POST" onsubmit="return checkEmailValidation()">
+            
+				<label>Correo</label>
+					<input type = "email" placeholder="Ingrese email"required name="mail" id="mail" maxlength="<20"/>
+					<br>
+				<label>Contraseña </label>
+					<input type = "password" placeholder="Ingrese contraseña"required name="password" id="password" maxlength="20"/>
+					<br>
+
+<button class="ingresar"> Ingresar <span class="icon-users"></span> </button>
+
+</div>
+
+</body> 
+</html>
