@@ -16,9 +16,6 @@
 	session_start();
 
 	Router::Route(new Request());
-	require_once(VIEWS_PATH."login.html");
 
-
-	echo "Corriendo todo hasta ahora";
 	
 ?>
