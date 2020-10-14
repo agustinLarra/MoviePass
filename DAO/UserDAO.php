@@ -1,7 +1,6 @@
-<?php
+<?php namespace DAO;
 
-    namespace DAO;
-
+    use DAO\IDAO as IDAO;
     use Models\User as User;
 
     class UserDAO
@@ -14,11 +13,11 @@
             $this->fileName = dirname(__DIR__)."/Data/User.json";
         }
 
-        public function Add(User $User)
+        public function add(User $user)
         {
             $this->RetrieveData();
             
-            array_push($this->UserList, $User);
+            array_push($this->UserList, $user);
 
             $this->SaveData();
         }
@@ -34,11 +33,14 @@
         {
             $arrayToEncode = array();
 
-            foreach($this->UserList as $User)
+            foreach($this->UserList as $user)
             { 
             
-                $valuesArray["email"] = $User->getEmail();
-                $valuesArray["password"] = $User->getPassword();
+                $valuesArray["firstName"] = $user->getFirstName();
+                $valuesArray["lastName"] = $user->getLastName();
+                $valuesArray["dni"] = $user->getDni();
+                $valuesArray["email"] = $user->getEmail();
+                $valuesArray["password"] = $user->getPassword();
 
                 array_push($arrayToEncode, $valuesArray);
             }
@@ -60,14 +62,48 @@
 
                 foreach($arrayToDecode as $valuesArray)
                 {
-                    $User = new User();
-                    $User->setEmail($valuesArray["email"]);
-                    $User->setPassword($valuesArray["password"]);
+                    $user = new User();
+                   
+                    $user->setFirstName($valuesArray["firstName"]);
+                    $user->setLastName($valuesArray["lastName"]);
+                    $user->setDni($valuesArray["dni"]);
+                    $user->setEmail($valuesArray["email"]);
+                    $user->setPassword($valuesArray["password"]);
 
-                    array_push($this->UserList, $User);
+                    array_push($this->UserList, $user);
                 }
             }
         }
+    
+        /* ELIMINAR PERSONA
+        public function Delete($email){
+            if($_SESSION['loggedUser']->getEmail() === $email){
+                session_destroy();
+                header("location: index.php");
+            }
+            $this->retrieveData();
+            $newList = array();
+            foreach ($this->usersList as $user) {
+                if($user->getEmail() != $email){
+                    array_push($newList, $user);
+                }
+            }
+    
+            $this->usersList = $newList;
+            $this->saveData();
+        }
+        */
+        
+        public function getByEmail($email) {
+            $this->RetrieveData();
+
+            foreach ($this->userProfileList as $key => $userProfile) {
+                if($userProfile->getEmail() == $email) {
+                    return $userProfile;
+                }
+            }
+        }
+        
     }
 ?>
 

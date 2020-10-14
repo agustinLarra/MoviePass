@@ -16,6 +16,16 @@ class AdminController{
 
     }
 
+    public function showAddCine(){
+        header('location:../ViewsAdmin/addCine.php');
+
+    }
+
+    public function showListCine(){
+        header('location:../ViewsAdmin/listCine.php');
+    }
+
+
     public function addCine($nombre, $direccion, $capacidad, $valorEntrada){
 
         /// Podriamos pedir en el formulario que suban una foto del cine, para despues mostrarlo con foto, para la foto tendriamos que cambiarle el nombre y guardarla en una carpeta local, la foto debe llamarse igual que el cine y anidarle el .jpg para que si en algun momento borran el cine, tambien borrar la fotouse Models\Cine as Cine;

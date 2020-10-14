@@ -1,7 +1,6 @@
-<?php// include('header.php');?>
 <?php
-    		require "../Config/Autoload.php";
-            require "../Config/Config.php";
+
+        include('header.php');
         use DAO\CineDAO as CineDAO;
         use Models\Cine as Cine;
 
@@ -10,7 +9,7 @@
         $cineList = $cineDao->GetAll();
 
         var_dump($cineList);
-    ?>
+?>
 
 <!doctype html>
 <html class="no-js" lang="zxx">
