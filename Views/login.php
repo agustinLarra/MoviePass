@@ -5,26 +5,24 @@
 <head>
 	<title>Login</title>
 	<meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="Template/css/login.css">
+    <link rel="stylesheet" type="text/css" href="template/css/login.css">
 </head>
 		
 <body>
 
 <div class="contenedor">
-		<h4> Iniciar Sesion </h4>
+		<h4> Login </h4>
         <form action = "<?php echo FRONT_ROOT ?>User/login" method="POST">  Iniciar Sesion 
-				<label>Correo</label>
-					<input type = "email" placeholder="Ingrese email" required name="email" maxlength="<20"/>
-					<br>
-				<label>Contraseña </label>
-					<input type = "password" placeholder="Ingrese contraseña"required name="password" maxlength="20"/>
-					<br>
+			<label>Email</label>
+			<input type = "email" placeholder="Ingrese email" required name="email" maxlength="<20"/>
+			<br>
+			<label>Password </label>
+			<input type = "password" placeholder="Ingrese contraseña"required name="password" maxlength="20"/>
+			<br>
 
-					<button class="submit"> Ingresar <span class="icon-users"></span> </button>
-
+			<button class="submit"> Sign in <span class="icon-users"></span> </button>
 		</form>
-		<button ></button>
+		<a href="Home/viewSignUp">You don't have an account? Register here</a>
 </div>
-
 </body> 
 </html>
