@@ -4,13 +4,7 @@ namespace Models;
 class User{
     private $email;
     private $password;
-<<<<<<< HEAD
     
-=======
-    private $firstName;
-    private $lastName;
-    private $dni;
->>>>>>> 3057da1d08a39543614fcdde3f7eda24dbcfe4d0
 
     function __construct(){
         //Se usa contructor vacio asi cuando se crea un usuario no hay que pasar por parametro lo de Person'
