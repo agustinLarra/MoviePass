@@ -7,6 +7,6 @@
 	?>
 </head>
 <?php
-		include('peliculascartelera.php');
+		include('inicio.php');
 ?>
 </html>

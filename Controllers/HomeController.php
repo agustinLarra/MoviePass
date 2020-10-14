@@ -29,6 +29,14 @@ class HomeController{
         require(VIEWS_PATH.'signUp.php');
         //footer
     }
+
+    public function viewCartelera()
+    {
+        $apiController = new Api();
+        $arrayCartelera = $apiController->getCarteleraApi();
+        include('Views/carteleracompleta.php');
+
+    }
     
 
 
