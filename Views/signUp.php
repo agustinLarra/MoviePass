@@ -17,9 +17,8 @@
                 
                 <input type="text" name="firstName" placeholder="First Name" />
                 <input type="text" name="lastName" placeholder="Last Name" />
-                <input type="text" name="dni" placeholder="DNI" />
+                <input type="number" name="dni" placeholder="DNI" />
                 <input type="email" name="email" placeholder="Email" />
-                <input type="text" name="username" placeholder="UserName">
                 <input type="password" name="password" placeholder="Password">
 
                 <input type="submit" name="signup_submit" value="Sign me up" />

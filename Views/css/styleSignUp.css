@@ -47,6 +47,7 @@ h1 {
 }
 
 input[type="text"],
+input[type="number"],
 input[type="email"],
 input[type="password"] {
   display: block;
@@ -83,6 +84,7 @@ input[type="submit"] {
   text-transform: uppercase;
   transition: 0.1s ease;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 input[type="submit"]:hover,

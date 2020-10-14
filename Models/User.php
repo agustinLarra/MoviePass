@@ -1,7 +1,7 @@
 <?php
 namespace Models;
 
-class User extends Person{
+class User{
     private $email;
     private $password;
 

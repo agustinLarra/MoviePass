@@ -1,6 +1,6 @@
 <?php namespace Models;
 
-class Person{
+class UserProfile extends User{
 
     private $firstName;
     private $lastName;
