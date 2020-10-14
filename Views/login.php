@@ -12,7 +12,7 @@
 
 <div class="contenedor">
 		<h4> Iniciar Sesion </h4>
-        <form action = "<?php echo FRONT_ROOT ?>User/login" method="POST">  Iniciar Secion 
+        <form action = "<?php echo FRONT_ROOT ?>User/login" method="POST">  Iniciar Sesion 
 				<label>Correo</label>
 					<input type = "email" placeholder="Ingrese email" required name="email" maxlength="<20"/>
 					<br>
@@ -23,6 +23,7 @@
 					<button class="submit"> Ingresar <span class="icon-users"></span> </button>
 
 		</form>
+		<button ></button>
 </div>
 
 </body> 
