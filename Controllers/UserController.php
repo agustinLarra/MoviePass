@@ -20,9 +20,9 @@ class UserController{
 
 	public function create(User $user)
 	{
-		$userDAO = new UserDAO($user);
+		$user_sign = new User($user);
 		//$this->repository->Add($user);
-		$this->pdo->Add($userDAO); 	
+		$this->pdo->Add($user_sign); 	
 	}
 
 	public function getByEmail($email)
