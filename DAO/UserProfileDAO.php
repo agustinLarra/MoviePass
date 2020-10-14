@@ -81,16 +81,16 @@
                 }
             }
         }
-        /*
+        
         public function getByEmail($email) {
             $this->RetrieveData();
 
-            foreach ($this->usersList as $key => $user) {
-                if($user->getEmail() == $email) {
-                    return $user;
+            foreach ($this->userProfileList as $key => $userProfile) {
+                if($userProfile->getEmail() == $email) {
+                    return $userProfile;
                 }
             }
         }
-        */
+        
     }
 ?>
