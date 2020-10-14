@@ -1,27 +1,28 @@
 <?php
     require_once("Config\Autoload.php");
 
-    use repositories\actionsRepositories as actionsRepositories;
-    use Models\client as client;
+    use Controllers\UserController as UserController ;
+    use Models\User as User;
 
     if($_POST)
     {
-        $id = $_POST[$id];
+        //$id = $_POST[$id];
         $firstName = $_POST[$firstName];
         $lastName = $_POST[$lastName];
+        $dni = $_POST[$dni];
+        $email = $_POST[$email];
+        $password = $_POST[$password];
 
-        $client = new client();
-        $client->setId($id);
-        $client->setFirstName($firstName);
-        $client->setLastName($lastName);
-        $client->setEmail($email);
-        $client->setPassword($password);
-        $client->setDni($dni);
-        $client->setUserName($userName);
+        $user = new User();
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setDni($dni);
+        $user->setEmail($email);
+        $user->setPassword($password);
 
-       $actionsRepositories = new actionsRepositories();
+       $userController = new UserController();
        
-       $actionsRepositories->Add($client);
+       $userController->create($user);
         
     }
 

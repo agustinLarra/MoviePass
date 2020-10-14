@@ -13,7 +13,7 @@
             $this->fileName = dirname(__DIR__)."/Data/User.json";
         }
 
-        public function Add(User $user)
+        public function add(User $user)
         {
             $this->RetrieveData();
             
