@@ -17,7 +17,7 @@ require_once("nav.php");
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">
 						
-						<img src="../Views/images/cineWall-E.jpg">
+						<img src="<?=FRONT_ROOT . VIEWS_PATH?>images/cineWall-E.jpg">
 						<div class="caption">
 							<div class="captioninside">
 								<h3>Tu Lugar de Reservas</h3>

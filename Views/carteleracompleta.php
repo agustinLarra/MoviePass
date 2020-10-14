@@ -12,7 +12,7 @@ require_once("nav.php");
 						<?php foreach($arrayCartelera as $values)
 							{ ?>
 						<div class="mov">
-							<a href="single.html">
+							<a href="<?=FRONT_ROOT?>Home/viewCartelera">
 								<img src="<?=IMAGE_ROOT .  $values->getPoster();?>">
 								<h2 class="movietitle"><?= $values->getTitle();?></h2>
 							</a>
@@ -20,7 +20,7 @@ require_once("nav.php");
 						<?php }?>
 
 					</div>
-					<nav class="pagination">
+				<!--	<nav class="pagination"> ELIMINAR DE NO SER NECESARIO
 						<ul>
 							<li><a href="#">Prev</a></li>
 							<li><a href="#">1</a></li>
@@ -31,7 +31,7 @@ require_once("nav.php");
 							<li><a href="#">21</a></li>
 							<li><a href="#">Next</a></li>
 						</ul>
-					</nav>
+					</nav>-->
 				</section>
 
 	</main>
