@@ -1,11 +1,10 @@
 <?php
 
-    namespace Controllers;
+    namespace DAO;
 
-    use Controllers \UserRepository as UserRepository;
     use Models\User as User;
 
-    class UserController implements UserRepository
+    class UserDAO
     {        
         private $UserList = array();
         private $fileName;
@@ -37,8 +36,7 @@
 
             foreach($this->UserList as $User)
             { 
-                // Modificar este codigo para acomodarlo. 
-
+            
                 $valuesArray["email"] = $User->getEmail();
                 $valuesArray["password"] = $User->getPassword();
 
