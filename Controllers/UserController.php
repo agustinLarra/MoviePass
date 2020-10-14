@@ -34,7 +34,7 @@ class UserController{
 	{
         $userDAO = $this->pdo->getByEmail($email);
         $validation = false;
-        if ($firstName != '' && $lastName != '' && $dni > 0 && $password != '') {
+        if ($firstName != '' && $lastName != '' && $dni < 0 && $dni != '' && $password != '') {
             
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $validation = true;
@@ -51,7 +51,11 @@ class UserController{
                 //$this->homeController->viewSignUp();
 
             }
-		}
+        }else
+        {
+              //ACA VA MENSAJE DE ALERTA
+            //$this->homeController->viewSignUp();
+        }
 	}
 
     public function login($email,$password){
