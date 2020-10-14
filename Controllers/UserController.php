@@ -11,43 +11,29 @@ class UserController{
     
         $userDAO = new UserDAO();
         $userList = $userDAO->GetAll();
+        $loggedUser = NULL;
 
-        $loggedUser = new User();
+        foreach($userList as $value){
+            if($email == $value->getEmail()){
+                if($password == $value->getPassword()){
+                    $loggedUser = $value;
+                    
+                    echo "Ingreso correcto al sistema";
+                    echo "Nuevo commit";
 
-        $correctUser = 'Pepito@gmail.com';
-        $correctPassword = '12345';
-
-        if($correctUser == $email){
-            echo "putamadre";
-            if($correctPassword == $password){
-                echo"putamadre2";
-                $loggedUser->setEmail($email);
-                    $loggedUser->setPassword($password);
                     session_start();
                     $_SESSION['loggedUser'] = $loggedUser;
+                    header('location:../Views/home.php');
 
-                    header('location:home.php');
+                    
+                }
+                else{
+                    header('location:/MoviePass/');
+                }
+            }
+            else{
+                header('location:/MoviePass/');
             }
         }
     }
 }
-
-
-/*
-        foreach($userList as $value){
-            if($email == $value->getEmail()){
-                if($password == $value->getPassword()){
-                    $loggedUser->setEmail($email);
-                    $loggedUser->setPassword($password);
-                    session_start();
-                    $_SESSION['loggedUser'] = $loggedUser;
-
-                    header('location:home.php');
-
-                    }
-                }
-            }
-        }
-    }
-*/
-?>
