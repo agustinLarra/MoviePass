@@ -8,6 +8,7 @@ class User{
     function __construct($email,$password){
         $this->$email = $email;
         $this->$password = $password;
+    // tiene que ir constructor vacio.
     }
 
     public function getEmail(){
