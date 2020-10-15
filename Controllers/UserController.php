@@ -62,6 +62,8 @@ class UserController{
 
     public function login($email,$password){
         
+     
+
         $userDAO = new UserDAO();
         $userList = $userDAO->GetAll();
         $loggedUser = NULL;
@@ -75,15 +77,13 @@ class UserController{
                     $_SESSION['userLog'] = $loggedUser;
          
                     include('Views/home.php');
-
-                    
                 }
                 else{
-                   // header('location:/MoviePass/');
+                    require_once(VIEWS_PATH.'/login.php');
                 }
             }
             else{
-              //  header('location:/MoviePass/');
+                require_once(VIEWS_PATH.'/login.php');
             }
         }
     }
