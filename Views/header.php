@@ -1,5 +1,6 @@
 <?php namespace Views; 
 
+
 ?>
 
 <!DOCTYPE html>
@@ -13,11 +14,11 @@
 	<link rel="stylesheet" href="css/swiper.min.css">
     <link rel="stylesheet" href="css/styles.css"> -->
     
-    <link rel="stylesheet" href="<?=CSS_PATH ?>/swiper.min.css">
-	<link rel="stylesheet" href="<?=CSS_PATH ?>/styles.css">
+    <link rel="stylesheet" href="<?=CSS_PATH ?>swiper.min.css">
+	<link rel="stylesheet" href="<?=CSS_PATH ?>styles.css">
 
-	<script src="<?= JS_PATH ?>/jquery-3.1.1.min.js"></script>
-	<script src="<?= JS_PATH ?>/script.js"></script>
+	<script src="<?= JS_PATH ?>jquery-3.1.1.min.js"></script>
+	<script src="<?= JS_PATH ?>script.js"></script>
 
 
 	<!-- Demo styles -->

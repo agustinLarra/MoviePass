@@ -7,6 +7,7 @@
 	?>
 </head>
 <?php
+		
 		include('inicio.php');
 ?>
 </html>

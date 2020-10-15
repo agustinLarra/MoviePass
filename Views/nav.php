@@ -1,3 +1,6 @@
+<?php
+if(!isset($_SESSION)) session_start(); 
+?>
 <body>
 	<div class="wrapper">
 
@@ -14,21 +17,18 @@
 							<li><a href="genre.html">Romance</a></li>
 						</ul>
 					</li>-->
-					<!--<li><a>borrar</a>  ACA PUEDE REDIRECCIONAR AL LOGIN
-						<ul>
-							<li><a href="year.html">2017</a></li>
-							<li><a href="year.html">2016</a></li>
-							<li><a href="year.html">2015</a></li>
-							<li><a href="year.html">2014</a></li>
-						</ul><?php //echo FRONT_ROOT  . "home/peliculas_cartelera*****";?>
-					</li>-->
+					<li><a href="<?=FRONT_ROOT?>User/viewLogin">Login</a>
+
 					<li><a href="<?php  echo FRONT_ROOT ?>Home/viewCartelera">Cartelera</a>
 					<!--	<ul>
 							<li><a href="language.html">English</a></li>
 							<li><a href="language.html">German</a></li>
 						</ul>-->
 					</li>
-					<li><a href="mostwatched.html">Most Watched</a></li>
+					<?php if(isset($_SESSION['userLog'])) { ?>
+						<li><a>Bienvenido <?=$_SESSION['userLog']->getEmail();?> </a></li>
+						<?php	} ?>
+					<li><a href="<?=FRONT_ROOT?>User/viewSignup">Resgistrarse</a></li>
 					<li class="mobsearch">
 						<form class="mobform">
 							<input type="text" name="s" class="mobsearchfield" placeholder="Search...">

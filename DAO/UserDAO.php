@@ -64,9 +64,9 @@
                 {
                     $user = new User();
                    
-                    $user->setFirstName($valuesArray["firstName"]);
-                    $user->setLastName($valuesArray["lastName"]);
-                    $user->setDni($valuesArray["dni"]);
+                  //  $user->setFirstName($valuesArray["firstName"]);
+                  //  $user->setLastName($valuesArray["lastName"]);
+                  //  $user->setDni($valuesArray["dni"]);
                     $user->setEmail($valuesArray["email"]);
                     $user->setPassword($valuesArray["password"]);
 

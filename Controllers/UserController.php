@@ -28,7 +28,9 @@ class UserController{
 	public function getByEmail($email)
 	{
 		$userDAO = $this->pdo->getByEmail($email);
-	}
+    }
+    
+    
 
 	public function signUp ($firstName,$lastName,$dni,$email,$password)
 	{
@@ -59,7 +61,7 @@ class UserController{
 	}
 
     public function login($email,$password){
-    
+        
         $userDAO = new UserDAO();
         $userList = $userDAO->GetAll();
         $loggedUser = NULL;
@@ -73,18 +75,30 @@ class UserController{
                     echo "Nuevo commit";
 
                     session_start();
-                    $_SESSION['loggedUser'] = $loggedUser;
-                    header('location:../Views/home.php');
+                    $_SESSION['userLog'] = $loggedUser;
+         
+                    include('Views/home.php');
 
                     
                 }
                 else{
-                    header('location:/MoviePass/');
+                   // header('location:/MoviePass/');
                 }
             }
             else{
-                header('location:/MoviePass/');
+              //  header('location:/MoviePass/');
             }
         }
+    }
+
+    public function viewLogin()
+    {
+        include('Views/login.php');
+
+    }
+    public function viewSignup()
+    {
+        include('Views/signUp.php');
+
     }
 }
