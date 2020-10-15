@@ -71,9 +71,6 @@ class UserController{
                 if($password == $value->getPassword()){
                     $loggedUser = $value;
                     
-                    echo "Ingreso correcto al sistema";
-                    echo "Nuevo commit";
-
                     session_start();
                     $_SESSION['userLog'] = $loggedUser;
          

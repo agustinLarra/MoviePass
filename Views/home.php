@@ -5,6 +5,7 @@
 		include('header.php');
 		include('nav.php');
 	?>
+	
 </head>
 <?php
 		
