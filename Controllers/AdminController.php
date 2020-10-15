@@ -25,6 +25,7 @@ class AdminController{
 
     public function showListCine(){
 <<<<<<< HEAD
+<<<<<<< HEAD
   
         $cine = new Cine();
         $cineDao = new CineDAO();
@@ -33,6 +34,9 @@ class AdminController{
         var_dump($cineList);
         include( '../ViewsAdmin/header.php');
         include('../ViewsAdmin/listCines.php');
+=======
+        header('location:../ViewsAdmin/listCine.php');
+>>>>>>> 2eebff15d4bfc904d705c684e7b676c7c97b9ac4
 =======
         header('location:../ViewsAdmin/listCine.php');
 >>>>>>> 2eebff15d4bfc904d705c684e7b676c7c97b9ac4
