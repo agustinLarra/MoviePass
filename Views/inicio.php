@@ -20,7 +20,7 @@ require_once("nav.php");
 						<img src="<?=FRONT_ROOT . VIEWS_PATH?>images/cineWall-E.jpg">
 						<div class="caption">
 							<div class="captioninside">
-								<h3>Tu Lugar de Reservas</h3>
+								<h3>Tuuuuuuu Lugar de Reservas</h3>
 								
 								<!--<a href="single.html" class="playbutton">Play</a>--><!--BOTON PLAY-->
 							</div>

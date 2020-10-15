@@ -12,7 +12,6 @@ class HomeController{
         //  Si hay, se hace lo esto de abajo (Tendriamos que hacerla una funcion aparte)
         // *!implementar cuando funcione el login!*
 
-   
         $apiController = new Api();
         $arrayCartelera = $apiController->getCarteleraApi();
         include('Views/home.php');
