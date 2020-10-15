@@ -1,7 +1,9 @@
-<?php// include('header.php');?>
+<<<<<<< HEAD
+<?php  $cineList[0]->getNombre();?>
+=======
 <?php
-    		require "../Config/Autoload.php";
-            require "../Config/Config.php";
+
+        include('header.php');
         use DAO\CineDAO as CineDAO;
         use Models\Cine as Cine;
 
@@ -10,8 +12,9 @@
         $cineList = $cineDao->GetAll();
 
         var_dump($cineList);
-    ?>
+?>
 
+>>>>>>> 2eebff15d4bfc904d705c684e7b676c7c97b9ac4
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -74,17 +77,10 @@
     </div>
     <!-- Slider Area End-->
 
-    <?php
-        //use DAO\CineDAO as CineDAO;
-        //use Models\Cine as Cine;
-
-       // $cineDao = new CineDAO();
-       // $cineList = $cineDao->GetAll();
-
-        //var_dump($cineList);
-    ?>
-
     <!--================Blog Area =================-->
+
+
+
     <section class="blog_area section-paddingr">
         <div class="container">
             <div class="row">
@@ -92,17 +88,16 @@
                     <div class="blog_left_sidebar">
                         <article class="blog_item">
                             <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="assets/img/blog/single_blog_1.png" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
+                            <!-- Poner la opcion en addCine de que agregue imagen para ponerla aca -->
+                                <img class="card-img rounded-0" src="https://blog.bestday.com.ar/wp-content/uploads/2016/11/Teatro-Auditorium-Sala-Astor-Piazzola-700x432.jpg" alt="">
+                               
                             </div>
 
                             <div class="blog_details">
                                 <a class="d-inline-block" href="single-blog.html">
-                                    <h2>Google inks pact for new 35-storey office</h2>
+                                    <h2>   </h2>
                                 </a>
+                                
                                 <p>That dominion stars lights dominion divide years for fourth have don't stars is that
                                     he earth it first without heaven in place seed it second morning saying.</p>
                                 <ul class="blog-info-link">

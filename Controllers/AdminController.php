@@ -1,6 +1,8 @@
 <?php 
 
 namespace Controllers;
+
+
 use Models\Cine as Cine;
 use DAO\CineDAO as CineDAO;
 
@@ -15,6 +17,27 @@ class AdminController{
         header('location:ViewsAdmin/index.php');
 
     }
+
+    public function showAddCine(){
+        header('location:../ViewsAdmin/addCine.php');
+
+    }
+
+    public function showListCine(){
+<<<<<<< HEAD
+  
+        $cine = new Cine();
+        $cineDao = new CineDAO();
+        $cineList = $cineDao->GetAll();
+
+        var_dump($cineList);
+        include( '../ViewsAdmin/header.php');
+        include('../ViewsAdmin/listCines.php');
+=======
+        header('location:../ViewsAdmin/listCine.php');
+>>>>>>> 2eebff15d4bfc904d705c684e7b676c7c97b9ac4
+    }
+
 
     public function addCine($nombre, $direccion, $capacidad, $valorEntrada){
 
