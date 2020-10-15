@@ -1,23 +1,6 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 <?php  $cineList[0]->getNombre();?>
-=======
-=======
->>>>>>> 2eebff15d4bfc904d705c684e7b676c7c97b9ac4
-<?php
 
-        include('header.php');
-        use DAO\CineDAO as CineDAO;
-        use Models\Cine as Cine;
 
-        $cine = new Cine();
-        $cineDao = new CineDAO();
-        $cineList = $cineDao->GetAll();
-
-        var_dump($cineList);
-?>
-
->>>>>>> 2eebff15d4bfc904d705c684e7b676c7c97b9ac4
 <!doctype html>
 <html class="no-js" lang="zxx">
 
