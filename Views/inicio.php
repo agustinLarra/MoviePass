@@ -2,15 +2,17 @@
 namespace Views;
 
 use Models\Pelicula as pelicula;
+/*
 require_once("header.php");
 require_once("nav.php");
-
+*/
 
 ?>
 
 
 
 <!-- Swiper -->
+
 <div class="homeslider">
 			<div class="swiper-container">
 
