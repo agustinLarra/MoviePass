@@ -32,41 +32,45 @@ class UserController{
     
     
 
-	public function signUp (User $user)
+	public function signUp ($firstName, $lastName, $dni, $email,$password)
 	{
 
-        $firstName = $user->getFirstName();
-        $lastName = $user->getLastName();
-        $dni = $user->getDni();
-        $email = $user->getEmail();
-        $password = $user->getPassword();
-
         $userDAO = $this->pdo->getByEmail($email);
-        echo($email);
+        
+        $user = new User();
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setDni($dni);
+        $user->setEmail($email);
+        $user->setPassword($password);
+       
+    
         $validation = false;
-        if ($firstName != '' && $lastName != '' && $dni < 0 && $dni != '' && $password != '') {
-            
+        /*
+        if ($user->getFirstName() != '' && $user->getLastName() != '' && $user->getDni() < 0 && $user->getDni() != '' && $user->getPassword() != '') {
+            */
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $validation = true;
             }
-        }
-		if($userDAO !== null)
+        /*}*/
+        
+		if($userDAO == null)
 		{
+            
             if($validation){
                 
                 //ACA VA LA PAGINA DIRECTAMENTE
-                $this->pdo->add($user); 
+                $this->pdo->add($user);
                 $this->homeController->viewCartelera();
                 	
-            }else{
-                //ACA VA MENSAJE DE ALERTA
-                $this->homeController->viewLogin();
-
             }
+            
         }else
         {
+            echo "<script>alert('The email entered already exists, please enter another');";
+            echo "</script>";
               //ACA VA MENSAJE DE ALERTA
-            $this->homeController->Index();
+            $this->homeController->viewSignUp();
         }
 	}
 

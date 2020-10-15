@@ -1,5 +1,4 @@
 <?php namespace Views;
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,8 +8,9 @@
     <title>Sign Up</title>
     <link rel="stylesheet" type="text/css" href="../Views/css/styleSignUp.css">
 </head>
+    
     <body>
-        <form action="" method="post">
+        <form action="<?= FRONT_ROOT ?> User/signUp" method="post">
         <div id="signUp-box">
             <div class="left">
                 <h1>Sign up</h1>

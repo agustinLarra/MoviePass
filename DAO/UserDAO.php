@@ -64,9 +64,9 @@
                 {
                     $user = new User();
                    
-                  //  $user->setFirstName($valuesArray["firstName"]);
-                  //  $user->setLastName($valuesArray["lastName"]);
-                  //  $user->setDni($valuesArray["dni"]);
+                    $user->setFirstName($valuesArray["firstName"]);
+                    $user->setLastName($valuesArray["lastName"]);
+                    $user->setDni($valuesArray["dni"]);
                     $user->setEmail($valuesArray["email"]);
                     $user->setPassword($valuesArray["password"]);
 
@@ -96,12 +96,20 @@
         
         public function getByEmail($email) {
             $this->RetrieveData();
+            //$validationGetByEmail = false;
 
-            foreach ($this->userProfileList as $key => $userProfile) {
-                if($userProfile->getEmail() == $email) {
-                    return $userProfile;
+            foreach ($this->UserList as $key => $user) {
+                if($user->getEmail() == $email) {
+                    //$validationGetByEmail = true;
+                    return $user;
                 }
             }
+            return null;
+            /*
+            if($validationGetByEmail == 'false'){
+                return $validationGetByEmail;
+            }*/
+                
         }
         
     }
@@ -109,4 +117,3 @@
 
 
 
-?>
