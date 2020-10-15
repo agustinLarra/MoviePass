@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>MoviePass</title>
 </head>
 <body>
 	
@@ -14,7 +14,7 @@
 		<label for="">Password</label>
 		<input type="password" placeholder="Ingrese password" name="password">
 	
-		<button type="submit"> Enviar </button>
+		<button type="submit"> Submit </button>
 	</form>
 
 

@@ -32,9 +32,17 @@ class UserController{
     
     
 
-	public function signUp ($firstName,$lastName,$dni,$email,$password)
+	public function signUp (User $user)
 	{
+
+        $firstName = $user->getFirstName();
+        $lastName = $user->getLastName();
+        $dni = $user->getDni();
+        $email = $user->getEmail();
+        $password = $user->getPassword();
+
         $userDAO = $this->pdo->getByEmail($email);
+        echo($email);
         $validation = false;
         if ($firstName != '' && $lastName != '' && $dni < 0 && $dni != '' && $password != '') {
             
@@ -47,23 +55,24 @@ class UserController{
             if($validation){
                 
                 //ACA VA LA PAGINA DIRECTAMENTE
-                $this->homeController->viewLogin();
+                $this->pdo->add($user); 
+                $this->homeController->viewCartelera();
+                	
             }else{
                 //ACA VA MENSAJE DE ALERTA
-                //$this->homeController->viewSignUp();
+                $this->homeController->viewLogin();
 
             }
         }else
         {
               //ACA VA MENSAJE DE ALERTA
-            //$this->homeController->viewSignUp();
+            $this->homeController->Index();
         }
 	}
 
     public function login($email,$password){
         
-     
-
+    
         $userDAO = new UserDAO();
         $userList = $userDAO->GetAll();
         $loggedUser = NULL;
@@ -88,14 +97,12 @@ class UserController{
         }
     }
 
-    public function viewLogin()
-    {
-        include('Views/login.php');
-
+    public function logout(){
+        if(session_status() == PHP_SESSION_NONE){
+            session_start();
+        }
+        unset($_SESSION['userLog']);
+        $this->homeController->Index();
     }
-    public function viewSignup()
-    {
-        include('Views/signUp.php');
 
-    }
 }

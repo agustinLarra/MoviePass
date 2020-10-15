@@ -18,7 +18,11 @@ if(!isset($_SESSION)) session_start();
 							<li><a href="genre.html">Romance</a></li>
 						</ul>
 					</li>-->
-					<li><a href="<?=FRONT_ROOT?>User/viewLogin">Login</a>
+
+					<?php if(!isset($_SESSION['userLog'])) { ?>
+						<li><a href="<?=FRONT_ROOT?>Home/viewLogin">Login</a></li>
+						<?php	} ?>
+					<li>
 
 					<li><a href="<?php  echo FRONT_ROOT ?>Home/viewCartelera">Cartelera</a>
 					<!--	<ul>
@@ -27,9 +31,12 @@ if(!isset($_SESSION)) session_start();
 						</ul>-->
 					</li>
 					<?php if(isset($_SESSION['userLog'])) { ?>
-						<li><a>Bienvenido <?=$_SESSION['userLog']->getEmail();?> </a></li>
+						<li><a>Welcome <?=$_SESSION['userLog']->getEmail();?> </a></li>
 						<?php	} ?>
-					<li><a href="<?=FRONT_ROOT?>User/viewSignup">Resgistrarse</a></li>
+					<?php if(!isset($_SESSION['userLog'])) { ?>
+						<li><a href="<?=FRONT_ROOT?>Home/viewSignup">Sign Up</a></li>
+						<?php	} ?>
+			
 					<li class="mobsearch">
 						<form class="mobform">
 							<input type="text" name="s" class="mobsearchfield" placeholder="Search...">
@@ -37,4 +44,11 @@ if(!isset($_SESSION)) session_start();
 						</form>
 					</li>
 				</ul>
+
+				<div>
+					<?php if(isset($_SESSION['userLog'])) { ?>
+						<a href="<?=FRONT_ROOT?>User/logout">Logout</a>
+						<?php	} ?>
+					
+				</div>
 			</nav>

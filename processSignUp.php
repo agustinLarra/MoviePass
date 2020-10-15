@@ -22,7 +22,7 @@
 
        $userController = new UserController();
        
-       $userController->create($user);
+       $userController->signUp($user);
         
     }
 

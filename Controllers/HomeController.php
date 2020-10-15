@@ -17,7 +17,7 @@ class HomeController{
         include('Views/home.php');
        
     }
-     
+
     public function viewLogin(){
         //ACA EL HEADER
         require(VIEWS_PATH.'/login.php');
