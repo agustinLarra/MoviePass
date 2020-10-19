@@ -76,7 +76,7 @@ class UserController{
 
     public function login($email,$password){
         
-    
+
         $userDAO = new UserDAO();
         $userList = $userDAO->GetAll();
         $loggedUser = NULL;
@@ -88,7 +88,7 @@ class UserController{
                     
                     session_start();
                     $_SESSION['userLog'] = $loggedUser;
-         
+                    
                     include('Views/home.php');
                 }
                 else{

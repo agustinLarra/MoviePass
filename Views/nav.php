@@ -19,36 +19,30 @@ if(!isset($_SESSION)) session_start();
 						</ul>
 					</li>-->
 
+
 					<?php if(!isset($_SESSION['userLog'])) { ?>
 						<li><a href="<?=FRONT_ROOT?>Home/viewLogin">Login</a></li>
 						<?php	} ?>
 					<li>
 
 					<li><a href="<?php  echo FRONT_ROOT ?>Home/viewCartelera">Cartelera</a>
-					<!--	<ul>
+						<!--
+						<ul>
 							<li><a href="language.html">English</a></li>
-							<li><a href="language.html">German</a></li>
-						</ul>-->
+							<li><a href="language.html">Spanish</a></li>
+						</ul>
+						-->
 					</li>
 					<?php if(isset($_SESSION['userLog'])) { ?>
-						<li><a>Welcome <?=$_SESSION['userLog']->getEmail();?> </a></li>
+						<li><a>Welcome  <?=$_SESSION['userLog']->getEmail();?> </a></li>
 						<?php	} ?>
 					<?php if(!isset($_SESSION['userLog'])) { ?>
 						<li><a href="<?=FRONT_ROOT?>Home/viewSignup">Sign Up</a></li>
 						<?php	} ?>
-			
-					<li class="mobsearch">
-						<form class="mobform">
-							<input type="text" name="s" class="mobsearchfield" placeholder="Search...">
-							<input type="submit" value="" class="mobsearchsubmit">
-						</form>
-					</li>
-				</ul>
 
-				<div>
 					<?php if(isset($_SESSION['userLog'])) { ?>
-						<a href="<?=FRONT_ROOT?>User/logout">Logout</a>
+						<li><a href="<?=FRONT_ROOT?>User/logout">Logout</a></li>
 						<?php	} ?>
-					
-				</div>
+
+				</ul>
 			</nav>

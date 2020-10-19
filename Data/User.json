@@ -19,5 +19,12 @@
         "dni": "17741415",
         "email": "canalgisela@hotmail.com",
         "password": "brbdfb"
+    },
+    {
+        "firstName": "Rufino",
+        "lastName": "Solera",
+        "dni": "41783746",
+        "email": "martinsolera71@gmail.com",
+        "password": "martin123"
     }
 ]

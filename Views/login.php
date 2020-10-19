@@ -6,8 +6,7 @@
 	<title>MoviePass</title>
 </head>
 <body>
-	
-	<form action="<?php echo FRONT_ROOT;?>User/login" method="post">
+		<form action="<?php echo FRONT_ROOT;?>User/login" method="post">
 
 		<label for="">Email</label>
 		<input type="email" placeholder="Ingrese email" name="email">
