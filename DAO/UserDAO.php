@@ -2,6 +2,7 @@
 
     use DAO\IDAO as IDAO;
     use Models\User as User;
+    use DAO\Connection as Connection;
 
     ///REVISAR POR QUE LAS FUNCIONES ACA ESTAN DISTINTAS A LAS QUE TIENE EL PROFESOR EN EL GITHUB. 
 
@@ -114,9 +115,10 @@
             }*/
                 
         }
-        
+
+        /*
         public function create($user) {
-            $sql = "INSERT INTO users(firstName,lastName,dni,email,password) VALUES(:firstName,:lastName,:dni,:email,:password)";
+            $sql = "INSERT INTO Users(firstName,lastName,dni,email,pass) VALUES(:firstName,:lastName,:dni,:email,:pass)";
             $parameters['firstName'] = $user->getFirstName();
             $parameters['lastName'] = $user->getLastName();
             $parameters['dni'] = $user->getDni();
@@ -124,24 +126,11 @@
             $parameters['password'] = $user->getPassword();
             
             try{
-
                 this->connection = Connection::getInstance();
-                return $this->connection->Execute
-
             }
-
+            return $this->connection->ExecuteNonQuery($sql,$parameters);
         }
-
-
-
-
-
-
-
-
-
-
-
+        */
     }
 ?>
 

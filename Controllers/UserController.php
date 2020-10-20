@@ -25,8 +25,6 @@ class UserController{
 		$this->pdo->Add($user_sign); 	
     }
     
-
-
 	public function getByEmail($email){
 		$userDAO = $this->pdo->getByEmail($email);
     }
@@ -106,6 +104,8 @@ class UserController{
         unset($_SESSION['userLog']);
         $this->homeController->Index();
     }
+
+
 
 
 

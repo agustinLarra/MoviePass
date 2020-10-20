@@ -3,6 +3,7 @@ namespace DAO;
 
 use DAO\IDAO as IDAO;
 use Models\User as User;
+use DAO\QueryType as QueryType;
 
 class Connection{
     private $pdo = NULL;

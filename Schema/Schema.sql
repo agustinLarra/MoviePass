@@ -7,6 +7,7 @@ create table Users(
     firstName NOT NULL VARCHAR(30),
     lastName NOT NULL VARCHAR(30),
     dni INT NOT NULL INTEGER,
+    email, NOT NULL INTEGER(30),
     pass NOT NULL VARCHAR(45)
 );
 
