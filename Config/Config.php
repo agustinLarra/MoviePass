@@ -11,4 +11,11 @@ define("CSS_PATH", FRONT_ROOT.VIEWS_PATH . "css/");
 define("JS_PATH", FRONT_ROOT.VIEWS_PATH . "js/");
 define("IMAGE_ROOT", "https://image.tmdb.org/t/p/w500");
 
+///----------------DEFINES DE LA BS, !NO TOCAR! -----------
+define("DB_HOST", "localhost");
+define("DB_NAME", "University");
+define("DB_USER", "root");
+define("DB_PASS", "");
+
+
 ?>

@@ -26,5 +26,12 @@
         "dni": "41783746",
         "email": "martinsolera71@gmail.com",
         "password": "martin123"
+    },
+    {
+        "firstName": "Pepe",
+        "lastName": "Loco",
+        "dni": "4545454545454545454",
+        "email": "pepeloco@gmail.com",
+        "password": "pepeloco"
     }
 ]

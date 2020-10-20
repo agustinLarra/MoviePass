@@ -18,22 +18,20 @@ class UserController{
 		$this->homeController = new homeC();
 	}
 
-	public function create(User $user)
+	public function create($user)
 	{
 		$user_sign = new User($user);
 		//$this->repository->Add($user);
 		$this->pdo->Add($user_sign); 	
-	}
+    }
+    
 
-	public function getByEmail($email)
-	{
+
+	public function getByEmail($email){
 		$userDAO = $this->pdo->getByEmail($email);
     }
     
-    
-
-	public function signUp ($firstName, $lastName, $dni, $email,$password)
-	{
+	public function signUp ($firstName, $lastName, $dni, $email,$password){
 
         $userDAO = $this->pdo->getByEmail($email);
         
@@ -108,5 +106,8 @@ class UserController{
         unset($_SESSION['userLog']);
         $this->homeController->Index();
     }
+
+
+
 
 }

@@ -3,17 +3,20 @@
     use DAO\IDAO as IDAO;
     use Models\User as User;
 
+    ///REVISAR POR QUE LAS FUNCIONES ACA ESTAN DISTINTAS A LAS QUE TIENE EL PROFESOR EN EL GITHUB. 
+
     class UserDAO
     {        
         private $UserList = array();
         private $fileName;
+        private $connection;
 
         public function __construct()
         {
             $this->fileName = dirname(__DIR__)."/Data/User.json";
         }
 
-        public function add(User $user)
+        public function Add(User $user)
         {
             $this->RetrieveData();
             
@@ -112,6 +115,33 @@
                 
         }
         
+        public function create($user) {
+            $sql = "INSERT INTO users(firstName,lastName,dni,email,password) VALUES(:firstName,:lastName,:dni,:email,:password)";
+            $parameters['firstName'] = $user->getFirstName();
+            $parameters['lastName'] = $user->getLastName();
+            $parameters['dni'] = $user->getDni();
+            $parameters['email'] = $user->getEmail();
+            $parameters['password'] = $user->getPassword();
+            
+            try{
+
+                this->connection = Connection::getInstance();
+                return $this->connection->Execute
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 ?>
 
