@@ -16,8 +16,7 @@ blockquote:before, blockquote:after {content: '';content: none;}
 del {text-decoration: line-through;}
 table {border-collapse: collapse;border-spacing: 0;}
 a img {border: none;}
-.bodyCartelera{font-family: arial,sans-serif; background-color: #191919; position: relative;height: 100%;}
-
+.bodyCartelera{font-family: arial,sans-serif; background-color: #000; position: relative;height: 100%;}
 .wrapper{float: left; width: 100%; position: relative;}
 .content{float: left; width: 100%;}
 .header{position: absolute; top:0; right: 0; left:0;background-color: rgba(0,0,0,0.5); z-index: 999;}

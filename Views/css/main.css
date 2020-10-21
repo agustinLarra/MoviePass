@@ -22,7 +22,7 @@
 [ RESTYLE TAG ]*/
 
 .bodyLogin {
-  background-color: #000;
+  background-image: url(../images/ToyStory.jpg);
 	height: 100%;
 	font-family: Ubuntu-Regular, sans-serif;
 }

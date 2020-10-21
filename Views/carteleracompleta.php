@@ -2,7 +2,7 @@
 use Models\Pelicula as pelicula;
 ?>
 
-  <body class="bodyCartelera">  
+  <body class="bodyCartelera" style: "background-color: #000">  
 	
 				<section class="centered">
 					<h3>Peliculas en cartelera </h3>
