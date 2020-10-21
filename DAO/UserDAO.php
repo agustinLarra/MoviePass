@@ -1,8 +1,9 @@
 <?php namespace DAO;
 
+    use PDO\Exception;
     use DAO\IDAO as IDAO;
     use Models\User as User;
-    use DAO\Connection as Connection;
+    use DAO\ConnectionDAO as ConnectionDAO;
 
     ///REVISAR POR QUE LAS FUNCIONES ACA ESTAN DISTINTAS A LAS QUE TIENE EL PROFESOR EN EL GITHUB. 
 
@@ -26,12 +27,42 @@
             $this->SaveData();
         }
 
-        public function GetAll()
-        {
-            $this->RetrieveData();
+        public function getAll() {
+                $userList = array();
+                    try
+                    {
+                        $query = "SELECT * FROM users";
+                        $this->connection = ConnectionDAO::GetInstance();
+                        $resultSet = $this->connection->execute($query);
+            
+                        if(!empty($resultSet)) {
+                            foreach($resultSet as $row) {
+                                $id = $row["ID_user"];
+                                $firstName = $row["FirstName"];
+                                $lastName = $row["LastName"];
+                                $DNI = $row["DNI"];
+                                $email = $row["Email"];
+                                $pass = $row["Pass"];
+            
+                                $user = new User();
+                                $user->setId($id);
+                                $user->setFirstName($firstName);
+                                $user->setLastName($lastName);
+                                $user->setDNI($DNI);
+                                $user->setEmail($email);
+                                $user->setPassword($pass);
+                
+                                array_push($userList, $user);
+                            }
+                        }
+                    
+                    }
+                    catch(PDOException $e){
+                    echo $e;
+                    }
+            }
 
-            return $this->UserList;
-        }
+        
 
         private function SaveData()
         {
@@ -116,9 +147,8 @@
                 
         }
 
-        /*
         public function create($user) {
-            $sql = "INSERT INTO Users(firstName,lastName,dni,email,pass) VALUES(:firstName,:lastName,:dni,:email,:pass)";
+            $sql = "INSERT INTO Users(FirstName,LastName,DNI,Email,Pass) VALUES(:FirstName,:LastName,:DNI,:Email,:Pass)";
             $parameters['firstName'] = $user->getFirstName();
             $parameters['lastName'] = $user->getLastName();
             $parameters['dni'] = $user->getDni();
@@ -126,11 +156,30 @@
             $parameters['password'] = $user->getPassword();
             
             try{
-                this->connection = Connection::getInstance();
+                $this->connection = Connection::getInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
             }
-            return $this->connection->ExecuteNonQuery($sql,$parameters);
+            catch(PDOException $e){
+                echo $e;
+            }
+            
         }
-        */
+
+        public function modify($email,$pass){
+            $sql = "UPDATE users SET  email = :email , pass = :pass, WHERE email = :email";
+            $parameters['email'] = $email;
+            $parameters['pass'] = $pass;
+            try {
+                $this->Connection = Connection::getInstance();
+                return $this->Connection->ExecuteNonQuery($sql, $parameters);
+            }
+            catch(PDOException $e)
+            {
+                echo $e;
+            }
+        }
+
+        
     }
 ?>
 

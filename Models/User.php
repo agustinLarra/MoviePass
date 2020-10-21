@@ -2,6 +2,7 @@
 namespace Models;
 
 class User{
+    private $id;
     private $firstName;
     private $lastName;
     private $dni;
@@ -50,6 +51,14 @@ class User{
 
     public function setPassword($password){
         $this->password = $password;
+    }
+
+    public function getID(){
+        return $this->id;
+    }
+
+    public function setID($id){
+        $this->id = $id;
     }
 
 }

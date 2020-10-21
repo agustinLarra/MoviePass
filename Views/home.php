@@ -12,3 +12,5 @@
 		include('inicio.php');
 ?>
 </html>
+
+<!-- revisar esto por que hace lo mismo que homecontroller-->

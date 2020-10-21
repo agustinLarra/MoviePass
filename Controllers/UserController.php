@@ -9,21 +9,65 @@ use Controllers\HomeController as homeC;
 class UserController{
     
     private $homeController;
-	private $pdo;
+    private $pdo;
 
 	function __construct()
 	{
 	
 		$this->pdo = new UserDAO();
 		$this->homeController = new homeC();
-	}
-
+    }
+    /*
 	public function create($user)
 	{
-		$user_sign = new User($user);
-		//$this->repository->Add($user);
-		$this->pdo->Add($user_sign); 	
+        $user_sign = new User($user);
+        $email = $user_sign->getEmail();
+        $pass = $user_sign->getPassword();
+        $userPDO = new UserDAO();
+        $userList = $userPDO->getAll();
+        
+        $validationUser = FALSE;
+        
+        foreach($userList as $values)
+            {
+                if($user_sign->getEmail() == $values->getEmail())
+                {
+                    $validationUser=TRUE;
+                    $userPDO->modify($email,$pass);
+                    //$msj='El usuario ya existe';
+                    //$type='Success';
+                    $this->homeController->Index();
+                }    
+            }          
+        if($validationUser == FALSE){
+            
+            $userPDO->Add($user_sign);
+            //$msj='Se ha agregado exitosamente el usuario';
+             //$type='success';
+             $this->homeController->viewCartelera();
+        }   
     }
+    */
+
+    public function create($user) {
+        $sql = "INSERT INTO Users(FirstName,LastName,DNI,Email,Pass) VALUES(:FirstName,:LastName,:DNI,:Email,:Pass)";
+        $parameters['firstName'] = $user->getFirstName();
+        $parameters['lastName'] = $user->getLastName();
+        $parameters['dni'] = $user->getDni();
+        $parameters['email'] = $user->getEmail();
+        $parameters['password'] = $user->getPassword();
+        
+        try{
+            $this->connection = Connection::getInstance();
+            return $this->connection->ExecuteNonQuery($sql,$parameters);
+        }
+        catch(PDOException $e){
+            echo $e;
+        }
+        
+    }
+
+    
     
 	public function getByEmail($email){
 		$userDAO = $this->pdo->getByEmail($email);
@@ -105,9 +149,6 @@ class UserController{
         $this->homeController->Index();
     }
 
-
-
-
-
-
 }
+
+

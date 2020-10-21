@@ -34,6 +34,7 @@ class HomeController{
         include('Views/carteleracompleta.php');
 
     }
+
     
 
 

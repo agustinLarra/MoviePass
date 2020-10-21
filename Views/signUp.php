@@ -10,7 +10,7 @@
 </head>
     
     <body>
-        <form action="<?= FRONT_ROOT ?> User/signUp" method="post">
+        <form action="<?= FRONT_ROOT ?> User/create" method="post">
         <div id="signUp-box">
             <div class="left">
                 <h1>Sign up</h1>
