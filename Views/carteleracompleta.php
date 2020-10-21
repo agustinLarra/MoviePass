@@ -18,7 +18,7 @@ use Models\Pelicula as pelicula;
 						<?php }?>
 
 					</div>
-				<!--	<nav class="pagination"> ELIMINAR DE NO SER NECESARIO
+				<!--<nav class="pagination"> ELIMINAR DE NO SER NECESARIO
 						<ul>
 							<li><a href="#">Prev</a></li>
 							<li><a href="#">1</a></li>

@@ -116,7 +116,7 @@ class UserController{
 		$userDAO = $this->pdo->getByEmail($email);
     }
     
-    public function login($email,$password){
+    public function login($email,$pass){
         
 
         $userDAO = new UserDAO();
@@ -125,13 +125,14 @@ class UserController{
 
         foreach($userList as $value){
             if($email == $value->getEmail()){
-                if($password == $value->getPassword()){
+                if($pass == $value->getPassword()){
                     $loggedUser = $value;
                     
                     session_start();
                     $_SESSION['userLog'] = $loggedUser;
                     
                     $this->homeController->viewCartelera();
+
                 }
                 else{
                     $this->homeController->viewLogin();
