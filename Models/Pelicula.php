@@ -31,7 +31,7 @@ class Pelicula{
     public function  getPosterHorizontal(){
         return $this->poster_horizontal ;
     }
-   
+
 
 }
 
