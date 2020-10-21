@@ -49,13 +49,14 @@ class UserController{
     }
     */
 
-    public function create($user) {
-        $sql = "INSERT INTO Users(FirstName,LastName,DNI,Email,Pass) VALUES(:FirstName,:LastName,:DNI,:Email,:Pass)";
+    public function create($user){
+        $sql = "INSERT INTO users(firstName,lastName,dni,email,pass) VALUES(:firstName,:lastName,:dni,:email,:pass)";
+
         $parameters['firstName'] = $user->getFirstName();
         $parameters['lastName'] = $user->getLastName();
         $parameters['dni'] = $user->getDni();
         $parameters['email'] = $user->getEmail();
-        $parameters['password'] = $user->getPassword();
+        $parameters['pass'] = $user->getPassword();
         
         try{
             $this->connection = Connection::getInstance();
