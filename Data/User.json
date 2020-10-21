@@ -5,33 +5,5 @@
         "dni": null,
         "email": "admin@gmail.com",
         "password": "admin123"
-    },
-    {
-        "firstName": "Rina",
-        "lastName": "Grasso",
-        "dni": "4650337",
-        "email": "rina2300@hotmail.com",
-        "password": "fgdbdsb"
-    },
-    {
-        "firstName": "claudio",
-        "lastName": "ADSD",
-        "dni": "17741415",
-        "email": "canalgisela@hotmail.com",
-        "password": "brbdfb"
-    },
-    {
-        "firstName": "Rufino",
-        "lastName": "Solera",
-        "dni": "41783746",
-        "email": "martinsolera71@gmail.com",
-        "password": "martin123"
-    },
-    {
-        "firstName": "Pepe",
-        "lastName": "Loco",
-        "dni": "4545454545454545454",
-        "email": "pepeloco@gmail.com",
-        "password": "pepeloco"
     }
 ]

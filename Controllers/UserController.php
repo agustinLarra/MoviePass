@@ -48,7 +48,7 @@ class UserController{
         }   
     }
     */
-
+    /*
     public function create($user){
         $sql = "INSERT INTO users(firstName,lastName,dni,email,pass) VALUES(:firstName,:lastName,:dni,:email,:pass)";
 
@@ -59,7 +59,7 @@ class UserController{
         $parameters['pass'] = $user->getPassword();
         
         try{
-            $this->connection = Connection::getInstance();
+            $this->connection = connection::getInstance();
             return $this->connection->ExecuteNonQuery($sql,$parameters);
         }
         catch(PDOException $e){
@@ -67,13 +67,9 @@ class UserController{
         }
         
     }
+    */
+    
 
-    
-    
-	public function getByEmail($email){
-		$userDAO = $this->pdo->getByEmail($email);
-    }
-    
 	public function signUp ($firstName, $lastName, $dni, $email,$password){
 
         $userDAO = $this->pdo->getByEmail($email);
@@ -101,7 +97,7 @@ class UserController{
             if($validation){
                 
                 //ACA VA LA PAGINA DIRECTAMENTE
-                $this->pdo->add($user);
+                $this->pdo->create($user);
                 $this->homeController->viewCartelera();
                 	
             }
@@ -115,11 +111,16 @@ class UserController{
         }
 	}
 
+        
+	public function getByEmail($email){
+		$userDAO = $this->pdo->getByEmail($email);
+    }
+    
     public function login($email,$password){
         
 
         $userDAO = new UserDAO();
-        $userList = $userDAO->GetAll();
+        $userList = $userDAO->getAll();
         $loggedUser = NULL;
 
         foreach($userList as $value){
@@ -130,14 +131,14 @@ class UserController{
                     session_start();
                     $_SESSION['userLog'] = $loggedUser;
                     
-                    include('Views/home.php');
+                    $this->homeController->viewCartelera();
                 }
                 else{
-                    require_once(VIEWS_PATH.'/login.php');
+                    $this->homeController->viewLogin();
                 }
             }
             else{
-                require_once(VIEWS_PATH.'/login.php');
+                $this->homeController->viewLogin();
             }
         }
     }

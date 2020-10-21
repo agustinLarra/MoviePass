@@ -1,4 +1,4 @@
-/* Reset */
+/* Reset */ 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -16,7 +16,7 @@ blockquote:before, blockquote:after {content: '';content: none;}
 del {text-decoration: line-through;}
 table {border-collapse: collapse;border-spacing: 0;}
 a img {border: none;}
-body{font-family: arial,sans-serif; background-color: #191919; position: relative;height: 100%;}
+.bodyCartelera{font-family: arial,sans-serif; background-color: #191919; position: relative;height: 100%;}
 
 .wrapper{float: left; width: 100%; position: relative;}
 .content{float: left; width: 100%;}
@@ -51,7 +51,7 @@ body{font-family: arial,sans-serif; background-color: #191919; position: relativ
 .homeslider > .swiper-container > .swiper-wrapper > .swiper-slide > .caption{color: #ffffff;z-index: 999;position: absolute; top: 0; bottom: 0;left: 0;right:0; background-color: rgba(0,0,0,0.5); z-index: 99;}
 .homeslider > .swiper-container > .swiper-wrapper > .swiper-slide > .caption > .captioninside{top: 100px; left: 50px; position: absolute; text-align: left; max-width: 40%;}
 .homeslider > .swiper-container > .swiper-wrapper > .swiper-slide > .caption > .captioninside h3{font-size: 22px; color:#fff; padding: 10px 0; display: block;}
-.homeslider > .swiper-container > .swiper-wrapper > .swiper-slide > .caption > .captioninside p{left; font-size: 16px; color:#fff; display: block;}
+.homeslider > .swiper-container > .swiper-wrapper > .swiper-slide > .caption > .captioninside p{ font-size: 16px; color:#fff; display: block;}
 .playbutton{padding: 10px 20px; color:#fff; background-color: #C10E0E; display: inline-block; margin: 10px 0; text-decoration: none; border-radius: 3px;}
 .homeslider > .swiper-container > .swiper-pagination > .swiper-pagination-bullet{width: 15px; height: 15px;}
 .homeslider > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active{background:#fff;}

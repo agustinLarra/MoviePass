@@ -14,24 +14,28 @@ class HomeController{
 
         $apiController = new Api();
         $arrayCartelera = $apiController->getCarteleraApi();
-        include('Views/home.php');
+        require_once('Views/header.php');
+        require('Views/inicio.php');
        
     }
 
     public function viewLogin(){
-        //ACA EL HEADER
+        
         require(VIEWS_PATH.'/login.php');
-        //ACA EL FOOTER
+     
     }
     public function viewSignUp(){
-        //Header
+        require_once('Views/header.php');
         require(VIEWS_PATH.'signUp.php');
-        //footer
+        require_once('Views/footer.php');
     }
     public function viewCartelera(){
         $apiController = new Api();
         $arrayCartelera = $apiController->getCarteleraApi();
-        include('Views/carteleracompleta.php');
+        require_once(VIEWS_PATH.'header.php');
+        require_once(VIEWS_PATH.'nav.php');
+        require(VIEWS_PATH.'carteleracompleta.php');
+        require_once(VIEWS_PATH.'footer.php');
 
     }
 

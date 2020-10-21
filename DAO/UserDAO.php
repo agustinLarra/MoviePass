@@ -1,9 +1,9 @@
 <?php namespace DAO;
 
-    use PDO\Exception;
+    use PDOException;
     use DAO\IDAO as IDAO;
     use Models\User as User;
-    use DAO\ConnectionDAO as ConnectionDAO;
+    use DAO\connection as connection;
 
     ///REVISAR POR QUE LAS FUNCIONES ACA ESTAN DISTINTAS A LAS QUE TIENE EL PROFESOR EN EL GITHUB. 
 
@@ -16,53 +16,61 @@
         public function __construct()
         {
             $this->fileName = dirname(__DIR__)."/Data/User.json";
+            $this->connection = null;
         }
 
-        public function Add(User $user)
-        {
-            $this->RetrieveData();
+        public function create($user){
+            $sql = "INSERT INTO Users(FirstName,LastName,DNI,Email,Pass) VALUES(:FirstName,:LastName,:DNI,:Email,:Pass)";
+    
+            $parameters['firstName'] = $user->getFirstName();
+            $parameters['lastName'] = $user->getLastName();
+            $parameters['dni'] = $user->getDni();
+            $parameters['email'] = $user->getEmail();
+            $parameters['pass'] = $user->getPassword();
             
-            array_push($this->UserList, $user);
-
-            $this->SaveData();
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
         }
 
         public function getAll() {
-                $userList = array();
-                    try
-                    {
-                        $query = "SELECT * FROM users";
-                        $this->connection = ConnectionDAO::GetInstance();
-                        $resultSet = $this->connection->execute($query);
-            
-                        if(!empty($resultSet)) {
-                            foreach($resultSet as $row) {
-                                $id = $row["ID_user"];
-                                $firstName = $row["FirstName"];
-                                $lastName = $row["LastName"];
-                                $DNI = $row["DNI"];
-                                $email = $row["Email"];
-                                $pass = $row["Pass"];
-            
-                                $user = new User();
-                                $user->setId($id);
-                                $user->setFirstName($firstName);
-                                $user->setLastName($lastName);
-                                $user->setDNI($DNI);
-                                $user->setEmail($email);
-                                $user->setPassword($pass);
-                
-                                array_push($userList, $user);
-                            }
-                        }
-                    
-                    }
-                    catch(PDOException $e){
-                    echo $e;
-                    }
-            }
-
+            $userList = array();
+            try
+            {
+                $query = "SELECT * FROM users";
+                $this->connection = connection::GetInstance();
+                $resultSet = $this->connection->execute($query);
+    
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        $id = $row["ID_user"];
+                        $firstName = $row["FirstName"];
+                        $lastName = $row["LastName"];
+                        $DNI = $row["DNI"];
+                        $email = $row["Email"];
+                        $pass = $row["Pass"];
+    
+                        $user = new User();
+                        $user->setId($id);
+                        $user->setFirstName($firstName);
+                        $user->setLastName($lastName);
+                        $user->setDNI($DNI);
+                        $user->setEmail($email);
+                        $user->setPassword($pass);
         
+                        array_push($userList, $user);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $userList;
+        }
 
         private function SaveData()
         {
@@ -145,24 +153,6 @@
                 return $validationGetByEmail;
             }*/
                 
-        }
-
-        public function create($user) {
-            $sql = "INSERT INTO Users(FirstName,LastName,DNI,Email,Pass) VALUES(:FirstName,:LastName,:DNI,:Email,:Pass)";
-            $parameters['firstName'] = $user->getFirstName();
-            $parameters['lastName'] = $user->getLastName();
-            $parameters['dni'] = $user->getDni();
-            $parameters['email'] = $user->getEmail();
-            $parameters['password'] = $user->getPassword();
-            
-            try{
-                $this->connection = Connection::getInstance();
-                return $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
-            }
-            
         }
 
         public function modify($email,$pass){

@@ -1,0 +1,138 @@
+
+.nav-nav
+{
+    position: top;
+    top: 50%;
+    right: 0;
+    left: 0;
+    width: 319px;
+    display: table;
+    margin: 0 auto;
+    transform: translateY(0%);
+    align-items: center;
+}
+
+.nav-nav .a-nav
+{
+    position: relative;
+    width: 33.333%;
+    display: table-cell;
+    text-align: center;
+    color: #949494;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: 0.2s ease color;
+}
+
+.nav-nav .a-nav:before,.nav-nav .a-nav:after
+{
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 0.2s ease transform;
+}
+
+.nav-nav .a-nav:before
+{
+    top: 0;
+    left: 10px;
+    width: 6px;
+    height: 6px;
+}
+
+.nav-nav .a-nav:after
+{
+    top: 5px;
+    left: 18px;
+    width: 4px;
+    height: 4px
+}
+
+.nav-nav .a-nav:nth-child(1):before
+{
+    background-color: yellow;
+}
+
+.nav-nav .a-nav:nth-child(1):after
+{
+    background-color: red;
+}
+
+.nav-nav .a-nav:nth-child(2):before
+{
+    background-color: #00e2ff;
+}
+
+.nav-nav .a-nav:nth-child(2):after
+{
+    background-color: #89ff00;
+}
+
+.nav-nav .a-nav:nth-child(3):before
+{
+    background-color: purple;
+}
+
+.nav-nav .a-nav:nth-child(3):after
+{
+    background-color: palevioletred;
+}
+
+#indicator
+{
+    position: absolute;
+    left: 5%;
+    bottom: 0;
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: 0.2s ease left;
+}
+
+.nav-nav .a-nav:hover
+{
+    color: #fff;
+}
+
+.nav-nav .a-nav:hover:before, .nav-nav .a-nav:hover:after
+{
+    transform: scale(1);
+}
+
+.nav-nav .a-nav:nth-child(1):hover ~ #indicator
+{
+    background: linear-gradient(130deg, yellow, red);
+}
+
+.nav-nav .a-nav:nth-child(2):hover ~ #indicator
+{
+    left: 34%;
+    background: linear-gradient(130deg, #00e2ff, #89ff00);
+}
+
+.nav-nav .a-nav:nth-child(3):hover ~ #indicator
+{
+    left: 70%;
+    background: linear-gradient(130deg, purple, palevioletred);
+}
+
+#ytd-url {
+  display: block;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  padding: 10px 14px;
+  margin: 20px;
+  color: #fff;
+  font-family: Arial;
+  font-size: 14px;
+  text-decoration: none;
+  background-color: #000;
+  border-radius: 4px;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+  z-index: 125;
+}

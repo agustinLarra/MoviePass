@@ -1,8 +1,7 @@
 <?php 
 namespace Views;
 use Models\Pelicula as Peliculas;
-require_once("header.php");
-require_once("nav.php");
+
 ?>
 
 <div class="homeslider">

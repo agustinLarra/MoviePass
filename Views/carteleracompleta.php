@@ -1,11 +1,9 @@
 <?php namespace Views;
 use Models\Pelicula as pelicula;
-require_once("header.php");
-require_once("nav.php");
 ?>
 
-  <body>  
-	<main class="content">
+  <body class="bodyCartelera">  
+	
 				<section class="centered">
 					<h3>Peliculas en cartelera </h3>
 					<div class="movies">
@@ -34,5 +32,3 @@ require_once("nav.php");
 					</nav>-->
 				</section>
 
-	</main>
-</body>
