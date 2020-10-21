@@ -3,7 +3,7 @@ if(!isset($_SESSION)) session_start();
 
 ?>
 <body class="body-nav">
-	<figure class="logo"><a href="<?= FRONT_ROOT ?>Home/Index"><img src="../Views/img/movie2.png" alt="Logo"  /></figure></a>
+	
 	<nav class="nav-nav">
 		<a class="a-nav" href="<?=FRONT_ROOT ?>Home/Index">Home</a>
 		<!--<li><a>Lista desplegable</a>

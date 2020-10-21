@@ -32,10 +32,9 @@ class HomeController{
     public function viewCartelera(){
         $apiController = new Api();
         $arrayCartelera = $apiController->getCarteleraApi();
-        require_once(VIEWS_PATH.'header.php');
         require_once(VIEWS_PATH.'nav.php');
-        require(VIEWS_PATH.'carteleracompleta.php');
-        require_once(VIEWS_PATH.'footer.php');
+        require(VIEWS_PATH.'billboard.php');
+        
 
     }
 
