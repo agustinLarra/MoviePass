@@ -3,7 +3,7 @@
     use PDOException;
     use DAO\IDAO as IDAO;
     use Models\User as User;
-    use DAO\connection as connection;
+    use DAO\Connection as connection;
 
     ///REVISAR POR QUE LAS FUNCIONES ACA ESTAN DISTINTAS A LAS QUE TIENE EL PROFESOR EN EL GITHUB. 
 
@@ -18,7 +18,7 @@
             $this->fileName = dirname(__DIR__)."/Data/User.json";
             $this->connection = null;
         }
-
+        
         public function create($user){
             $sql = "INSERT INTO Users(FirstName,LastName,DNI,Email,Pass) VALUES(:FirstName,:LastName,:DNI,:Email,:Pass)";
     
@@ -38,30 +38,26 @@
         }
 
         public function getAll() {
+            
             $userList = array();
             try
             {
-                $query = "SELECT * FROM users";
-                $this->connection = connection::GetInstance();
-                $resultSet = $this->connection->execute($query);
-    
+                $query = "SELECT * FROM users;";
+                $this->connection = connection::GetInstance();    ///aca esta.
+                $resultSet = $this->connection->execute($query);  ///aca esta.
+
                 if(!empty($resultSet)) {
-                    foreach($resultSet as $row) {
-                        $id = $row["ID_user"];
-                        $firstName = $row["FirstName"];
-                        $lastName = $row["LastName"];
-                        $DNI = $row["DNI"];
-                        $email = $row["Email"];
-                        $pass = $row["Pass"];
-    
+                    foreach($resultSet as $row) { ///PROBAR DE HACERLO TODO JUNTO COMO ESTA EN EL GITHUB DEL PROFESOR
+                        
                         $user = new User();
-                        $user->setId($id);
-                        $user->setFirstName($firstName);
-                        $user->setLastName($lastName);
-                        $user->setDNI($DNI);
-                        $user->setEmail($email);
-                        $user->setPassword($pass);
-        
+                        
+                        $user->setId($row["Id_User"]);
+                        $user->setFirstName($row["FirstName"]);
+                        $user->setLastName($row["LastName"]);
+                        $user->setDNI($row["DNI"]);
+                        $user->setEmail($row["Email"]);
+                        $user->setPassword($row["Pass"]);
+                         
                         array_push($userList, $user);
                     }
                 }

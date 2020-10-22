@@ -13,9 +13,10 @@ class UserController{
 
 	function __construct()
 	{
-	
+
 		$this->pdo = new UserDAO();
 		$this->homeController = new homeC();
+
     }
     /*
 	public function create($user)
@@ -106,7 +107,6 @@ class UserController{
         {
             echo "<script>alert('The email entered already exists, please enter another');";
             echo "</script>";
-              //ACA VA MENSAJE DE ALERTA
             $this->homeController->viewSignUp();
         }
 	}
@@ -118,24 +118,27 @@ class UserController{
     
     public function login($email,$pass){
         
-
         $userDAO = new UserDAO();
         $userList = $userDAO->getAll();
         $loggedUser = NULL;
+        $this->homeController = new homeC();
 
         foreach($userList as $value){
             if($email == $value->getEmail()){
                 if($pass == $value->getPassword()){
-                    $loggedUser = $value;
                     
+                    $loggedUser = $value;
                     session_start();
                     $_SESSION['userLog'] = $loggedUser;
                     
                     $this->homeController->viewCartelera();
 
+                    echo"El usuario y la contraseña son correctos";
+                    
                 }
                 else{
                     $this->homeController->viewLogin();
+                    
                 }
             }
             else{

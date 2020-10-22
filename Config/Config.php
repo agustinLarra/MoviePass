@@ -14,7 +14,7 @@ define("IMAGE_ROOT", "https://image.tmdb.org/t/p/w500");
 ///----------------DEFINES DE LA BS, !NO TOCAR! -----------
 
 define("DB_HOST", "localhost");
-define("DB_NAME", "DB_MoviePass");
+define("DB_NAME", "BD_MoviePass");
 define("DB_USER", "root");
 define("DB_PASS", "");
 

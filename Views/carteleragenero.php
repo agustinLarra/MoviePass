@@ -40,7 +40,8 @@ require_once("nav.php");
     <div class="movie_card" id="movie".<?php $contador++; ?>>
    		<div class="info_section">
 			<?php  if($values->getUngenre()==$tipo)
-				{ ?>
+				{
+					?>
 					<div class="movie_header">
 						<img class="locandina" src="<?=IMAGE_ROOT .  $values->getPoster();?>"/>
 						<h1 class="h1"><?= $values->getTitle();?></h1>

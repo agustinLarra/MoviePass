@@ -20,8 +20,8 @@ class HomeController{
     }
 
     public function viewLogin(){
-        
-        require(VIEWS_PATH.'/login.php');
+        ///require_once('Views/login.php');
+        require_once(VIEWS_PATH.'login.php');
      
     }
     public function viewSignUp(){
@@ -35,8 +35,7 @@ class HomeController{
         $arrayGeneros = $apiController->getGenerosApi();
         require_once(VIEWS_PATH.'nav.php');
         require(VIEWS_PATH.'billboard.php');
-        
-
+    
     }
     public function viewGenero()
     {
