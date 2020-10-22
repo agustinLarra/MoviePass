@@ -4,9 +4,9 @@ namespace Models;
 class Cine{
 
     private $nombre;
-    private $direccion;
-    private $capacidad;
-    private $valorEntrada ;
+    private $ciudad;
+    private $calle;
+    private $numero ;
 
 
 
@@ -18,25 +18,25 @@ class Cine{
         $this->nombre = $nombre ;
     }
 
-    public function getDireccion(){
-        return $this->direccion ;
+    public function getCiudad(){
+        return $this->ciudad ;
     }
-    public function setDireccion($direccion){
-        $this->direccion = $direccion ;
-    }
-
-    public function getCapacidad(){
-        return $this->capacidad ;
-    }
-    public function setCapacidad($capacidad){
-        $this->capacidad = $capacidad ;
+    public function setCiudad($ciudad){
+        $this->ciudad = $ciudad ;
     }
 
-    public function getValorEntrada(){
-        return $this->valorEntrada ;
+    public function getNumero(){
+        return $this->numero ;
     }
-    public function setValorEntrada($valorEntrada){
-        $this->valorEntrada = $valorEntrada ;
+    public function setNumero($numero){
+        $this->numero = $numero ;
+    }
+
+    public function getCalle(){
+        return $this->calle ;
+    }
+    public function setCalle($calle){
+        $this->calle = $calle ;
     }
 
 

@@ -24,6 +24,7 @@
                                     <li><a href="contact.html">Cines</a>
                                         <ul class="submenu">
                                             <li><a href="<?php echo FRONT_ROOT?>Admin/showAddCine">Agregar</a></li>
+                                            <li><a href="<?php echo FRONT_ROOT?>Admin/showAddSalas">Agregar Salas</a></li>
                                             <li><a href="<?php echo FRONT_ROOT?>Admin/showListCine">Lista de cines</a></li>
                                             <li><a href="single-blog.html">Modificar</a></li>
                                              <li><a href="single-blog.html">Borrar</a></li>
