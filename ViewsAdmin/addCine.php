@@ -74,17 +74,17 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="direccion" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Direccion">
+                                        <input class="form-control" name="ciudad" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Ciudad">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control valid" name="capacidad" id="name" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Capacidad maxima">
+                                        <input class="form-control" name="calle" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Calle">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control valid" name="valorEntrada" id="email" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Valor entrada">
+                                        <input class="form-control" name="numero" id="subject" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Numero">
                                     </div>
                                 </div>
                             </div>
