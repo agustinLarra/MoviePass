@@ -11,6 +11,14 @@ class Pelicula{
     private $video;
     private $overview;
 
+    public function getId(){
+        return $this->id ;
+    }
+    public function setId($id){
+        $this->id = $id ;
+    }
+
+
     public function getTitle(){
         return $this->title ;
     }
@@ -18,10 +26,10 @@ class Pelicula{
         $this->title = $title ;
     }
 
-    public function getPoster(){
+    public function getPosterPath(){
         return $this->poster_path ;
     }
-    public function setPoster($poster_path){
+    public function setPosterPath($poster_path){
         $this->poster_path = $poster_path ;
     }
     
@@ -38,6 +46,13 @@ class Pelicula{
     public function getUngenre()
     {
         return $this->genre_ids[0];//Devuelve el primer id de genero para buscar por este
+    }
+
+    public function getOverview(){
+        return $this->overview ;
+    }
+    public function setOverview($overview){
+        $this->overview = $overview ;
     }
 
 
