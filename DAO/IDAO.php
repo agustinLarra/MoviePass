@@ -6,7 +6,7 @@ use DAO\connection as connection;
 
 interface IDAO {
 
-    function add(User $user);
+    function add();
     function getAll();
  
 }

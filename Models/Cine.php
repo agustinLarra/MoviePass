@@ -6,10 +6,10 @@ class Cine{
     private $nombre;
     private $ciudad;
     private $calle;
-    private $numero ;
+    private $numero;
 
 
-
+    
     public function getNombre(){
         return $this->nombre ;
     }

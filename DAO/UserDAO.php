@@ -20,8 +20,8 @@
         }
         
         public function create($user){
-            $sql = "INSERT INTO Users(FirstName,LastName,DNI,Email,Pass) VALUES(:FirstName,:LastName,:DNI,:Email,:Pass)";
-    
+            $sql = "INSERT INTO users(FirstName,LastName,DNI,Email,Pass) VALUES(:FirstName,:LastName,:DNI,:Email,:Pass)";
+            
             $parameters['firstName'] = $user->getFirstName();
             $parameters['lastName'] = $user->getLastName();
             $parameters['dni'] = $user->getDni();

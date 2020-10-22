@@ -20,25 +20,40 @@
 
         public function Add(Cine $cine)
         {
-            $this->RetrieveData();
-            
-            array_push($this->cineList, $cine);
-
-            $this->SaveData();
+            $this->SaveData($cine);
         }
 
-
-
-        public function GetAll() ///MODIFICAR 
+        public function GetAll() 
         {
-            //$this->RetrieveData();
+            $this->RetrieveData();
+            return $this->cineList;
+        }
 
-            //return $this->cineList;
+        public function SaveData(Cine $cine){
+            ///REVISAR POR QUE ACA EN LOS VALUES NO SE PASA EL ID.
 
+            $sql = "INSERT INTO cines(Id_Cine,Nombre,Ciudad,Calle,Numero) VALUES(:Nombre,:Ciudad,:Calle,:Numero)";
+    
+            $parameters['Nombre'] = $cine->getNombre();
+            $parameters['Ciudad'] = $cine->getCiudad();
+            $parameters['Calle'] = $cine->getCalle();
+            $parameters['Numero'] = $cine->getNumero();
+            
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+        }
+
+        public function RetrieveData(){
+            
             $cineList = array();
             try
             {
-                $query = "SELECT * FROM cines;";
+                $query = "SELECT * FROM cines;"; /// 
                 $this->connection = connection::GetInstance();    
                 $resultSet = $this->connection->execute($query);  
 
@@ -48,88 +63,62 @@
                         $cine = new Cine();
                         
                         ///HASTA ACA !
-
-                        $cine->setId($row["Id_User"]);
-                        $cine->setFirstName($row["FirstName"]);
-                        $cine->setLastName($row["LastName"]);
-                        $cine->setDNI($row["DNI"]);
-                        $cine->setEmail($row["Email"]);
-                        $cine->setPassword($row["Pass"]);
+                        
+                        ///FALTA ID_USER.
+                        $cine->setNombre($row["Nombre"]);
+                        $cine->setCiudad($row["Ciudad"]);
+                        $cine->setNumero($row["Numero"]);
+                        $cine->setCalle($row["Calle"]);
                          
-                        array_push($userList, $user);
+                        array_push($cineList, $cine);
                     }
                 }
             
             }catch(PDOException $e){
                 echo $e;
             }
-            return $userList;
-
-
-
+            return $cineList;
         }
 
 
+        ///---------------------------
 
+        public function GetIdByName(){ 
 
+            // $idCine = $cineDao->getIDbyName($nombreCine);
+            //Consulta que haga Select id_sala from sala where nombre = $nombreSala;
+       
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        private function SaveData()
-        {
-            $arrayToEncode = array();
-
-            foreach($this->cineList as $cine)
-            { 
-                // Modificar este codigo para acomodarlo. 
-
-                $valuesArray["nombre"] = $cine->getNombre();
-                $valuesArray["direccion"] = $cine->getDireccion();
-                $valuesArray["capacidad"] = $cine->getCapacidad();
-                $valuesArray["valorEntrada"] = $cine->getValorEntrada();
-                array_push($arrayToEncode, $valuesArray);
-            }
-
-            $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
+        public function Delete(){
             
-            file_put_contents($this->fileName, $jsonContent);
         }
 
-        private function RetrieveData()
-        {
-            $this->cineList = array();
 
-            if(file_exists($this->fileName))
-            {
-                $jsonContent = file_get_contents($this->fileName);
+    /*
+        public function getByEmail($email) {
+            $this->RetrieveData();
+            //$validationGetByEmail = false;
 
-                $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayToDecode as $valuesArray)
-                {
-                    $cine = new Cine();
-                    $cine->setNombre($valuesArray["nombre"]);
-                    $cine->setDireccion($valuesArray["direccion"]);
-                    $cine->setCapacidad($valuesArray["capacidad"]);
-                    $cine->setValorEntrada($valuesArray["valorEntrada"]);
-
-                    array_push($this->cineList, $cine);
+            foreach ($this->UserList as $key => $user) {
+                if($user->getEmail() == $email) {
+                    //$validationGetByEmail = true;
+                    return $user;
                 }
             }
+            return null;
+            /*
+            if($validationGetByEmail == 'false'){
+                return $validationGetByEmail;
+            }
+             
         }
+    */   
+
+
+    
+
+    
     }
 ?>
 
