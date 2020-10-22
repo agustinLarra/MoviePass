@@ -18,58 +18,6 @@ class UserController{
 		$this->homeController = new homeC();
 
     }
-    /*
-	public function create($user)
-	{
-        $user_sign = new User($user);
-        $email = $user_sign->getEmail();
-        $pass = $user_sign->getPassword();
-        $userPDO = new UserDAO();
-        $userList = $userPDO->getAll();
-        
-        $validationUser = FALSE;
-        
-        foreach($userList as $values)
-            {
-                if($user_sign->getEmail() == $values->getEmail())
-                {
-                    $validationUser=TRUE;
-                    $userPDO->modify($email,$pass);
-                    //$msj='El usuario ya existe';
-                    //$type='Success';
-                    $this->homeController->Index();
-                }    
-            }          
-        if($validationUser == FALSE){
-            
-            $userPDO->Add($user_sign);
-            //$msj='Se ha agregado exitosamente el usuario';
-             //$type='success';
-             $this->homeController->viewCartelera();
-        }   
-    }
-    */
-    /*
-    public function create($user){
-        $sql = "INSERT INTO users(firstName,lastName,dni,email,pass) VALUES(:firstName,:lastName,:dni,:email,:pass)";
-
-        $parameters['firstName'] = $user->getFirstName();
-        $parameters['lastName'] = $user->getLastName();
-        $parameters['dni'] = $user->getDni();
-        $parameters['email'] = $user->getEmail();
-        $parameters['pass'] = $user->getPassword();
-        
-        try{
-            $this->connection = connection::getInstance();
-            return $this->connection->ExecuteNonQuery($sql,$parameters);
-        }
-        catch(PDOException $e){
-            echo $e;
-        }
-        
-    }
-    */
-    
 
 	public function signUp ($firstName, $lastName, $dni, $email,$password){
 

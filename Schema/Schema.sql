@@ -1,15 +1,19 @@
-CREATE DATABASE MoviePass;
+create database BD_MoviePass;
+use BD_MoviePass;
+#drop 
+#select
+select * from users;
 
-USE MoviePass;
 
-create table Users(
-    ID_User INT NOT NULL PRIMARY KEY,
-    firstName NOT NULL VARCHAR(30),
-    lastName NOT NULL VARCHAR(30),
-    dni INT NOT NULL INTEGER,
-    email, NOT NULL INTEGER(30),
-    pass NOT NULL VARCHAR(45)
+create table users(
+	Id_User int not null auto_increment,
+    FirstName varchar(35),
+    LastName varchar(35),
+    DNI int,
+    Email varchar(30),
+    Pass varchar (35),
+    constraint `PK_User` primary key(Id_User)
 );
 
--- REVISAR POR QUE EL CODIGO HECHO POR EL PROFESOR ES DIFERENTE Y USA OTRAS REGLAS PARA CREAR LA BS A DIFERENCIA DE COMO LO HACEMOS NOSOTROS EN LA CURSADA DE BS. 
-
+insert into users (FirstName,LastName,DNI,Email,Pass) values ("Admin","","","admin@gmail.com","admin123");
+insert into users (FirstName,LastName,DNI,Email,Pass) values ("Pepe","Loco","","pepe@gmail.com","pepe123");

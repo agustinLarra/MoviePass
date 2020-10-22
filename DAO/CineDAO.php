@@ -3,12 +3,16 @@
     namespace DAO;
 
     use Models\Cine as Cine;
+    use PDOException;
+    use DAO\IDAO as IDAO;
+    use DAO\Connection as connection;
 
     class CineDAO
     {        
         private $cineList = array();
         private $fileName;
-
+        private $connection;
+        
         public function __construct()
         {
             $this->fileName = dirname(__DIR__)."/Data/Cine.json";
@@ -23,12 +27,66 @@
             $this->SaveData();
         }
 
-        public function GetAll()
-        {
-            $this->RetrieveData();
 
-            return $this->cineList;
+
+        public function GetAll() ///MODIFICAR 
+        {
+            //$this->RetrieveData();
+
+            //return $this->cineList;
+
+            $cineList = array();
+            try
+            {
+                $query = "SELECT * FROM cines;";
+                $this->connection = connection::GetInstance();    
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $cine = new Cine();
+                        
+                        ///HASTA ACA !
+
+                        $cine->setId($row["Id_User"]);
+                        $cine->setFirstName($row["FirstName"]);
+                        $cine->setLastName($row["LastName"]);
+                        $cine->setDNI($row["DNI"]);
+                        $cine->setEmail($row["Email"]);
+                        $cine->setPassword($row["Pass"]);
+                         
+                        array_push($userList, $user);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $userList;
+
+
+
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private function SaveData()
         {
