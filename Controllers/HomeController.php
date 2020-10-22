@@ -32,10 +32,20 @@ class HomeController{
     public function viewCartelera(){
         $apiController = new Api();
         $arrayCartelera = $apiController->getCarteleraApi();
+        $arrayGeneros = $apiController->getGenerosApi();
         require_once(VIEWS_PATH.'nav.php');
         require(VIEWS_PATH.'billboard.php');
         
 
+    }
+    public function viewGenero()
+    {
+        $tipo=$_POST['genero'];
+       
+        $apiController = new Api();
+        $arrayCartelera = $apiController->getCarteleraApi();
+        $arrayGeneros = $apiController->getGenerosApi();
+        include_once('Views/carteleragenero.php');
     }
 
     

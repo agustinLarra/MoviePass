@@ -31,6 +31,14 @@ class Pelicula{
     public function  getPosterHorizontal(){
         return $this->poster_horizontal ;
     }
+    public function setGenre($genre)
+    {
+        $this->genre_ids=$genre;
+    }
+    public function getUngenre()
+    {
+        return $this->genre_ids[0];//Devuelve el primer id de genero para buscar por este
+    }
 
 
 }

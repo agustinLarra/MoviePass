@@ -8,6 +8,16 @@
     <title>MoviePass</title>
     <link rel="stylesheet" href="../Views/css/styleBillboard.css">
 </head>
+<form action="<?=FRONT_ROOT?>home/viewGenero" method="post">
+						<h3>Seleccione Genero</h3>
+						<select name="genero">
+							<?php foreach($arrayGeneros as $generos)
+							{?>
+								<option value="<?=$generos->getId();?>"><?=$generos->getTipo()?></option>
+							<?php } ?>
+						</select>
+						<button type="submit">Buscar</button>
+					</form>
     <?php $contador = 0;
         foreach($arrayCartelera as $values){
         ?>

@@ -6,6 +6,16 @@ use Models\Pelicula as pelicula;
 	
 				<section class="centered">
 					<h3>Peliculas en cartelera </h3>
+					<form action="<?=FRONT_ROOT?>home/viewGenero" method="post">
+						<h3>Seleccione Genero</h3>
+						<select name="genero">
+							<?php foreach($arrayGeneros as $generos)
+							{?>
+								<option value="<?=$generos->getId();?>"><?=$generos->getTipo()?></option>
+							<?php } ?>
+						</select>
+						<button type="submit">Buscar</button>
+					</form>
 					<div class="movies">
 						<?php foreach($arrayCartelera as $values)
 							{ ?>
