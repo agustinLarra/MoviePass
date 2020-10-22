@@ -35,8 +35,8 @@ class AdminController{
       //  $cine = new Cine();
        // $cineDao = new CineDAO();
         //$cineList = $cineDao->GetAll();
-        $this->listarSalas();
-        include('../ViewsAdmin/listCines.php');
+        $this->listarCines();
+        //include('../ViewsAdmin/listCines.php');
     }
 
 
@@ -80,9 +80,9 @@ class AdminController{
 
 
     public function listarCines(){
-
-        //Hacer una consulta en la base de datos haciendo el select nombre from cines
-
+        $cineDao = new CineDAO();
+            $listaCines = $cineDao->GetAll();
+            var_dump($listaCines);
     }
 
     public function listarSalas(){

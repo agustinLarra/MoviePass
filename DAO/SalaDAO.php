@@ -43,7 +43,7 @@
                         
                         $sala = new Sala();
                         
-                        $sala->setId($row["Id_sala"]);
+                        ///$sala->setId($row["Id_sala"]);
                         $sala->setNombre($row["Nombre"]);
                         $sala->setPrecio($row["Precio"]);
                         $sala->setCapacidad($row["Capacidad"]);

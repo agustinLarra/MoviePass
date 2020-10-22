@@ -25,8 +25,8 @@
 
         public function GetAll() 
         {
-            $this->RetrieveData();
-            return $this->cineList;
+            $cineList = $this->RetrieveData();
+            return $cineList;
         }
 
         public function SaveData(Cine $cine){
@@ -91,7 +91,7 @@
         }
 
         public function Delete(){
-            
+                
         }
 
 
