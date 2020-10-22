@@ -1,4 +1,4 @@
-<?php  $cineList[0]->getNombre();?>
+<?php  include('header.php');?>
 
 
 <!doctype html>
@@ -73,24 +73,19 @@
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
                         <article class="blog_item">
-                            <div class="blog_item_img">
-                            <!-- Poner la opcion en addCine de que agregue imagen para ponerla aca -->
-                                <img class="card-img rounded-0" src="https://blog.bestday.com.ar/wp-content/uploads/2016/11/Teatro-Auditorium-Sala-Astor-Piazzola-700x432.jpg" alt="">
-                               
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="single-blog.html">
-                                    <h2>   </h2>
-                                </a>
-                                
-                                <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                    he earth it first without heaven in place seed it second morning saying.</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
-                                    <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
+                            
+                            <table>
+                                <tr>
+                                    <td>Celda 1</td>
+                                    <td>Celda 2</td>
+                                    <td>Celda 3</td>
+                                </tr>
+                                <tr>
+                                    <td>Celda 4</td>
+                                    <td>Celda 5</td>
+                                    <td>Celda 6</td>
+                                </tr>
+                            </table>
                         </article>
 
                         <article class="blog_item">

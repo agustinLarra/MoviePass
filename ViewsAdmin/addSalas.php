@@ -52,7 +52,7 @@
                 <div class="col-lg-8">
                     <div class="section-tittle text-center mb-80">
                         <span>Cines</span>
-                        <h2>Agregando un nuevo cine</h2>
+                        <h2>Agregando una nueva sala</h2>
                     </div>
                 </div>
             </div>

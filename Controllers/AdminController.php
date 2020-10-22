@@ -31,12 +31,10 @@ class AdminController{
 
     public function showListCine(){
   
-        $cine = new Cine();
-        $cineDao = new CineDAO();
-        $cineList = $cineDao->GetAll();
-
-        var_dump($cineList);
-        include( '../ViewsAdmin/header.php');
+      //  $cine = new Cine();
+       // $cineDao = new CineDAO();
+        //$cineList = $cineDao->GetAll();
+        $id =1;
         include('../ViewsAdmin/listCines.php');
     }
 
