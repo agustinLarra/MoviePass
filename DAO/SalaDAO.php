@@ -24,7 +24,7 @@
 
         public function GetAll() {
             
-            $salaList = $this->SaveData();
+            $salaList = $this->RetrieveData();
             return $salaList;
         }
 

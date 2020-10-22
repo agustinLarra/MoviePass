@@ -5,6 +5,7 @@ namespace Controllers;
 
 use Models\Cine as Cine;
 use Models\Sala as Sala;
+use DAO\SalaDAO as SalaDAO;
 use DAO\CineDAO as CineDAO;
 
 class AdminController{
@@ -34,7 +35,7 @@ class AdminController{
       //  $cine = new Cine();
        // $cineDao = new CineDAO();
         //$cineList = $cineDao->GetAll();
-        $id =1;
+        $this->listarSalas();
         include('../ViewsAdmin/listCines.php');
     }
 
@@ -82,6 +83,12 @@ class AdminController{
 
         //Hacer una consulta en la base de datos haciendo el select nombre from cines
 
+    }
+
+    public function listarSalas(){
+        $salaDao = new SalaDAO();
+        $listaSalas = $salaDao->GetAll();
+        var_dump($listaSalas);
     }
 
 }
