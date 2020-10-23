@@ -90,8 +90,13 @@
        
         }
 
-        public function Delete(){
-                
+        public function DeleteCine(Cine $cine){
+                $sql = "DELETE FROM cines WHERE Id_Cines = $cine->getId "; //¿Como borrar si no se puede acceder al id? 
+                ///LO PODEMOS BORRAR POR NOMBRE.
+                $arrayCines = array($cine);
+                $delete = $this->connection->prepare($sql);
+                $del = $delete->execute($arrayCines);
+                //return $del; ///ME CONFUNDE EL RETURN.
         }
 
 

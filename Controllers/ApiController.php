@@ -23,7 +23,7 @@ class ApiController{
                     
                    $peli = new Pelicula();
                    $peli->setTitle($k['title']);
-                   $peli->setPoster($k['poster_path']);
+                   $peli->setPosterPath($k['poster_path']);
                    $peli->setPosterHorizontal($k['backdrop_path']);
                    $peli->setGenre($k['genre_ids']);
                     array_push($arregloCartelera,$peli);
