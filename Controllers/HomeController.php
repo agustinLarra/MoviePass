@@ -39,7 +39,7 @@ class HomeController{
     }
     public function viewGenero()
     {
-        $tipo=$_POST['genero'];
+        $tipo = $_POST['genero'];
        
         $apiController = new Api();
         $arrayCartelera = $apiController->getCarteleraApi();

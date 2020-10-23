@@ -80,8 +80,6 @@ class UserController{
                     $_SESSION['userLog'] = $loggedUser;
                     
                     $this->homeController->viewCartelera();
-
-                    echo"El usuario y la contraseña son correctos";
                     
                 }
                 else{
