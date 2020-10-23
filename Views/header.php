@@ -12,7 +12,22 @@
 
 	<!-- Link Swiper's CSS
 	<link rel="stylesheet" href="css/swiper.min.css">
-    <link rel="stylesheet" href="css/styles.css"> -->
+	<link rel="stylesheet" href="css/styles.css"> -->
+	  <!-- CSS -->
+
+	  <link rel="stylesheet" href="../ViewsAdmin/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/slicknav.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/animate.min.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/slick.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/nice-select.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/style.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/responsive.css">
+
  
     <link rel="stylesheet" type="text/css" href="<?=CSS_PATH ?>swiper.min.css">
 	<link rel="stylesheet" type="text/css" href="<?=CSS_PATH ?>styles.css">
@@ -43,5 +58,6 @@
 	
 <!--===============================================================================================-->
 
+ 
 </head>
 

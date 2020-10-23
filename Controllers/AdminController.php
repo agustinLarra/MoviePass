@@ -19,7 +19,7 @@ class AdminController{
         header('location:ViewsAdmin/index.php');
 
     }
-
+    //TODOS LOS SHOW ESTOS TIENEN QUE IR EN EL HOME CONTROLER!!! - Rina
     public function showAddCine(){
         header('location:../ViewsAdmin/addCine.php');
 

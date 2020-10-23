@@ -7,7 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoviePass</title>
     <link rel="stylesheet" href="../Views/css/styleBillboard.css">
+      <!-- CSS 
+
+      <link rel="stylesheet" href="../ViewsAdmin/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/slicknav.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/animate.min.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/slick.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/nice-select.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/style.css">
+    <link rel="stylesheet" href="../ViewsAdmin/assets/css/responsive.css">
+-->
 </head>
+<body>
+    
 <form action="<?=FRONT_ROOT?>home/viewGenero" method="post">
 						<h3>Seleccione Genero</h3>
 						<select name="genero">
@@ -45,4 +62,5 @@
     </div>
     <?php } ?>
 </body>
+
 </html>

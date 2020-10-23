@@ -47,6 +47,10 @@ class HomeController{
         include_once('Views/carteleragenero.php');
     }
 
+    public function viewHomeAdmin(){
+        //require_once
+    }
+
     
 
 

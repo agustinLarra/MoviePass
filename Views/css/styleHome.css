@@ -36,7 +36,7 @@
     width: 33.333%;
     display: table-cell;
     text-align: center;
-    color: #949494;
+    color: #fff;
     text-decoration: none;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
@@ -98,15 +98,7 @@
 {
     background-color: palevioletred;
 }
-.div-home .a-home:nth-child(4):before
-{
-    background-color: purple;
-}
 
-.div-home .a-home:nth-child(4):after
-{
-    background-color: palevioletred;
-}
 
 #indicator
 {
@@ -137,20 +129,16 @@
 
 .div-home .a-home:nth-child(2):hover ~ #indicator
 {
-    left: 32%;
+    left: 48%;
     background: linear-gradient(130deg, #00e2ff, #89ff00);
 }
 
 .div-home .a-home:nth-child(3):hover ~ #indicator
 {
-    left: 61%;
+    left: 75%;
     background: linear-gradient(130deg, purple, palevioletred);
 }
-.div-home .a-home:nth-child(4):hover ~ #indicator
-{
-    left: 90%;
-    background: linear-gradient(130deg, purple, palevioletred);
-}
+
 
 #ytd-url {
   display: block;
