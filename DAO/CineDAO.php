@@ -32,7 +32,7 @@
         public function SaveData(Cine $cine){
             ///REVISAR POR QUE ACA EN LOS VALUES NO SE PASA EL ID.
 
-            $sql = "INSERT INTO cines(Id_Cine,Nombre,Ciudad,Calle,Numero) VALUES(:Nombre,:Ciudad,:Calle,:Numero)";
+            $sql = "INSERT INTO cines(Nombre,Ciudad,Calle,Numero) VALUES(:Nombre,:Ciudad,:Calle,:Numero)";
     
             $parameters['Nombre'] = $cine->getNombre();
             $parameters['Ciudad'] = $cine->getCiudad();
@@ -61,10 +61,7 @@
                     foreach($resultSet as $row) {
                         
                         $cine = new Cine();
-                        
-                        ///HASTA ACA !
-                        
-                        ///FALTA ID_USER.
+                                                
                         $cine->setNombre($row["Nombre"]);
                         $cine->setCiudad($row["Ciudad"]);
                         $cine->setNumero($row["Numero"]);
