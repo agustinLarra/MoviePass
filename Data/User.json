@@ -6,13 +6,4 @@
         "email": "admin@gmail.com",
         "password": "admin321"
     }
-
-    {
-        "firstName": "Pepe",
-        "lastName": "Loco",
-        "dni": null,
-        "email": "pepeloco@gmail.com",
-        "password": "pepeloco"
-    }
-
 ]
