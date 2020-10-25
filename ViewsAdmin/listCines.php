@@ -1,4 +1,6 @@
-<?php  include('header.php');?>
+<?php 
+
+include('header.php');?>
 
 
 <body>
@@ -46,16 +48,25 @@
                         <article class="blog_item">
                             
                             <table>
+                            <tr>
+                                    <td>Nombre </td>
+                                    <td>Ciudad</td>
+                                    <td>Calle</td>
+                                    <td>Numero</td>
+                                    <td></td>
+                            </tr>
+                            <?php   foreach($listaCines as $value){      ?>
+                                
                                 <tr>
-                                    <td>Celda 1</td>
-                                    <td>Celda 2</td>
-                                    <td>Celda 3</td>
-                                </tr>
-                                <tr>
-                                    <td>Celda 4</td>
-                                    <td>Celda 5</td>
-                                    <td>Celda 6</td>
-                                </tr>
+                                    <td> <?php echo $value->getNombre();?> </td> 
+                                    <td> <?php echo $value->getCiudad();?> </td>
+                                    <td> <?php echo $value->getCalle();?> </td>
+                                    <td> <?php echo $value->getNumero();?> </td>
+                                    <td> <a href="">Borrar </a> </td>
+                                    
+                                </tr>    
+
+                            <?php }      ?>   
                             </table>
                         </article>
 

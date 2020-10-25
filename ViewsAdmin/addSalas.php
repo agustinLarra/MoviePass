@@ -1,5 +1,6 @@
 <?php 
-    include('header.php');
+
+    include_once('header.php');
 ?>
 <body>
     
@@ -39,10 +40,12 @@
                     <div class="col-lg-8">
                     <form class="form-contact contact_form" action="<?php echo FRONT_ROOT?>Admin/addSala" method="post">
 
-                            <select name="nombreCine">
-                                    <option value="Cine1">Ambassador</option> 
-                                    <option value="Cine2" >Atlantis</option>
-                                    <option value="Cine3">Cine 3</option>
+                            <select name="idCine">
+                            <?php foreach($cineList as $value){ ?>
+
+                                    <option value="<?php echo $value->getId();?>"><?php echo $value->getNombre();?></option> 
+
+                            <?php }?>       
                             </select>
 
                             <div class="row">
@@ -61,7 +64,14 @@
                                         <input class="form-control" name="capacidad" id="subject" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Capacidad">
                                     </div>
                                 </div>
-                              
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <select name="tipoSala">
+                                            <option value="2D">Sala 2D</option> 
+                                            <option value="3D">Sala 3D</option> 
+                                        </select>                                    
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group mt-3">
                                 <button type="submit" class="button button-contactForm boxed-btn">Send</button>
