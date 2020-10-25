@@ -29,6 +29,23 @@
             return $cineList;
         }
 
+        public function Delete(Cine $cine)
+        {
+            $sql = "DELETE FROM cines WHERE Id_Cine = '$cine->getId()'";
+    
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+        }
+  
+        
+        
+
+
         public function SaveData(Cine $cine){
             ///REVISAR POR QUE ACA EN LOS VALUES NO SE PASA EL ID.
 
@@ -62,6 +79,7 @@
                         
                         $cine = new Cine();
                                                 
+                        $cine->setId($row["Id_Cine"]);
                         $cine->setNombre($row["Nombre"]);
                         $cine->setCiudad($row["Ciudad"]);
                         $cine->setNumero($row["Numero"]);
@@ -87,35 +105,8 @@
        
         }
 
-        public function DeleteCine(Cine $cine){
-                $sql = "DELETE FROM cines WHERE Id_Cines = $cine->getId "; //¿Como borrar si no se puede acceder al id? 
-                ///LO PODEMOS BORRAR POR NOMBRE.
-                $arrayCines = array($cine);
-                $delete = $this->connection->prepare($sql);
-                $del = $delete->execute($arrayCines);
-                //return $del; ///ME CONFUNDE EL RETURN.
-        }
 
 
-    /*
-        public function getByEmail($email) {
-            $this->RetrieveData();
-            //$validationGetByEmail = false;
-
-            foreach ($this->UserList as $key => $user) {
-                if($user->getEmail() == $email) {
-                    //$validationGetByEmail = true;
-                    return $user;
-                }
-            }
-            return null;
-            /*
-            if($validationGetByEmail == 'false'){
-                return $validationGetByEmail;
-            }
-             
-        }
-    */   
 
 
     
@@ -126,4 +117,3 @@
 
 
 
-?>

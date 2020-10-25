@@ -26,10 +26,10 @@ class Pelicula{
         $this->title = $title ;
     }
 
-    public function getPoster(){
+    public function getPosterPath(){
         return $this->poster_path ;
     }
-    public function setPoster($poster_path){
+    public function setPosterPath($poster_path){
         $this->poster_path = $poster_path ;
     }
     

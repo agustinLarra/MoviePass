@@ -4,9 +4,14 @@ namespace Controllers;
 
 
 use Models\Cine as Cine;
+use DAO\CineDAO as CineDAO;
 use Models\Sala as Sala;
 use DAO\SalaDAO as SalaDAO;
-use DAO\CineDAO as CineDAO;
+use Models\Pelicula as Pelicula;
+use DAO\PeliculaDAO as PeliculaDAO;
+use Models\Funcion as Funcion;
+use DAO\FuncionDAO as FuncionDAO;
+
 
 class AdminController{
 
@@ -26,17 +31,47 @@ class AdminController{
     }
 
     public function showAddSalas(){
-        header('location:../ViewsAdmin/addSalas.php');
+       
+        $cineDao = new CineDAO();
+        $cineList = $cineDao->GetAll();
+        include('ViewsAdmin/addSalas.php');
+        //header('location:../ViewsAdmin/addSalas.php');
+
+    }
+
+    public function showAddFunciones(){
+
+        // Levanto las peliculas de la base de datos
+        $peliculasList = $this->listarPeliculas();
+        // Levanto las salas de la base de datos
+        $salasList = $this->listarSalas();
+
+        include('ViewsAdmin/addFunciones.php');
+        //header('location:../ViewsAdmin/addFunciones.php');
 
     }
 
     public function showListCine(){
   
-      //  $cine = new Cine();
-       // $cineDao = new CineDAO();
-        //$cineList = $cineDao->GetAll();
-        $this->listarCines();
-        //include('../ViewsAdmin/listCines.php');
+        $listaCines = $this->listarCines();
+        include_once('ViewsAdmin/listCines.php');
+    }
+  
+    
+
+    public function deleteCine($id, $nombre){
+
+        $cine = new Cine();
+
+        $cine->setId($id);
+        $cine->setNombre($nombre);
+    
+
+        $cineDao = new CineDAO();
+        $cineDao->Delete($cine);
+
+        $this->showListCine();
+
     }
 
 
@@ -53,22 +88,19 @@ class AdminController{
         // aca va la base de datos (esperar a solera)
         $cineDao->Add($cine);
 
-        header('location:../ViewsAdmin/addCine.php');
+        $this->showAddCine();
 
     }
 
-    public function addSala($nombreSala, $nombreCine, $precio, $capacidad){
+    public function addSala($idCine, $nombreSala, $precio, $capacidad,$tipoSala){
 
-        // $cineDao = new CineDAO();
-        // $idCine = $cineDao->getIDbyName($nombreCine);
-        //Consulta que haga Select id_sala from sala where nombre = $nombreSala;
-        //Cuando ya tengo el id lo paso a la clase
 
         $sala = new Sala();
         $sala->setNombre($nombreSala);
-        $sala->setIdCine();
+        $sala->setIdCine($idCine);
         $sala->setPrecio($precio);
         $sala->setCapacidad($capacidad);
+        $sala->setTipoSala($tipoSala);
 
         $salaDao = new SalaDAO();
         // aca va la base de datos (esperar a solera)
@@ -79,17 +111,48 @@ class AdminController{
     }
 
 
+    public function addFuncion($idPelicula, $horario, $idSalas)//Deveria recibir la pelicula(por id) y la sala (por id)
+    {
+
+        echo "ESto llego:  Id peli:".$idPelicula . '  horario   '. $horario.'  sala   '.$idSalas;
+
+       var_dump($horario);
+
+        echo   date("l");
+
+       $funcion = new Funcion();
+       $funcion->setIdPelicula($idPelicula);
+       $funcion->setIdSala($idSalas);
+       $funcion->setHorario($horario);
+       $funcion->setDescuento(true);
+        //investigar como se trabaja para saber si es martes o miercoles
+
+        $funcionDAO = new FuncionDAO();
+        $funcionDAO->Add($funcion);
+
+       // $this->Index();
+
+    }
+
     public function listarCines(){
         $cineDao = new CineDAO();
-            $listaCines = $cineDao->GetAll();
-            var_dump($listaCines);
+        $listaCines = $cineDao->GetAll();
+        return $listaCines;
     }
 
     public function listarSalas(){
         $salaDao = new SalaDAO();
         $listaSalas = $salaDao->GetAll();
-        var_dump($listaSalas);
+        return $listaSalas;
     }
+
+    public function listarPeliculas(){
+        $peliculaDao = new PeliculaDAO();
+        $peliculasList = $peliculaDao->GetAll();
+        return $peliculasList;
+    }
+
+    
 
 }
 ?>

@@ -1,4 +1,5 @@
 <?php namespace Views;
+use DAO\PeliculaDAO as PeliculaDAO;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,12 +37,12 @@
 						<button type="submit">Buscar</button>
 					</form>
     <?php $contador = 0;
-        foreach($arrayCartelera as $values){
+        foreach($array_peliculas as $values){
         ?>
     <div class="movie_card" id="movie".<?php $contador++; ?>>
     <div class="info_section">
         <div class="movie_header">
-        <img class="locandina" src="<?=IMAGE_ROOT .  $values->getPoster();?>"/>
+        <img class="locandina" src="<?=IMAGE_ROOT .  $values->getPosterPath();?>"/>
         <h1 class="h1"><?= $values->getTitle();?></h1>
         <h4> Aca release date </h4>
         <span class="minutes">Aca duracion</span>
@@ -49,7 +50,7 @@
         </div>
         <div class="movie_desc">
         <p class="text">
-            Descripcion
+       <?php echo  $values->getOverview(); ?> 
         </p>
         </div>
         <div class="movie_social">

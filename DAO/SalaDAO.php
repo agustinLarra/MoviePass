@@ -43,7 +43,7 @@
                         
                         $sala = new Sala();
                         
-                        ///$sala->setId($row["Id_sala"]);
+                        $sala->setId($row["Id_Sala"]);
                         $sala->setNombre($row["Nombre"]);
                         $sala->setPrecio($row["Precio"]);
                         $sala->setCapacidad($row["Capacidad"]);
@@ -64,12 +64,13 @@
     
         private function SaveData(Sala $sala)
         {
-            $sql = "INSERT INTO salas(Nombre,Precio,Capacidad,Id_Cine) VALUES(:Nombre,:Precio,:Capacidad,:Id_Cine)";
+            $sql = "INSERT INTO salas(Nombre,Precio,Capacidad,Id_Cine,Tipo_sala) VALUES(:Nombre,:Precio,:Capacidad,:Id_Cine,:Tipo_sala)";
     
             $parameters['Nombre'] = $sala->getNombre();
             $parameters['Precio'] = $sala->getPrecio();
             $parameters['Capacidad'] = $sala->getCapacidad();
             $parameters['Id_Cine'] = $sala->getIdCine();
+            $parameters['Tipo_sala'] = $sala->getTipoSala();
             
             try{
                 $this->connection = connection::GetInstance();

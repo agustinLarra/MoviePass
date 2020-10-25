@@ -3,12 +3,22 @@ namespace Models;
 
 class Sala{
 
+
+    private $id;
     private $nombre;
     private $id_cine;
     private $precio;
-    private $capacidad ;
+    private $capacidad;
+    private $tipoSala;
 
 
+    public function getId(){
+        return $this->id ;
+    }
+
+    public function setId($id){
+        $this->id = $id ;
+    }    
 
     public function getNombre(){
         return $this->nombre ;
@@ -39,6 +49,13 @@ class Sala{
         $this->capacidad = $capacidad ;
     }
 
+    public function getTipoSala(){
+        return $this->tipoSala ;
+    }
+
+    public function setTipoSala($tipoSala){
+        $this->tipoSala = $tipoSala ;
+    }
 
 
 }

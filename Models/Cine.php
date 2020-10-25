@@ -3,12 +3,19 @@ namespace Models;
 
 class Cine{
 
+    private $id;
     private $nombre;
     private $ciudad;
     private $calle;
     private $numero;
 
+    public function getId(){
+        return $this->id ;
+    }
 
+    public function setId($id){
+        $this->id = $id ;
+    }
     
     public function getNombre(){
         return $this->nombre ;
