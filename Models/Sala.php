@@ -4,21 +4,31 @@ namespace Models;
 class Sala{
 
 
+<<<<<<< HEAD
     private $id;
+=======
+>>>>>>> 741892d6c85cb9b16257a3cbab3a33ba8f0a4190
     private $nombre;
     private $id_cine;
     private $precio;
     private $capacidad;
     private $tipoSala;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 741892d6c85cb9b16257a3cbab3a33ba8f0a4190
 
     public function getId(){
         return $this->id ;
     }
 
+<<<<<<< HEAD
     public function setId($id){
         $this->id = $id ;
     }    
+=======
+    
+>>>>>>> 741892d6c85cb9b16257a3cbab3a33ba8f0a4190
 
     public function getNombre(){
         return $this->nombre ;
