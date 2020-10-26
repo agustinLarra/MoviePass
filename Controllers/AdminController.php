@@ -59,13 +59,11 @@ class AdminController{
   
     
 
-    public function deleteCine($id, $nombre){
-
+    public function deleteCine($id){
+        $id = 1;
         $cine = new Cine();
 
         $cine->setId($id);
-        $cine->setNombre($nombre);
-    
 
         $cineDao = new CineDAO();
         $cineDao->Delete($cine);
