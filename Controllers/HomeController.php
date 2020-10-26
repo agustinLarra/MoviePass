@@ -20,8 +20,6 @@ class HomeController{
 
        // $this->peliculasToBd();
 
-
-       
     }
 
     public function viewLogin(){

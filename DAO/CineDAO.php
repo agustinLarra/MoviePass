@@ -31,7 +31,8 @@
 
         public function Delete(Cine $cine)
         {
-            $sql = "DELETE FROM cines WHERE Id_Cine = '$cine->getId()'";
+            $parameters = $cine->getId();
+            $sql = "DELETE FROM cines WHERE Id_Cine = '$parameters'";
     
             try{
                 $this->connection = connection::GetInstance();
@@ -42,9 +43,6 @@
             }
         }
   
-        
-        
-
 
         public function SaveData(Cine $cine){
             ///REVISAR POR QUE ACA EN LOS VALUES NO SE PASA EL ID.

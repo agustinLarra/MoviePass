@@ -59,13 +59,10 @@ class AdminController{
   
     
 
-    public function deleteCine($id, $nombre){
-
+    public function deleteCine($id){
         $cine = new Cine();
 
         $cine->setId($id);
-        $cine->setNombre($nombre);
-    
 
         $cineDao = new CineDAO();
         $cineDao->Delete($cine);
@@ -160,6 +157,14 @@ class AdminController{
                }
         echo'</select>';
     }
+
+    public function listarPeliculas(){
+        $peliculaDao = new PeliculaDAO();
+        $peliculasList = $peliculaDao->GetAll();
+        return $peliculasList;
+    }
+
+    
 
 }
 ?>
