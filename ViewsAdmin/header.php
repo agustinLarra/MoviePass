@@ -1,5 +1,6 @@
-<?php 	require_once("../Config/Config.php");
-        require_once("../Config/Autoload.php");
+<?php 	
+    include_once("../Config/Config.php"); 
+    include_once("../Config/Autoload.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">

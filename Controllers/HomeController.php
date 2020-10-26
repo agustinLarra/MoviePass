@@ -2,6 +2,7 @@
 
 namespace Controllers;
 use Controllers\ApiController as Api;
+use DAO\PeliculaDAO as PeliculaDAO;
 
 
 class HomeController{
@@ -12,10 +13,14 @@ class HomeController{
         //  Si hay, se hace lo esto de abajo (Tendriamos que hacerla una funcion aparte)
         // *!implementar cuando funcione el login!*
 
-        $apiController = new Api();
-        $arrayCartelera = $apiController->getCarteleraApi();
+        /*$apiController = new Api();
+        $arrayCartelera = $apiController->getCarteleraApi();*/
         require_once('Views/header.php');
         require('Views/inicio.php');
+
+       // $this->peliculasToBd();
+
+
        
     }
 
@@ -30,11 +35,14 @@ class HomeController{
         require_once('Views/footer.php');
     }
     public function viewCartelera(){
-        $apiController = new Api();
-        $arrayCartelera = $apiController->getCarteleraApi();
-        $arrayGeneros = $apiController->getGenerosApi();
-        require_once(VIEWS_PATH.'nav.php');
-        require(VIEWS_PATH.'billboard.php');
+
+        $array_peliculas = $this->cargarCartelera();
+ 
+        //$generos_bd = new GeneroDao();
+       // $arrayGeneros = $generos_bd->getAll();
+ 
+         require_once(VIEWS_PATH.'nav.php');
+         require(VIEWS_PATH.'billboard.php');
     
     }
     public function viewGenero()
@@ -51,7 +59,27 @@ class HomeController{
         //require_once
     }
 
-    
+      //Funcion que pasa de la Api a la bd,Comprobar los tips de datos de la bd
+      public function peliculasToBd()
+      {
+          $arrayCartelera = array();
+          $peliculaDao = new PeliculaDAO();
+          $apiController = new Api();
+          $arrayCartelera = $apiController->getCarteleraApi();
+          foreach($arrayCartelera as $values)
+          {
+              $peliculaDao->SaveApi($values);
+          }
+      }
+
+
+      public function cargarCartelera(){
+
+        //Levantar peliculas que esten linkeadas en funciones
+        $peliculaDao = new PeliculaDAO();
+        $peliculaList = $peliculaDao->GetPeliculasEnFunciones();
+        return  $peliculaList ;
+      }
 
 
 }

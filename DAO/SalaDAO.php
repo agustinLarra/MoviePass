@@ -28,6 +28,7 @@
             return $salaList;
         }
 
+       
 
         private function RetrieveData()
         {
@@ -43,7 +44,7 @@
                         
                         $sala = new Sala();
                         
-                        ///$sala->setId($row["Id_sala"]);
+                        $sala->setId($row["Id_Sala"]);
                         $sala->setNombre($row["Nombre"]);
                         $sala->setPrecio($row["Precio"]);
                         $sala->setCapacidad($row["Capacidad"]);
@@ -64,12 +65,13 @@
     
         private function SaveData(Sala $sala)
         {
-            $sql = "INSERT INTO salas(Nombre,Precio,Capacidad,Id_Cine) VALUES(:Nombre,:Precio,:Capacidad,:Id_Cine)";
+            $sql = "INSERT INTO salas(Nombre,Precio,Capacidad,Id_Cine,Tipo_sala) VALUES(:Nombre,:Precio,:Capacidad,:Id_Cine,:Tipo_sala)";
     
             $parameters['Nombre'] = $sala->getNombre();
             $parameters['Precio'] = $sala->getPrecio();
             $parameters['Capacidad'] = $sala->getCapacidad();
             $parameters['Id_Cine'] = $sala->getIdCine();
+            $parameters['Tipo_sala'] = $sala->getTipoSala();
             
             try{
                 $this->connection = connection::GetInstance();
@@ -82,7 +84,36 @@
         }
 
 
+        public function GetByIdCine($Id_Cine) {
+            
+            $salaList = array();
+            try
+            {
+                $query = "SELECT * FROM salas WHERE Id_Cine = $Id_Cine ;";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $sala = new Sala();
+                        
+                        $sala->setId($row["Id_Sala"]);
+                        $sala->setNombre($row["Nombre"]);
+                        $sala->setPrecio($row["Precio"]);
+                        $sala->setCapacidad($row["Capacidad"]);
+                        $sala->setIdCine($row["Id_Cine"]);
        
+                         
+                        array_push($salaList, $sala);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $salaList;
+        }
 
         
     }

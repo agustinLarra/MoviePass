@@ -33,13 +33,12 @@
                                 <ul id="navigation">    
                                     <li><a href="<?php echo FRONT_ROOT?>Admin/Index"> Home Admin</a></li>
                                     <!-- ACA REDIRECCIONAR BIEN-->
-                                    <li><a href="contact.html">Cines</a>
+                                    <li><a href="">Cines</a>
                                         <ul class="submenu">
                                             <li><a href="<?php echo FRONT_ROOT?>Admin/showAddCine">Agregar Cines</a></li>
                                                <!-- ACA EDITAR CINE -->
                                                 <!-- ACA ELIMINAR CINE -->
                                             <li><a href="<?php echo FRONT_ROOT?>Admin/showListCine">Lista de cines</a></li>
-
                                          </ul>
                                      </li>
                                       <!-- ACA REDIRECCIONAR BIEN-->
@@ -51,6 +50,18 @@
                                                  <!-- ACA LISTAR SALAS -->
                                          </ul>
                                      </li>
+
+                                     <li><a href="contact.html">Funciones</a>
+                                        <ul class="submenu">
+                                        <li><a href="<?php echo FRONT_ROOT?>Admin/showAddFunciones">Agregar Funciones</a></li>
+                                           <!-- ACA EDITAR Funciones -->
+                                           <!-- ACA ELIMINAR Funciones -->
+                                           <!-- ACA LISTAR SALAS -->
+                                         </ul>
+                                     </li>
+
+
+
                                 </ul>
                             </nav>
                         </div>
