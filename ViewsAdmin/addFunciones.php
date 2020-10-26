@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 <?php  ?>
-=======
-<?php  var_dump($listaPeliculas);?>
->>>>>>> 741892d6c85cb9b16257a3cbab3a33ba8f0a4190
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +10,6 @@
 <body>
     <h1> Aca va una tabla con todas las peliculas que tenemos en la base de datos, estan adentro de $listaPeliculas  </h1>
 
-<<<<<<< HEAD
     <form action="<?php echo FRONT_ROOT?>Admin/addFuncion" method="POST" >
     <label for=""> Pelicula  </label>
     <br>
@@ -41,14 +36,5 @@
         <button type="submit">Enviar</button>    
     </form>
         
-=======
-
-    <form action="">
-    
-    
-    
-    
-    </form>
->>>>>>> 741892d6c85cb9b16257a3cbab3a33ba8f0a4190
 </body>
 </html>

@@ -41,7 +41,6 @@ class AdminController{
 
     public function showAddFunciones(){
 
-<<<<<<< HEAD
         // Levanto las peliculas de la base de datos
         $peliculasList = $this->listarPeliculas();
         // Levanto las salas de la base de datos
@@ -49,10 +48,6 @@ class AdminController{
 
         include('ViewsAdmin/addFunciones.php');
         //header('location:../ViewsAdmin/addFunciones.php');
-=======
-        // Aca se tienen que levantar las peliculas de la base de datos
-        header('location:../ViewsAdmin/addFunciones.php');
->>>>>>> 741892d6c85cb9b16257a3cbab3a33ba8f0a4190
 
     }
 
@@ -116,7 +111,6 @@ class AdminController{
     }
 
 
-<<<<<<< HEAD
     public function addFuncion($idPelicula, $horario, $idSalas)//Deveria recibir la pelicula(por id) y la sala (por id)
     {
 
@@ -137,36 +131,6 @@ class AdminController{
         $funcionDAO->Add($funcion);
 
        // $this->Index();
-=======
-    public function AddFuncion()//Deveria recibir la pelicula(por id) y la sala (por id)
-    {
-        //forzado
-        $pelicula = 2;
-        $sala = 1;
-       // $horaio = 13.40;
-       $descuento = 1;
-
-       $funcion = new Funcion();//Agrego una nueva funcion
-       $funcion->setIdPelicula($pelicula);
-       $funcion->setIdSala($sala);
-       $funcion->setDescuento($descuento);
-
-        $aux = new FuncionDAO();
-       // $aux->Add($funcion);//Agrego la pelicula 2 en la sala 1 
-
-       $listaFunciones=$aux->GetAll();
-
-        $peli = new PeliculaDAO();
-        foreach($listaFunciones as $values)//Devuelvo cada pelicula buscandola por el Id_Pelicula (De funciones)
-        {
-             $datos = $peli->GetOne($values->getIdPelicula());
-             echo $datos->getTitle() . "<br>";
-             echo $datos->getOverview();
-             echo "</br>" . "</br>";
-             
-             
-        }
->>>>>>> 741892d6c85cb9b16257a3cbab3a33ba8f0a4190
 
     }
 

@@ -46,15 +46,9 @@ insert into salas (Nombre,Precio,Capacidad,Tipo_sala,Id_Cine) values ("S",500,50
 
 create table peliculas(
 	Id_Pelicula int not null auto_increment,
-<<<<<<< HEAD:Schema/bd_moviepass.sql
     PosterPath varchar(150),
 	PosterHorizontal varchar(150),
     Title varchar(70),
-=======
-    PosterPath blob,
-	PosterHorizontal blob,
-    Title varchar(35),
->>>>>>> 741892d6c85cb9b16257a3cbab3a33ba8f0a4190:Schema/Schema.sql
     Overview varchar(150),
     
     constraint `PK_Pelicula` primary key (Id_Pelicula)
