@@ -60,7 +60,7 @@ class AdminController{
     
 
     public function deleteCine($id){
-        $id = 1;
+        echo $id;
         $cine = new Cine();
 
         $cine->setId($id);

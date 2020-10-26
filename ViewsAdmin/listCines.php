@@ -61,9 +61,9 @@ include('header.php');?>
                                     <td> <?php echo $value->getNombre();?> </td> 
                                     <td> <?php echo $value->getCiudad();?> </td>
                                     <td> <?php echo $value->getCalle();?> </td>
-                                    <td> <?php echo $value->getNumero();?> </td>
-                                    <td><a href="<?php FRONT_ROOT?>Admin/deleteCine?Id_Cine=<?php $value->getId()?>">Borrar2</a></td>
-
+                                    <td> <?php echo $value->getNumero();?> </td>      
+                                    <td><a href="<?php echo FRONT_ROOT?>Admin/deleteCine/<?php echo $value->getId()?>">Borrar</a></td>
+                                   
                                 </tr>    
 
                             <?php }      ?>   
