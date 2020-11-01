@@ -1,67 +1,130 @@
 <?php namespace Views;
-use DAO\PeliculaDAO as PeliculaDAO;
+
+    use DAO\PeliculaDAO as PeliculaDAO; 
+
+    if(!isset($_SESSION)) session_start(); 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoviePass</title>
-    <link rel="stylesheet" href="../Views/css/styleBillboard.css">
-      <!-- CSS 
 
-      <link rel="stylesheet" href="../ViewsAdmin/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/slicknav.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/animate.min.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/magnific-popup.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/themify-icons.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/themify-icons.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/slick.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/nice-select.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/style.css">
-    <link rel="stylesheet" href="../ViewsAdmin/assets/css/responsive.css">
--->
-</head>
 <body>
-    
-<form action="<?=FRONT_ROOT?>home/viewGenero" method="post">
-						<h3>Seleccione Genero</h3>
-						<select name="genero">
-							<?php foreach($arrayGeneros as $generos)
-							{?>
-								<option value="<?=$generos->getId();?>"><?=$generos->getTipo()?></option>
-							<?php } ?>
-						</select>
-						<button type="submit">Buscar</button>
-					</form>
-    <?php $contador = 0;
-        foreach($array_peliculas as $values){
-        ?>
-    <div class="movie_card" id="movie".<?php $contador++; ?>>
-    <div class="info_section">
-        <div class="movie_header">
-        <img class="locandina" src="<?=IMAGE_ROOT .  $values->getPosterPath();?>"/>
-        <h1 class="h1"><?= $values->getTitle();?></h1>
-        <h4> Aca release date </h4>
-        <span class="minutes">Aca duracion</span>
-        <p class="type">Genero</p>
-        </div>
-        <div class="movie_desc">
-        <p class="text">
-       <?php echo  $values->getOverview(); ?> 
-        </p>
-        </div>
-        <div class="movie_social">
-        <ul>
-            <li><i class="material-icons">ACA AGREGAR A COMPRA</i></li>
-        </ul>
-        </div>
-    </div>
-    <div class="blur_back movie_back"><img src="<?=IMAGE_ROOT .  $values->getPosterHorizontal();?>"></div>
-    </div>
-    <?php } ?>
-</body>
+   
 
-</html>
+   <div class="header-area header-transparrent ">
+       <div class="main-header header-sticky">
+           <div class="container">
+               <div class="row align-items-center">
+                   <!-- Logo -->
+                   <div class="col-xl-2 col-lg-2 col-md-1">
+                       <div class="logo">
+                       <!-- L    <a>MOVIEPASS</a> -->
+                       </div>
+                   </div>
+               
+                </div> 
+                   <div class="col-xl-2 col-lg-2 col-md-3">
+                               <div class="header-right-btn f-right d-none d-lg-block">
+                                   <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Home</a>
+                               </div>
+                           </div>   
+                   <?php if(!isset($_SESSION['userLog'])) { ?>
+                           <div class="col-xl-2 col-lg-2 col-md-3">
+                               <div class="header-right-btn f-right d-none d-lg-block">
+                                   <a href="<?= FRONT_ROOT?>Home/Index" class="btn header-btn">Login</a>
+                               </div>
+                           </div>
+                           <div class="col-xl-2 col-lg-2 col-md-3">
+                               <div class="header-right-btn f-right d-none d-lg-block">
+                                   <a href="<?= FRONT_ROOT?>Home/viewSignUp" class="btn header-btn">Sign Up</a>
+                               </div>
+                           </div>
+                        <?php	} ?>
+                        <?php if(isset($_SESSION['userLog'])) { ?>
+                           <div class="col-xl-2 col-lg-2 col-md-3">
+                               <div class="header-right-btn f-right d-none d-lg-block">
+                                   <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Logout</a>
+                               </div>
+                           </div>
+                        <?php	} ?>
+               </div>
+           </div>
+       </div>
+   </div>
+   <main> 
+        <div class="what-we-do we-padding">
+            <div class="container">
+                   <!-- Section-tittle -->
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="section-tittle text-center">
+                            <h2>CARTELERA</h2>
+                        </div>
+                    </div>
+                </div>
+
+                        <div class="conteiner">  
+                            <div float="left">
+                               <!---------------------FILTRO POR FECHA------------------>             
+                               <form action="<?=FRONT_ROOT?>Home/viewFechas" method="post">
+                                    <h3>Seleccione Fecha</h3>
+                                    <select name="Id_funcion">
+                                        <?php foreach($lista_dias as $values)
+                                        {?>
+                                            <option value="<?=$values?>"><?=$values?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <br> <br>
+                                    <div class="header-left-btn f-left d-none d-lg-block">
+                                    <button type="submit" class="btn header-btn">Buscar</button>
+                                </div>
+                                </form>
+                            </div>            
+
+<br><br><br>
+                            <div float="right">   
+                                <!---------------------FILTRO POR GENERO------------------>      
+                               <form action="<?=FRONT_ROOT?>Home/viewGenero" method="post">
+                                <h3>Seleccione Generos</h3>
+                                <select name="Id_genero">
+                                <?php foreach($arrayGeneros as $generos){?>
+
+                                        <option value="<?=$generos->getID()?>"><?=$generos->getTipo()?></option>
+                                    <?php } ?>
+                                </select>
+                                <br> <br>
+                                <div class="header-left-btn f-left d-none d-lg-block">
+                                   <button type="submit" class="btn header-btn">Buscar</button>
+                               </div>
+                                </form>
+                            </div>
+                        </div>              
+                             
+
+                <div class="row">
+                 <?php foreach($array_peliculas as $values){
+                 ?>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-do text-center mb-30">
+                           
+                            <img class="col-lg-4 col-md-6"  src="<?php echo IMAGE_ROOT . $values->getPosterHorizontal();?>"  style="width:500px; weight:300px; position:relative;" />
+                            <div class="do-icon">
+                                <span  class="flaticon-tasks"></span>
+                             </div>
+                            <div class="do-caption">
+                                 <h4><?= $values->getTitle();?></h4>
+                                <!--<p>Release Date:         </p> --> 
+                               <!-- <p>Duration: <?php  //ACA DURACION ?></p> --> 
+                                <p>Descripcion: <?php echo   $values->getOverview(); ?></p>
+                            </div>
+                            <div class="do-btn">
+                                <!-- ACA VA EL BOTON DE ELIMINAR CAMBIARLO A COMPRAR   Admin/Comprar/  -->
+                                <a href="<?php //echo FRONT_ROOT?><?php //echo $cine->getId()?>" class='btn btn-primary'>Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
+                </div>
+                   
+            </div>
+        </div>
+
+
+    </main>

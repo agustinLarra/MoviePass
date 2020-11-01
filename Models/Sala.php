@@ -6,6 +6,7 @@ class Sala{
 
     private $id;
     private $nombre;
+    private $nombreCine;
     private $id_cine;
     private $precio;
     private $capacidad;
@@ -28,12 +29,24 @@ class Sala{
         $this->nombre = $nombre ;
     }
 
+    public function getNombreCine(){
+        return $this->nombreCine ;
+    }
+
+    public function setNombreCine($nombreCine){
+        $this->nombreCine = $nombreCine ;
+    }
+
+
     public function getIdCine(){
         return $this->id_cine ;
     }
     public function setIdCine($id_cine){
         $this->id_cine = $id_cine ;
     }
+
+
+
 
     public function getPrecio(){
         return $this->precio ;

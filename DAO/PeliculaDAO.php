@@ -4,7 +4,8 @@
     use DAO\IDAO as IDAO;
     use Models\Pelicula as Pelicula;
     use DAO\Connection as connection;
-
+    use DAO\GeneroDao as GeneroDao;
+    use Models\Genero as Genero;
 
     class PeliculaDAO
     {        
@@ -71,22 +72,79 @@
             }
         }
 
-        public function SaveApi($cartelera)
-        {
-            $this->SaveDataApi($cartelera);
+        public function checkPeliRepetida($pelicula){
+
+            $idPelicula = $pelicula->getId();
+            $repetido = true;
+            try
+            {
+                $query = "SELECT * FROM peliculas WHERE Id_Pelicula = '$idPelicula'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(empty($resultSet)) {
+                    $repetido = false;
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+    
+            return $repetido;
         }
 
+
+
+
+        public function SaveFromApi($pelicula)
+        {
+            $this->SaveDataApi($pelicula);
+            $this->ConectarConPeliXGenero($pelicula);
+        }
+
+        private function ConectarConPeliXGenero($pelicula)
+        {
+
+            $listaGenerosDeLaPelicula = $pelicula->getGenres();
+
+            $sizeArreglo = count($listaGenerosDeLaPelicula);
+            $i=0;
+
+
+            while( $i < $sizeArreglo){
+
+                $sql = "INSERT INTO peliculasXgenero (Id_Genero,Id_Pelicula) VALUES (:Id_Genero,:Id_Pelicula)";
+                    
+                $parameters["Id_Genero"] = $listaGenerosDeLaPelicula[$i];
+                $parameters["Id_Pelicula"] = $pelicula->getId();
+                
+                
+                try{
+                        $this->connection = connection::GetInstance();
+                         $this->connection->ExecuteNonQuery($sql,$parameters);
+                    }
+                catch(PDOException $e){
+                        echo $e;
+                    }
+
+                $i++;    
+            }
+
+
+        }
+
+
         //guarda todas las peliculas de la api en la base de datos
-        private function SaveDataApi($Cartelera)
+        private function SaveDataApi($pelicula)
         {
             $arrayToEncode = array();
-            $sql = "INSERT INTO peliculas (PosterPath,PosterHorizontal,Title,Overview) VALUES (:PosterPath,:PosterHorizontal,:Title,:Overview)";
+            $sql = "INSERT INTO peliculas (Id_Pelicula,PosterPath,PosterHorizontal,Title,Overview) VALUES (:Id_Pelicula,:PosterPath,:PosterHorizontal,:Title,:Overview)";
 
-            
-            $parameters["PosterPath"] = $Cartelera->getPosterPath();
-            $parameters["PosterHorizontal"] = $Cartelera->getPosterHorizontal();
-            $parameters["Title"] = $Cartelera->getTitle();
-            $parameters["Overview"] = $Cartelera->getOverview();  
+            $parameters["Id_Pelicula"] = $pelicula->getId();
+            $parameters["PosterPath"] = $pelicula->getPosterPath();
+            $parameters["PosterHorizontal"] = $pelicula->getPosterHorizontal();
+            $parameters["Title"] = $pelicula->getTitle();
+            $parameters["Overview"] = $pelicula->getOverview();  
            
 
             try{
@@ -149,6 +207,80 @@
         }
        
 
+        
+        public function FiltrarPelisXGenero($idGenero){
+
+
+            $arregloIdsPeliculas = $this->getPelisIdConEsteGenero($idGenero);
+
+            $arregloPeliculas = array();
+            foreach($arregloIdsPeliculas as $idPelicula){
+
+               $pelicula =  $this->getPeliByID($idPelicula);
+               array_push($arregloPeliculas, $pelicula);
+
+            }
+            
+            return $arregloPeliculas;
+        }
+
+
+        private function getPelisIdConEsteGenero($idGenero){
+            
+            $arregloIdsPeliculas = array();
+            try
+            {
+                $query = "SELECT Id_Pelicula FROM peliculasXgenero WHERE Id_Genero = '$idGenero'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                                                
+                        $row["Id_Pelicula"];
+                        
+                        array_push($arregloIdsPeliculas, $row["Id_Pelicula"]);
+                    }
+                }
+            }catch(PDOException $e){
+                        echo $e;
+            }
+    
+            return $arregloIdsPeliculas;
+        }
+
+
+        public function getPeliByID($idPelicula){
+
+
+            $pelicula ;
+            try
+            {
+                $query = "SELECT * FROM peliculas WHERE Id_Pelicula = '$idPelicula'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+
+                        $pelicula = new Pelicula();
+                            
+                        $pelicula->setId($row["Id_Pelicula"]);
+                        $pelicula->setPosterPath($row["PosterPath"]);
+                        $pelicula->setPosterHorizontal($row["PosterHorizontal"]);
+                        $pelicula->setTitle($row["Title"]);
+                        $pelicula->setOverview($row["Overview"]);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+
+            return $pelicula;
+        }
+
+       
         
     }
 ?>

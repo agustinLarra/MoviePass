@@ -48,6 +48,7 @@
                         $sala->setNombre($row["Nombre"]);
                         $sala->setPrecio($row["Precio"]);
                         $sala->setCapacidad($row["Capacidad"]);
+                        $sala->setTipoSala($row["Tipo_sala"]);
                         $sala->setIdCine($row["Id_Cine"]);
        
                          
@@ -114,6 +115,55 @@
             }
             return $salaList;
         }
+
+
+
+
+        public function Delete(Sala $sala)
+        {
+            $parameters = $sala->getId();
+            $sql = "DELETE FROM salas WHERE Id_Sala = '$parameters'";
+
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+        }
+
+
+        public function getByID($idSala){
+
+            $sala;
+            try
+            {
+                $query = "SELECT * FROM salas WHERE Id_Sala = '$idSala'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+
+                        $sala = new Sala();
+                                                
+                        $sala->setId($row["Id_Sala"]);
+                        $sala->setNombre($row["Nombre"]);
+                        $sala->setPrecio($row["Precio"]);
+                        $sala->setCapacidad($row["Capacidad"]);
+                        $sala->setIdCine($row["Id_Cine"]);
+
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+
+            return $sala;
+        }
+    
 
         
     }

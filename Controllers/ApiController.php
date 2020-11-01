@@ -21,12 +21,16 @@ class ApiController{
             {
                 foreach($key as $v=>$k){
                     
+
                    $peli = new Pelicula();
+                   $peli->setId($k['id']);
                    $peli->setTitle($k['title']);
                    $peli->setPosterPath($k['poster_path']);
                    $peli->setPosterHorizontal($k['backdrop_path']);
                    $peli->setGenre($k['genre_ids']);
-                    array_push($arregloCartelera,$peli);
+                   $peli->setOverview($k['overview']);
+                 
+                   array_push($arregloCartelera,$peli);
                    //echo $k['title'] .  "</br>" . "</br>";
 
                  }
@@ -45,6 +49,7 @@ class ApiController{
         {
            foreach($key as $v=>$k)
            {
+               
                 $genero = new Genero();
                 $genero->setId($k["id"]);
                 $genero->setTipo($k["name"]);

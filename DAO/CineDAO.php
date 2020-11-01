@@ -36,7 +36,7 @@
     
             try{
                 $this->connection = connection::GetInstance();
-                return $this->connection->ExecuteNonQuery($sql,$parameters);
+                $this->connection->ExecuteNonQuery($sql,$parameters);
             }
             catch(PDOException $e){
                 echo $e;
@@ -104,9 +104,61 @@
         }
 
 
+        public function ModifyCine(Cine $cine)
+        {
+            $parameters = $cine->getId();
+            $sql = "UPDATE cines SET nombre=?,telefono=?,email=? WHERE Id_Cine= $parameters";
+
+            
+
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+
+
+        }
 
 
 
+        public function RetrieveOne($id)
+        {
+            $cines = $this->RetrieveData();
+            foreach($cines as $values)
+            {
+                if($values->getId()==$id)
+                    return $values;
+            }
+        }
+
+        public function getByID($idCine){
+
+            $cine;
+            try
+            {
+                $query = "SELECT Nombre FROM cines WHERE Id_Cine = '$idCine'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+
+                        $cine = new Cine();
+                                                
+                        $cine->setNombre($row["Nombre"]);
+
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+
+            return $cine;
+        }
     
 
     

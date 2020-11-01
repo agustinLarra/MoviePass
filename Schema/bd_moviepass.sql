@@ -45,7 +45,7 @@ insert into salas (Nombre,Precio,Capacidad,Tipo_sala,Id_Cine) values ("Grande",2
 insert into salas (Nombre,Precio,Capacidad,Tipo_sala,Id_Cine) values ("S",500,50,"3D",1);
 
 create table peliculas(
-	Id_Pelicula int not null auto_increment,
+	Id_Pelicula int not null ,
     PosterPath varchar(150),
 	PosterHorizontal varchar(150),
     Title varchar(70),
@@ -59,7 +59,7 @@ insert into peliculas (Title) values ("Buscando a nemo");
 
 
 create table generos(
-	Id_Genero int not null auto_increment,
+	Id_Genero int not null ,
     Nombre varchar(35),
     
     constraint `PK_Genero` primary key (Id_Genero)
@@ -86,7 +86,8 @@ create table funciones(
 	Id_Funcion int not null auto_increment,
     Id_Pelicula int not null,
     Id_Sala int not null,
-    Horario dateTime,
+    Dia date,
+    Hora time,
 	Descuento boolean,
     
     constraint `PK_Funcion` primary key (Id_Funcion),

@@ -29,6 +29,19 @@
             $funcionList = $this->RetrieveData();
             return $funcionList;
         }
+        public function GetId($id)
+        {
+            return $this->RetrieveOne($id);
+
+        }
+        public function GetDia($dia)
+        {
+            return $this->RetrieveDia($dia);
+        }
+        public function DeleteFuncionId($id)
+        {
+            $this->DeleteId($id);
+        }
 
 
         private function RetrieveData()
@@ -47,7 +60,8 @@
                         $Funcion->setId($row["Id_Funcion"]);
                         $Funcion->setIdPelicula($row["Id_Pelicula"]);
                         $Funcion->setIdSala($row["Id_Sala"]);
-                        $Funcion->setHorario($row["Horario"]);
+                        $Funcion->setDia($row["Dia"]);
+                        $Funcion->setHora($row["Hora"]);
                         $Funcion->setDescuento($row["Descuento"]);
        
                          
@@ -60,18 +74,73 @@
             }
             return $funcionList;
         }
+
+        private function RetrieveOne($id)
+        {
+            $funcionlist =  $this->RetrieveData();
+            foreach($funcionlist as $values)
+            {
+                if($values->getId()==$id)
+                {
+                    return $values;
+                }
+            }
+            return false;
+        }
+
+        private function RetrieveDia($dia)
+        {
+            $array_funcion = array();
+            $funcionlist =  $this->RetrieveData();
+            foreach($funcionlist as $values)
+            {
+                if($values->getDia()==$dia)
+                {
+                    array_push($array_funcion,$values);
+                }
+            }
+            return $array_funcion;
+        }
   
     
     
-        private function SaveData(Funcion $funcion)
+        private function SaveData($funcion)
         {
-            $sql = "INSERT INTO funciones(Id_Pelicula,Id_Sala,Horario,Descuento) VALUES(:Id_Pelicula,:Id_Sala,:Horario,:Descuento)";
+            $sql = "INSERT INTO funciones(Id_Pelicula,Id_Sala,Dia,Hora,Descuento) VALUES(:Id_Pelicula,:Id_Sala,:Dia,:Hora,:Descuento)";
     
             $parameters['Id_Pelicula'] = $funcion->getIdPelicula();
             $parameters['Id_Sala'] = $funcion->getIdSala();
-            $parameters['Horario'] = $funcion->getHorario();
+            $parameters['Dia'] = $funcion->getDia();
+            $parameters['Hora'] = $funcion->getHora();
             $parameters['Descuento'] = $funcion->getDescuento();
             
+            try{
+                $this->connection = connection::GetInstance();
+                 $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+        }
+
+        private function DeleteId($id)
+        {
+            $sql = "DELETE FROM funciones  WHERE Id_Funcion = '$id'";
+
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$id);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+        }
+
+        public function Delete(Funcion $funcion)
+        {
+            $parameters = $funcion->getId();
+            $sql = "DELETE FROM funciones WHERE Id_Funcion = '$parameters'";
+
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
@@ -79,7 +148,6 @@
             catch(PDOException $e){
                 echo $e;
             }
-
         }
 
 

@@ -4,9 +4,14 @@ class Funcion {
 
     private $id;
     private $Id_Pelicula;
+    private $Title_Pelicula;
     private $Id_Sala;
-    private $Horario;
-    private $Descuento ;
+    private $Nombre_Sala;
+    private $Id_Cine;
+    private $Nombre_Cine;
+    private $Dia;
+    private $Hora;
+    private $Descuento;
 
     public function __construct()
     {
@@ -31,6 +36,15 @@ class Funcion {
     {
         return $this->Id_Pelicula;
     }
+
+    public function setTitlePelicula($Title_Pelicula)
+    {
+        $this->Title_Pelicula=$Title_Pelicula;
+    }
+    public function getTitlePelicula()
+    {
+        return $this->Title_Pelicula;
+    }
     
     public function setIdSala($Id_Sala)
     {
@@ -40,14 +54,53 @@ class Funcion {
     {
         return $this->Id_Sala;
     }
-    public function setHorario($Horario)
+
+    public function setNombreSala($Nombre_Sala)
     {
-        $this->Horario=$Horario;
+        $this->Nombre_Sala=$Nombre_Sala;
     }
-    public function getHorario()
+    public function getNombreSala()
     {
-        return $this->Horario;
+        return $this->Nombre_Sala;
     }
+    
+    public function setIdCine($Id_Cine)
+    {
+        $this->Id_Cine=$Id_Cine;
+    }
+    public function getIdCine()
+    {
+        return $this->Id_Cine;
+    }
+
+
+    public function setNombreCine($Nombre_Cine)
+    {
+        $this->Nombre_Cine=$Nombre_Cine;
+    }
+    public function getNombreCine()
+    {
+        return $this->Nombre_Cine;
+    }
+
+    public function setDia($Dia)
+    {
+        $this->Dia=$Dia;
+    }
+    public function getDia()
+    {
+        return $this->Dia;
+    }
+    public function getHora()
+    {
+        return $this->Hora;
+    }
+    public function setHora($hora)
+    {
+        $this->Hora=$hora;
+    }
+
+
     public function setDescuento($Descuento)
     {
         $this->Descuento=$Descuento;

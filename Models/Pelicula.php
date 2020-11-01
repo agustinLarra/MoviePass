@@ -39,6 +39,10 @@ class Pelicula{
     public function  getPosterHorizontal(){
         return $this->poster_horizontal ;
     }
+    public function getGenres()
+    {
+        return $this->genre_ids;
+    }
     public function setGenre($genre)
     {
         $this->genre_ids=$genre;
