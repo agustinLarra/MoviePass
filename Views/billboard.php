@@ -99,28 +99,31 @@
                              
 
                 <div class="row">
-                 <?php foreach($array_peliculas as $values){
-                 ?>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-do text-center mb-30">
-                           
-                            <img class="col-lg-4 col-md-6"  src="<?php echo IMAGE_ROOT . $values->getPosterHorizontal();?>"  style="width:500px; weight:300px; position:relative;" />
-                            <div class="do-icon">
-                                <span  class="flaticon-tasks"></span>
-                             </div>
-                            <div class="do-caption">
-                                 <h4><?= $values->getTitle();?></h4>
-                                <!--<p>Release Date:         </p> --> 
-                               <!-- <p>Duration: <?php  //ACA DURACION ?></p> --> 
-                                <p>Descripcion: <?php echo   $values->getOverview(); ?></p>
+                   
+                        <?php foreach($array_peliculas as $values){ ?>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="single-do text-center mb-30">
+                                    <form action="<?php FRONT_ROOT?>" method="POST">
+                                        <img class="col-lg-4 col-md-6"  src="<?php echo IMAGE_ROOT . $values->getPosterHorizontal();?>"  style="width:500px; weight:300px; position:relative;" />
+                                        <div class="do-icon">
+                                            <span  class="flaticon-tasks"></span>
+                                        </div>
+                                        <div class="do-caption">
+                                            <h4><?= $values->getTitle();?></h4>
+                                            <!--<p>Release Date:         </p> --> 
+                                        <!-- <p>Duration: <?php  //ACA DURACION ?></p> --> 
+                                            <p>Descripcion: <?php echo   $values->getOverview(); ?></p>
+                                        </div>
+                                        <div class="do-btn">
+                                            <!-- ACA VA EL BOTON DE ELIMINAR CAMBIARLO A COMPRAR   Admin/Comprar/  -->
+                                            <a href="<?php //echo FRONT_ROOT?><?php //echo $cine->getId()?>" class='btn btn-primary'>Comprar entrada</a>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="do-btn">
-                                <!-- ACA VA EL BOTON DE ELIMINAR CAMBIARLO A COMPRAR   Admin/Comprar/  -->
-                                <a href="<?php //echo FRONT_ROOT?><?php //echo $cine->getId()?>" class='btn btn-primary'>Comprar</a>
-                            </div>
-                        </div>
-                    </div>
-                    <?php } ?>
+                        <?php } ?>
+                   
+              
                 </div>
                    
             </div>
