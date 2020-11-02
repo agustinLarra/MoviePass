@@ -1,7 +1,5 @@
 <?php namespace Views;
 
-    use DAO\PeliculaDAO as PeliculaDAO; 
-
     if(!isset($_SESSION)) session_start(); 
 ?>
 
@@ -103,7 +101,7 @@
                         <?php foreach($array_peliculas as $values){ ?>
                             <div class="col-lg-4 col-md-6">
                                 <div class="single-do text-center mb-30">
-                                    <form action="<?php FRONT_ROOT?>" method="POST">
+                                    <form action="<?php echo FRONT_ROOT?>Home/Comprar" method="POST">
                                         <img class="col-lg-4 col-md-6"  src="<?php echo IMAGE_ROOT . $values->getPosterHorizontal();?>"  style="width:500px; weight:300px; position:relative;" />
                                         <div class="do-icon">
                                             <span  class="flaticon-tasks"></span>
@@ -114,9 +112,16 @@
                                         <!-- <p>Duration: <?php  //ACA DURACION ?></p> --> 
                                             <p>Descripcion: <?php echo   $values->getOverview(); ?></p>
                                         </div>
+
+                                            <input name='id' value="<?php echo $values->getId();?>" type="hidden">
+                                            <input name='title' value="<?php echo $values->getTitle();?>" type="hidden">
+                                            <input name='overview' value="<?php echo $values->getOverview();?>" type="hidden">
+                                             <!--   Hacer uno para duracion y otro para el trailer --> 
+                                             
                                         <div class="do-btn">
                                             <!-- ACA VA EL BOTON DE ELIMINAR CAMBIARLO A COMPRAR   Admin/Comprar/  -->
-                                            <a href="<?php //echo FRONT_ROOT?><?php //echo $cine->getId()?>" class='btn btn-primary'>Comprar entrada</a>
+                                            <button type="submit"class='btn btn-primary'>Comprar entrada</button>
+                                              <!-- <a href="<?php //echo FRONT_ROOT?><?php //echo $cine->getId()?>" class='btn btn-primary'>Comprar entrada</a> -->
                                         </div>
                                     </form>
                                 </div>

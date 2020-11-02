@@ -19,6 +19,15 @@ use DateTime ;
 class AdminController{
 
 
+    private $homeController;
+    private $cineDao;
+    private $salaDao;
+
+    function __constructor(){
+        $this->cineDao = new CineDAO();
+        $this->salaDao = new SalaDAO();
+		$this->homeController = new homeController();
+    }
 
     public function deleteCine($id){
 
@@ -29,8 +38,8 @@ class AdminController{
         $cineDao = new CineDAO();
         $cineDao->Delete($cine);
 
-        $homeController = new HomeController;
-        $homeController->viewListCines();
+
+        $this->homeController->viewListCines();
 
     }
 
@@ -48,11 +57,12 @@ class AdminController{
         // aca va la base de datos (esperar a solera)
         $cineDao->Add($cine);
 
-        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'index.php');
-        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+       // require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      //  require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+      //  require_once(VIEWS_ADMIN_PATH .'index.php');
+      //  require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
 
+        $this->homeController->viewListCines();
     }
 
     public function addSala($idCine, $nombreSala, $precio, $capacidad,$tipoSala){
@@ -68,11 +78,7 @@ class AdminController{
         $salaDao = new SalaDAO();
         $salaDao->Add($sala);
 
-        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'index.php');
-        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
-   
+        $this->homeController->viewListSalas();
             
     }
 
@@ -86,10 +92,7 @@ class AdminController{
         $salaDao = new SalaDAO();
         $salaDao->Delete($sala);
 
-        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'index.php');
-        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+        $this->homeController->viewListSalas();
     }
 
 
@@ -114,12 +117,15 @@ class AdminController{
                 $this->newFuncion($funcion);
         }else{
             
-                echo '<script>alert("Horario No disponible( aplique 15 minutos de diferencia)");</script>';
+            echo '<script>alert("Horario No disponible( aplique 15 minutos de diferencia)");</script>';
+                /*
                 require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
                 require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
                 require_once(VIEWS_ADMIN_PATH .'index.php');
                 require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
-        }
+                */
+                $this->homeController->viewAddFunciones();
+            }
       
     }
 
@@ -196,6 +202,24 @@ class AdminController{
         
         return $listaFuncionesCOMPLETA;
     }
+
+    public function listarFuncionesByIdPelicula( $idPelicula ){ 
+        $funcionDAO = new FuncionDAO();
+        $listaFunciones = $funcionDAO->getFuncionesByIdPelicula($idPelicula);
+        //Aca tengo en  $listaFunciones Todas las funciones
+        $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
+        //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
+
+        $listaFuncionesConCine = $this->agregarNombreCineAFunciones(  $listaFuncionesConSalas);
+        //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
+        $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
+        //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
+    
+        
+        return $listaFuncionesCOMPLETA;
+    }
+
+
 
 
     public function listarCines(){
@@ -321,8 +345,7 @@ class AdminController{
 
         $this->peliculasToBd();
         
-        $homeController = new HomeController();
-        $homeController->viewHomeAdmin();
+        $this->homeController->viewHomeAdmin();
 
 
         //Poner un script que diga que se registraron exitosamente

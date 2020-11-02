@@ -6,6 +6,7 @@ use DAO\PeliculaDAO as PeliculaDAO;
 use DAO\GeneroDao as GeneroDao;
 use DAO\FuncionDao as FuncionDao;
 use Models\Sala as Sala;
+use Models\Pelicula as Pelicula;
 use DAO\SalaDAO as SalaDAO;
 
 class HomeController{
@@ -37,11 +38,23 @@ class HomeController{
 
     public function viewCartelera( ){
 
+      try{
+        
         $array_peliculas = $this->cargarCartelera();
-
+        
         $arrayGeneros = $this->cargarGeneros();
  
         $lista_dias = $this->cargarFunciones();
+
+      }catch(Exception $e){
+
+        $message = $e->get_message();
+       // throw new Exception($e->get_message());
+
+      }
+        
+
+  
 
         require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
         require(VIEWS_PATH.'billboard.php');
@@ -173,8 +186,13 @@ class HomeController{
 
         //Levantar peliculas que esten linkeadas en funciones
         $peliculaDao = new PeliculaDAO();
-       $peliculaList = $peliculaDao->GetPeliculasEnFunciones();
-       //$peliculaList = $peliculaDao->GetAll();
+       //$peliculaList = $peliculaDao->GetPeliculasEnFunciones();
+       
+        try{
+          $peliculaList = $peliculaDao->GetAll();
+        }catch(Exception $e){
+           throw new Exception($e->get_message());
+        }
 
         return  $peliculaList ;
       }
@@ -182,7 +200,7 @@ class HomeController{
 
       public function cargarGeneros(){
 
-        $generos_bd = new GeneroDao();
+        $generos_bd = new GeneroDAO();
         $arrayGeneros = $generos_bd->getAll();
         return  $arrayGeneros  ;
       }
@@ -260,8 +278,28 @@ class HomeController{
       }
 
 
-}
+      public function Comprar(){
+
+
+        $pelicula = new Pelicula();
+        $pelicula->setId($_POST["id"]);
+        $pelicula->setTitle($_POST["title"]);
+        $pelicula->setOverview($_POST["overview"]);
+
+        $adminController = new AdminController();
+        $listaFunciones = $adminController->listarFuncionesByIdPelicula( $pelicula->getId() );
+
+
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_PATH.'comprarEntradas.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+
+      }
+
+     
 
 
 
-?>
+
+
+} ?>
