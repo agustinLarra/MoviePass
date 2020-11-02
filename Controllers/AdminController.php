@@ -197,6 +197,24 @@ class AdminController{
         return $listaFuncionesCOMPLETA;
     }
 
+    public function listarFuncionesByIdPelicula( $idPelicula ){ 
+        $funcionDAO = new FuncionDAO();
+        $listaFunciones = $funcionDAO->getFuncionesByIdPelicula($idPelicula);
+        //Aca tengo en  $listaFunciones Todas las funciones
+        $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
+        //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
+
+        $listaFuncionesConCine = $this->agregarNombreCineAFunciones(  $listaFuncionesConSalas);
+        //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
+        $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
+        //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
+    
+        
+        return $listaFuncionesCOMPLETA;
+    }
+
+
+
 
     public function listarCines(){
         $cineDao = new CineDAO();
