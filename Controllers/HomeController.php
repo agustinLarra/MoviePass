@@ -18,8 +18,8 @@ class HomeController{
        /// Abrir session y verificar si hay usarios en session.
         //  Si no hay --> se llama a la funcion login()
         //  Si hay, se hace lo esto de abajo (Tendriamos que hacerla una funcion aparte)
-        // implementar cuando funcione el login!*
-
+        // *!implementar cuando funcione el login!*
+      
         require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
         require(VIEWS_PATH.'inicio.php');
         require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
@@ -52,18 +52,18 @@ class HomeController{
     //----------------------------------------------CARTELERA------------------------------------------------------------------------------------------------------------
     public function viewCartelera( ){
 
-      try{
-        
-        $array_peliculas = $this->cargarCartelera();
-        
-        $arrayGeneros = $this->cargarGeneros();
- 
-        $lista_dias = $this->cargarFunciones();
+        try{
+          
+          $array_peliculas = $this->cargarCartelera();
+          
+          $arrayGeneros = $this->cargarGeneros();
+  
+          $lista_dias = $this->cargarFunciones();
 
-      }catch(Exception $e){
+        }catch(Exception $e){
 
-        $message = $e->get_message();
-       // throw new Exception($e->get_message());
+          $message = $e->get_message();
+        // throw new Exception($e->get_message());
 
       }
         
@@ -257,10 +257,29 @@ public function selectDinamicoSalas(){
 
       #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    //----------------------------------------------FUNCIONES-----------------------------------------------------------------------------------------------------------------
- 
- 
-    public function viewAddFunciones(){
+      public function cargarCartelera(){
+
+        //Levantar peliculas que esten linkeadas en funciones
+        $peliculaDao = new PeliculaDAO();
+       //$peliculaList = $peliculaDao->GetPeliculasEnFunciones();
+       
+        try{
+          $peliculaList = $peliculaDao->GetAll();
+        }catch(Exception $e){
+           throw new Exception($e->get_message());
+        }
+
+        return  $peliculaList ;
+      }
+
+
+      public function cargarGeneros(){
+
+        $generos_bd = new GeneroDAO();
+        $arrayGeneros = $generos_bd->getAll();
+        return  $arrayGeneros  ;
+      }
+
 
       $adminController = new AdminController();
       // Levanto las peliculas de la base de datos
@@ -321,8 +340,28 @@ public function selectDinamicoSalas(){
     }
 
 
-}
+      public function Comprar(){
+
+
+        $pelicula = new Pelicula();
+        $pelicula->setId($_POST["id"]);
+        $pelicula->setTitle($_POST["title"]);
+        $pelicula->setOverview($_POST["overview"]);
+
+        $adminController = new AdminController();
+        $listaFunciones = $adminController->listarFuncionesByIdPelicula( $pelicula->getId() );
+
+
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_PATH.'comprarEntradas.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+
+      }
+
+     
 
 
 
-?>
+
+
+} ?>
