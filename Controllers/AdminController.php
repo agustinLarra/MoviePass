@@ -19,6 +19,17 @@ use DateTime ;
 class AdminController{
 
 
+    private $homeController;
+    private $cineDao;
+    private $salaDao;
+    private $peliculaDao;
+
+    function __constructor(){
+        $this->cineDao = new CineDAO();
+        $this->salaDao = new SalaDAO();
+        $this->peliculaDao = new PeliculaDAO();
+		$this->homeController = new homeController();
+    }
 
     public function deleteCine($id){
 
@@ -29,8 +40,8 @@ class AdminController{
         $cineDao = new CineDAO();
         $cineDao->Delete($cine);
 
-        $homeController = new HomeController;
-        $homeController->viewListCines();
+
+        $this->homeController->viewListCines();
 
     }
 
@@ -48,11 +59,8 @@ class AdminController{
         // aca va la base de datos (esperar a solera)
         $cineDao->Add($cine);
 
-        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'index.php');
-        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
 
+        $this->homeController->viewListCines();
     }
 
     public function addSala($idCine, $nombreSala, $precio, $capacidad,$tipoSala){
@@ -68,11 +76,7 @@ class AdminController{
         $salaDao = new SalaDAO();
         $salaDao->Add($sala);
 
-        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'index.php');
-        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
-   
+        $this->homeController->viewListSalas();
             
     }
 
@@ -86,10 +90,7 @@ class AdminController{
         $salaDao = new SalaDAO();
         $salaDao->Delete($sala);
 
-        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'index.php');
-        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+        $this->homeController->viewListSalas();
     }
 
 
@@ -114,12 +115,15 @@ class AdminController{
                 $this->newFuncion($funcion);
         }else{
             
-                echo '<script>alert("Horario No disponible( aplique 15 minutos de diferencia)");</script>';
+            echo '<script>alert("Horario No disponible( aplique 15 minutos de diferencia)");</script>';
+                /*
                 require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
                 require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
                 require_once(VIEWS_ADMIN_PATH .'index.php');
                 require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
-        }
+                */
+                $this->homeController->viewAddFunciones();
+            }
       
     }
 
@@ -128,10 +132,7 @@ class AdminController{
         $funcionDAO = new FuncionDAO();
         $funcionDAO->Add($funcion);
 
-        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'index.php');
-        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+        $this->homeController->viewListFunciones();
     }
 
     public function checkHorario($dia,$hora_aux)
@@ -197,23 +198,38 @@ class AdminController{
         return $listaFuncionesCOMPLETA;
     }
 
+    public function listarFuncionesByIdPelicula( $idPelicula ){ 
+        $funcionDAO = new FuncionDAO();
+        $listaFunciones = $funcionDAO->getFuncionesByIdPelicula($idPelicula);
+        //Aca tengo en  $listaFunciones Todas las funciones
+        $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
+        //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
+
+        $listaFuncionesConCine = $this->agregarNombreCineAFunciones(  $listaFuncionesConSalas);
+        //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
+        $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
+        //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
+    
+        
+        return $listaFuncionesCOMPLETA;
+    }
+
+
+
 
     public function listarCines(){
-        $cineDao = new CineDAO();
-        $listaCines = $cineDao->GetAll();
+        $listaCines = $this->cineDao->GetAll();
         return $listaCines;
     }
 
     public function listarSalas(){
-        $salaDao = new SalaDAO();
-        $listaSalas = $salaDao->GetAll();
+        $listaSalas = $this->salaDao->GetAll();
         return $listaSalas;
     }
 
     
     public function listarSalasConCine(){
-        $salaDao = new SalaDAO();
-        $listaSalas = $salaDao->GetAll();
+        $listaSalas = $this->salaDao->GetAll();
         $listaSalasConCine = $this->agregarNombreCineASala($listaSalas);
         return $listaSalasConCine;
     }
@@ -221,18 +237,16 @@ class AdminController{
    
 
     public function listarPeliculas(){
-        $peliculaDao = new PeliculaDAO();
-        $peliculasList = $peliculaDao->GetAll();
+        $peliculasList = $this->peliculaDao->GetAll();
         return $peliculasList;
     }
 
 
     public function agregarNombreCineASala( $listaSalas){
 
-        $cineDao = new CineDAO();
         foreach($listaSalas as $sala){
 
-            $cine = $cineDao->getByID($sala->getIdCine());
+            $cine = $this->cineDao->getByID($sala->getIdCine());
             $sala->setNombreCine(  $cine->getNombre()  );
         }
         
@@ -241,10 +255,9 @@ class AdminController{
 
     public function agregarNombreSalaAFunciones( $listaFunciones){
 
-        $salaDao = new SalaDAO();
         foreach($listaFunciones as $funcion){
 
-            $sala = $salaDao->getByID($funcion->getIdSala());
+            $sala = $this->salaDao->getByID($funcion->getIdSala());
             $funcion->setNombreSala(  $sala->getNombre()  );
             $funcion->setIdCine(  $sala->getIdCine()  );
 
@@ -255,10 +268,9 @@ class AdminController{
 
     public function agregarNombreCineAFunciones( $listaFunciones){
 
-        $cineDao = new CineDAO();
         foreach($listaFunciones as $funcion){
 
-            $cine = $cineDao->getByID($funcion->getIdCine());
+            $cine = $this->cineDao->getByID($funcion->getIdCine());
             $funcion->setNombreCine(  $cine->getNombre()  );
         }
         
@@ -268,10 +280,9 @@ class AdminController{
     
     public function agregarTitlePeliculaAFunciones( $listaFunciones){
 
-        $peliculaDao = new PeliculaDAO();
         foreach($listaFunciones as $funcion){
 
-            $pelicula = $peliculaDao->getPeliByID($funcion->getIdPelicula());
+            $pelicula = $this->peliculaDao->getPeliByID($funcion->getIdPelicula());
             $funcion->setTitlePelicula(  $pelicula->getTitle()  );
         }
         
@@ -286,8 +297,8 @@ class AdminController{
 
     public function selectDinamicoSalas(){
       
-        $salaDao = new SalaDAO();
-        $listaSalas = $salaDao->GetByIdCine($_GET['id_cine']);
+        $listaSalas = $this->salaDao->GetByIdCine($_GET['id_cine']);
+
 
         echo'<select name="select" id="select">';
       
@@ -321,8 +332,7 @@ class AdminController{
 
         $this->peliculasToBd();
         
-        $homeController = new HomeController();
-        $homeController->viewHomeAdmin();
+        $this->homeController->viewHomeAdmin();
 
 
         //Poner un script que diga que se registraron exitosamente
@@ -332,14 +342,13 @@ class AdminController{
       public function peliculasToBd()
       {
           $arrayCartelera = array();
-          $peliculaDao = new PeliculaDAO();
           $apiPeliculas = new Api();
           $arrayCartelera = $apiPeliculas->getCarteleraApi();
           foreach($arrayCartelera as $value)
           {
-              if(  $peliculaDao->checkPeliRepetida($value) == false ){
+              if(  $this->peliculaDao->checkPeliRepetida($value) == false ){
 
-                $peliculaDao->SaveFromApi($value);
+                $this->peliculaDao->SaveFromApi($value);
               }
           }
       }
@@ -368,12 +377,12 @@ class AdminController{
         $cine = new Cine();
         $cine->setId($id);
 
-        $aux = new CineDAO();
-        $retrieve = $aux->RetrieveOne($id);
+        $retrieve = $this->cineDAO->RetrieveOne($id);
+
 
         var_dump($retrieve); ///ME GUARDA EN UN ARRAY TODO EL CINE QUE TENGA EL ID QUE LE PASO.
 
-        $updateCine = $aux->ModifyCine($cine);
+        $updateCine = $this->cineDAO->ModifyCine($cine);
 
 
         echo $updateCine;

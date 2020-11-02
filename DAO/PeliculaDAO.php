@@ -25,7 +25,11 @@
 
         public function GetAll() {
             
-            $peliculaList = $this->RetrieveData();
+            try{
+                $peliculaList = $this->RetrieveData();
+            }catch(Exception $e){
+                throw new Exception($e->get_message());
+            }
             return $peliculaList;
         }
 
@@ -57,7 +61,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new Exception($e->get_message());
             }
             return $peliculaList;
         }
