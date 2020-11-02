@@ -105,9 +105,7 @@
                                                             echo "No";
                                                         }?></p>
                             </div>
-                            <div class="do-btn">
-                                <a href="<?php echo FRONT_ROOT?>Admin/deleteSala/<?php echo $funcion->getId()?>" class='btn btn-danger'>Borrar</a>
-                            </div>
+                         
 
 
                         </div>
