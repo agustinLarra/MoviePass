@@ -16,7 +16,7 @@ class HomeController{
         //  Si no hay --> se llama a la funcion login()
         //  Si hay, se hace lo esto de abajo (Tendriamos que hacerla una funcion aparte)
         // *!implementar cuando funcione el login!*
-
+        echo "La z del zorro";
         require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
         require(VIEWS_PATH.'inicio.php');
         require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
