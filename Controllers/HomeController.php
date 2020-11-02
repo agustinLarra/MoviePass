@@ -6,6 +6,7 @@ use DAO\PeliculaDAO as PeliculaDAO;
 use DAO\GeneroDao as GeneroDao;
 use DAO\FuncionDao as FuncionDao;
 use Models\Sala as Sala;
+use Models\Pelicula as Pelicula;
 use DAO\SalaDAO as SalaDAO;
 
 class HomeController{
@@ -173,8 +174,8 @@ class HomeController{
 
         //Levantar peliculas que esten linkeadas en funciones
         $peliculaDao = new PeliculaDAO();
-       $peliculaList = $peliculaDao->GetPeliculasEnFunciones();
-       //$peliculaList = $peliculaDao->GetAll();
+       //$peliculaList = $peliculaDao->GetPeliculasEnFunciones();
+       $peliculaList = $peliculaDao->GetAll();
 
         return  $peliculaList ;
       }
@@ -260,8 +261,28 @@ class HomeController{
       }
 
 
-}
+      public function Comprar(){
+
+
+        $pelicula = new Pelicula();
+        $pelicula->setId($_POST["id"]);
+        $pelicula->setTitle($_POST["title"]);
+        $pelicula->setOverview($_POST["overview"]);
+
+        $adminController = new AdminController();
+        $listaFunciones = $adminController->listarFuncionesByIdPelicula( $pelicula->getId() );
+
+
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_PATH.'comprarEntradas.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+
+      }
+
+     
 
 
 
-?>
+
+
+} ?>
