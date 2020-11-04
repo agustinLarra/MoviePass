@@ -8,6 +8,7 @@ use DAO\FuncionDao as FuncionDao;
 use Models\Sala as Sala;
 use Models\Pelicula as Pelicula;
 use DAO\SalaDAO as SalaDAO;
+use JsonDAO\PeliculaJson as PeliculasJson;
 
 class HomeController{
 
@@ -56,7 +57,6 @@ class HomeController{
     public function viewCartelera( ){
 
       try{
-        
         $array_peliculas = $this->cargarCartelera();
         
         $arrayGeneros = $this->cargarGeneros();
@@ -157,12 +157,17 @@ class HomeController{
     {
 
         $idGenero = $_POST['Id_genero'];
+      
+        list($id,$nombre) = explode("-",$idGenero);
+      echo $id;
         //Agarrar de la tabla peliXgenero las pelis que macheen este idGenero
-        $array_peliculas = $this->filtarPelisXgenero($idGenero);
+        $array_peliculas = $this->filtarPelisXgenero($id);
+        
 
         $arrayGeneros = $this->cargarGeneros();
  
         $lista_dias = $this->cargarFunciones();
+        
 
 
         require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
@@ -266,8 +271,11 @@ public function selectDinamicoSalas(){
     public function viewAddFunciones(){
 
       $adminController = new AdminController();
-      // Levanto las peliculas de la base de datos
-      $peliculasList = $adminController->listarPeliculas();
+
+      // Levanto las peliculas del Json 
+      $peliculas = new PeliculasJson();
+      $peliculasList = $peliculas->GetMovieJson(); 
+
       // Levanto las salas de la base de datos
       $cineList = $adminController->listarCines();
    

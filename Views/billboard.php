@@ -86,7 +86,7 @@
                                 <select name="Id_genero">
                                 <?php foreach($arrayGeneros as $generos){?>
 
-                                        <option value="<?=$generos->getID()?>"><?=$generos->getTipo()?></option>
+                                    <option value="<?=$generos->getID() . "-" .$generos->getTipo();?>"><?=$generos->getTipo()?></option>
                                     <?php } ?>
                                 </select>
                                 <br> <br>
@@ -99,6 +99,9 @@
                              
 
                 <div class="row">
+               <?php if((isset($nombre))){ ?>       
+                     <h3>Genero:<?=$nombre?><h/3>
+                    <?php } ?>
                    
                         <?php foreach($array_peliculas as $values){ ?>
                             <div class="col-lg-4 col-md-6">
@@ -110,13 +113,14 @@
                                         </div>
                                         <div class="do-caption">
                                             <h4><?= $values->getTitle();?></h4>
-                                            <!--<p>Release Date:         </p> --> 
-                                        <!-- <p>Duration: <?php  //ACA DURACION ?></p> --> 
+                                            <p>Fecha de Estreno: <?=$values->getReleaseDate();?></p>
+                                            <p>Duracion: <?=$values->getRuntime();?> Minutos</p> 
                                             <p>Descripcion: <?php echo   $values->getOverview(); ?></p>
                                         </div>
 
                                             <input name='id' value="<?php echo $values->getId();?>" type="hidden">
                                             <input name='title' value="<?php echo $values->getTitle();?>" type="hidden">
+                                            
                                             <input name='overview' value="<?php echo $values->getOverview();?>" type="hidden">
                                              <!--   Hacer uno para duracion y otro para el trailer --> 
                                              

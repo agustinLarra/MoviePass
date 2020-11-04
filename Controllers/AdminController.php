@@ -13,6 +13,7 @@ use Models\Funcion as Funcion;
 use DAO\FuncionDAO as FuncionDAO;
 use Controllers\ApiController as Api;
 use DAO\GeneroDao as GeneroDao;
+use JsonDAO\PeliculaJson as PeliculasJson;
 use DateTime ;
 
 
@@ -28,7 +29,7 @@ class AdminController{
         $this->cineDao = new CineDAO();
         $this->salaDao = new SalaDAO();
         $this->peliculaDao = new PeliculaDAO();
-		$this->homeController = new homeController();
+		$this->homeController = new HomeController();
     }
 
     public function deleteCine($id){
@@ -135,8 +136,24 @@ class AdminController{
         $funcionDAO = new FuncionDAO();
         $funcionDAO->Add($funcion);
 
-        $homeController = new HomeController();
-        $homeController->viewListFunciones();
+        $bd_pelicula = new PeliculaDAO();
+        $json = new PeliculasJson();//Desde el id de la pelicula en funcion , la busco en el json y la guardo;
+        $pelicula = $json->returnById($funcion->getIdPelicula());
+        
+        if($pelicula != false)
+        {
+           $resul = $bd_pelicula->RetrieveOne($pelicula->getId());//Para no guardar dos veces una pelicula
+           
+           if($resul == false)
+           {
+                $bd_pelicula->SavePelicula($pelicula);
+           }  
+        }
+        else {echo "error";}
+
+        $Home_controller = new HomeController();
+   
+        $Home_controller->viewListFunciones();
     }
 
     public function checkHorario($dia,$hora_aux)
@@ -383,19 +400,53 @@ class AdminController{
     }
     
 
-
+#**********************************************************ACTUALIZAR PELICULAS DE JSON*****************************************************
       
     public function actualizarPeliculas(){
   
         $this->generosToBd();
 
-        $this->peliculasToBd();
+        $cantidad = $this->peliculasToJson();
+
+
+        if($cantidad>0)//Ahora la peliculas se guardan en un json, y en la base de datos solo se guardan las peliculas que tengan una funcion
+        {
+            echo '<script>alert("Peliculas Nuevas: ' . $cantidad . '");</script>';
+            //Despeues de mostrar el script deberia llemar a una nueva vista que muestre todas las peliculas del json
+        }
+        else
+             echo '<script>alert("No hay Peliculas para Actualizar");</script>';
+
+
 
         $homeController = new HomeController();
         $homeController->viewHomeAdmin();
 
 
         //Poner un script que diga que se registraron exitosamente
+    }
+
+
+
+    public function peliculasToJson()
+    {
+        $flag =0;
+        $arrayCartelera = array();
+        $json = new PeliculasJson();
+
+        $api = new Api();
+        $array_api = $api->getCarteleraApi();
+        
+          foreach($array_api as  $value)
+          {
+              if($json->checkPeliRepetidaJson($value) == false )
+              {
+                      $json->saveMovieToJson($value);
+                      $flag++;
+              }
+          
+          }
+      return $flag;
     }
 
       //Funcion que pasa de la Api a la bd,Comprobar los tips de datos de la bd
@@ -410,7 +461,7 @@ class AdminController{
           {
               if(  $peliculaDao->checkPeliRepetida($value) == false ){
 
-                $peliculaDao->SaveFromApi($value);
+                $peliculaDao->SavePelicula($value);
               }
           }
       }

@@ -23,6 +23,7 @@
                                 <p>Pelicula:  <?= $funcion->getTitlePelicula();?></p>
                                 <p>Cine:  <?= $funcion->getNombreCine();?></p>
                                 <p>Sala:  <?= $funcion->getNombreSala();?></p>
+                    
                                 <p>Descuento:  <?php  if($funcion->getDescuento() == 1){
                                                             echo PORCENTAJE_DESCUENTO;
                                                         }else{
