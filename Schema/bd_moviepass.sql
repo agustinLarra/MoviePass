@@ -49,7 +49,10 @@ create table peliculas(
     PosterPath varchar(150),
 	PosterHorizontal varchar(150),
     Title varchar(70),
-    Overview varchar(150),
+    Overview varchar(350),
+    Runtime int,
+    Release_date varchar(70),
+    Video boolean,
     
     constraint `PK_Pelicula` primary key (Id_Pelicula)
 );

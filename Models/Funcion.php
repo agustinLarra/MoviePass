@@ -9,6 +9,7 @@ class Funcion {
     private $Nombre_Sala;
     private $Id_Cine;
     private $Nombre_Cine;
+    private $Ciudad;
     private $Dia;
     private $Hora;
     private $Descuento;
@@ -82,6 +83,16 @@ class Funcion {
     {
         return $this->Nombre_Cine;
     }
+
+    public function setCiudad($Ciudad)
+    {
+        $this->Ciudad = $Ciudad;
+    }
+    public function getCiudad()
+    {
+        return $this->Ciudad;
+    }
+
 
     public function setDia($Dia)
     {

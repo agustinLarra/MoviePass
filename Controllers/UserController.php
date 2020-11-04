@@ -101,6 +101,63 @@ class UserController{
         $this->homeController->Index();
     }
 
+
+// ##------------------------- Compra ----------------------- ##
+
+    public function validarTarjeta(){
+
+        $numeroTarjeta = $_POST['numeroTarjeta'];
+        $nombre = $_POST['nombre'];
+        $mes = $_POST['mes'];
+        $year = $_POST['year'];
+        $ccv = $_POST['ccv'];
+
+        echo '<script>alert("Tarjera aprobada");</script>';
+
+        //$this->numeroTarjetaValido($numeroTarjeta);
+    }
+
+
+    private function numeroTarjetaValido( $numeroTarjeta ){
+
+        //Paso el numero (int) a un array
+        $array  = array_map('intval', str_split($numeroTarjeta));
+        // Doy vuelta el arreglo
+        $arrayInvertido = array_reverse($array);
+        echo 'array original';
+        var_dump($array);
+        echo '<br><br><br>array invertido';
+        var_dump($arrayInvertido);
+
+        // Partiendo de la posicion 1 tengo que agarrar a todos los inpares
+        for($i=1; $i < 19; $i++){
+            //agarro los impares
+            if (!$i%2==0){
+                //Multiplico el numero por 2
+               $multiplicacion =  $arrayInvertido[$i] * 2;
+               // Si es mayor que 10 sumo los 2 digitos
+               if($multiplicacion >= 10){
+                $mayorDeDiezArray  = array_map('intval', str_split($multiplicacion));
+                $numeroNuevo =   $mayorDeDiezArray[0] +  $mayorDeDiezArray[1];
+                $arrayInvertido[$i] = $numeroNuevo;
+               }else{ // si es menor, solo lo remplazo
+                    $arrayInvertido[$i] = $multiplicacion;
+               }
+            } 
+
+        }
+
+        echo '<br><br>array invertido MODIFICADO';
+        var_dump($arrayInvertido);
+
+
+    }
+
+
+
+
+
+
 }
 
 

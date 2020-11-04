@@ -151,7 +151,36 @@
         }
 
 
+        public function getFuncionesByIdPelicula($idPelicula){
+
+            $funcionList = array();
+            try
+            {
+                $query = "SELECT * FROM funciones WHERE Id_Pelicula = '$idPelicula'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $Funcion = new Funcion();
+                        $Funcion->setId($row["Id_Funcion"]);
+                        $Funcion->setIdPelicula($row["Id_Pelicula"]);
+                        $Funcion->setIdSala($row["Id_Sala"]);
+                        $Funcion->setDia($row["Dia"]);
+                        $Funcion->setHora($row["Hora"]);
+                        $Funcion->setDescuento($row["Descuento"]);
        
+                         
+                        array_push($funcionList, $Funcion);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $funcionList;
+        }
 
         
     }

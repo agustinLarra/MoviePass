@@ -139,7 +139,7 @@
             $cine;
             try
             {
-                $query = "SELECT Nombre FROM cines WHERE Id_Cine = '$idCine'";
+                $query = "SELECT Id_Cine,Nombre,Ciudad FROM cines WHERE Id_Cine = '$idCine'";
                 $this->connection = connection::GetInstance();   
                 $resultSet = $this->connection->execute($query);  
 
@@ -149,6 +149,8 @@
                         $cine = new Cine();
                                                 
                         $cine->setNombre($row["Nombre"]);
+                        $cine->setId($row["Id_Cine"]);
+                        $cine->setCiudad($row["Ciudad"]);
 
                     }
                 }
@@ -159,6 +161,8 @@
 
             return $cine;
         }
+
+
     
 
     
