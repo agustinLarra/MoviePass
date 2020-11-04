@@ -35,6 +35,9 @@ class HomeController{
   }
 
 
+
+    //----------------------------------------------USUARIO-----------------------------------------------------------------------------------------------------------------
+
     //----------------------------------------------USUARIO-----------------------------------------------------------------------------------------------------------------
 
     public function viewLogin(){
@@ -321,6 +324,10 @@ public function selectDinamicoSalas(){
     }
 
 
+      $pelicula = new Pelicula();
+      $pelicula->setId($_POST["id"]);
+      $pelicula->setTitle($_POST["title"]);
+      $pelicula->setOverview($_POST["overview"]);
 
     public function formularioTarjeta(){
 
@@ -370,8 +377,7 @@ public function selectDinamicoSalas(){
       echo'</select>';*/
     }
 
-}
 
 
 
-?>
+} ?>
