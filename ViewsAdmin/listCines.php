@@ -14,8 +14,6 @@
                 </div>
                 <div class="row">
                     <?php foreach($listCines as $cine){?>
-                    
-              
                     <div class="col-lg-4 col-md-6">
                         <div class="single-do text-center mb-30">
                             <div class="do-icon">
@@ -27,7 +25,21 @@
                                 <p>Calle: <?=  $cine->getCalle() . " " . $cine->getNumero();?></p>
                             </div>
                             <div class="do-btn">
-                                <a href="<?php echo FRONT_ROOT?>Admin/deleteCine/<?php echo $cine->getId()?>" class='btn btn-danger'>Borrar</a>
+
+                            <script>
+                            function ConfirmDelete(){
+                                
+                             var respuesta = confirm("¿Estas seguro que quieres eliminar?");
+                             if(respuesta == true){
+                             return true;
+                             }
+                            else{
+                            return false;
+                                }
+                            }
+                            </script>
+
+                                <a href="<?php echo FRONT_ROOT?>Admin/deleteCine/<?php echo $cine->getId()?>" onclick="return ConfirmDelete()" class='btn btn-danger'>Borrar</a>
                             </div>
                             <br>
                            <!--  <div class="do-btn">

@@ -10,6 +10,8 @@ class Pelicula{
     private $genre_ids = array();
     private $video;
     private $overview;
+    private $runtime;
+    private $release_date;
 
     public function getId(){
         return $this->id ;
@@ -59,8 +61,33 @@ class Pelicula{
         $this->overview = $overview ;
     }
 
+    public function getVideo()
+    {
+        return $this->video;
+    }
+    public function setVideo($video)
+    {
+        $this->video = $video;
+    }
+
+    public function setRunTime($runtime)
+    {
+        $this->runtime = $runtime;
+    }
+    public function getRuntime()
+    {
+        return $this->runtime;
+    }
+
+    public function getReleaseDate()
+    {
+        return $this->release_date;
+    }
+    public function setReleaseDate($date)
+    {
+        $this->release_date = $date;
+    }
+
 
 }
 
-
-?>
