@@ -10,6 +10,11 @@
 </head>
 <body>
 
+	<!-- Total de la compra -->
+	<div>
+		<h5>El total de la compra es:</h5>
+		<p><?= $_SESSION['total'];?></p>
+	</div>
 	<div class="contenedor">
 
 		<!-- Tarjeta -->

@@ -325,7 +325,6 @@ public function selectDinamicoSalas(){
       $adminController = new AdminController();
       $listaFunciones = $adminController->listarCinesConFuncion_ByIdPelicula( $pelicula->getId() );
       
-      //var_dump($listaFunciones);
 
       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
       require_once(VIEWS_PATH.'comprarEntradas.php');
@@ -341,6 +340,13 @@ public function selectDinamicoSalas(){
       require_once(VIEWS_PATH.'formulario_tarjeta.php');
      // require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
 
+    }
+
+    public function viewFinCompra(){
+
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+       require_once(VIEWS_PATH.'finCompra.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
 
 

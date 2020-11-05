@@ -17,7 +17,6 @@
            
             $sql = "INSERT INTO compras(Id_User , Numero_Tarjeta , Cantidad_Entradas , Total) VALUES(:Id_User,:Numero_Tarjeta,:Cantidad_Entradas,:Total)";
     
-            var_dump($compra);
             $parameters['Id_User'] = $compra->getIdUser();
             $parameters['Numero_Tarjeta'] = $compra->getNumeroTarjeta();
             $parameters['Cantidad_Entradas'] = $compra->getCantidadEntradas();
@@ -40,7 +39,25 @@
         }
 
         public function getUltimaRow(){
+           
+            $compra = new Compra();
+            try
+            {
+                $query = "SELECT  Id_Compra FROM compras ORDER BY Id_Compra ASC";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
 
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $compra->setId($row["Id_Compra"]);                        
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $compra;
             
         }
 

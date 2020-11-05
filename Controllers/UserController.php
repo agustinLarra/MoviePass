@@ -174,20 +174,21 @@ class UserController{
         $compra->setTotal($total);
         $compraDAO = new CompraDAO();
         $compraDAO->Add($compra);
-        $idUltimaCompra = $compraDAO->getUltimaRow();
+        $Ultimacompra = $compraDAO->getUltimaRow();
 
         //Ahora hay que generar la entrada
         for( $i=1; $i <= $cantidadEntradas ; $i++ ){
             
             $entrada = new Entrada();
-            $entrada->setQR(123131);
-            $entrada->setIdCompra($idUltimaCompra);
+            $entrada->setQR(345);
+            $entrada->setIdCompra($Ultimacompra->getId());
             $entrada->setIdFuncion($idFuncion);
             $entradaDAO = new EntradaDAO();
             $entradaDAO->Add($entrada);
         }
       
-        
+        $homeController = new HomeController();
+        $homeController->viewFinCompra();
 
     }
 
