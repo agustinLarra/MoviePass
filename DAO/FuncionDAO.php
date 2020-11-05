@@ -150,6 +150,38 @@
             }
         }
 
+        public function getById($idFuncion){
+
+            $funcion = new Funcion();
+            try
+            {
+                $query = "SELECT f.Id_Funcion, s.Precio 
+                          FROM funciones as f
+                          INNER JOIN salas as s
+                          ON f.Id_Sala = s.Id_Sala
+                          WHERE f.Id_Funcion = '$idFuncion'";
+
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $funcion->setId($row["Id_Funcion"]);
+                        $sala = new Sala();
+                        $sala->setPrecio($row["Precio"]);
+                        $funcion->setClassSala($sala);
+
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $funcion;
+        }
+        
+
 
         public function getFuncionesByIdPelicula($idPelicula){
 

@@ -1,33 +1,15 @@
-Id_Compra int not null auto_increment,
-    Id_User int not null,
-    #Cantidad_Entradas int not null,
-    Total  float not null,
-
-    Id_Entradas int not null auto_increment,
-    QR int not null ,
-    Id_Compra int not null,
-	Id_Funcion int not null,
-
-    Id_Funcion int not null auto_increment,
-    Id_Pelicula int not null,
-    Id_Sala int not null,
-    Dia date,
-    Hora time,
-	Descuento boolean,
-
-
-<?php namespace Models;
+<?php 
+namespace Models;
 
 class Entrada {
 
 
-    private $Id_Funcion;
+    private $IdFuncion;
+    private $IdCompra;
     private $Id_Pelicula;
     private $Title_Pelicula;
-    private $Id_Cine;
-    private $Nombre_Cine;
-    private $Id_Sala;
-    private $Nombre_Sala;
+    private $Cine;
+    private $Sala;
     private $Dia;
     private $Hora;
     private $Descuento;
@@ -38,5 +20,39 @@ class Entrada {
 
 
 
+    public function getQR (){
+        return $this->QR ;
+    }
+
+    public function setQR ($QR){
+        $this->QR = $QR;
+    }
+
+    
+    public function getIdCompra (){
+        return $this->IdCompra ;
+    }
+
+    public function setIdCompra ($IdCompra){
+        $this->IdCompra = $IdCompra;
+    }
+
+    public function getIdFuncion (){
+        return $this->IdFuncion ;
+    }
+
+    public function setIdFuncion ($IdFuncion){
+        $this->IdFuncion = $IdFuncion;
+    }
+
+    /*
+    public function get (){
+        return $this-> ;
+    }
+
+    public function set ($){
+        $this-> = $
+    }
+    */
 
 } ?>    

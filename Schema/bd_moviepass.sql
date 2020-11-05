@@ -105,7 +105,8 @@ create table compras(
 
 	Id_Compra int not null auto_increment,
     Id_User int not null,
-    #Cantidad_Entradas int not null,
+    Numero_Tarjeta varchar(19) not null,
+    Cantidad_Entradas int not null,
     Total  float not null,
     
     constraint `PK_Compras` primary key (Id_Compra),

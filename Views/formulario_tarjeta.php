@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="../Views/css/tarjeta.css">
 </head>
 <body>
+
 	<div class="contenedor">
 
 		<!-- Tarjeta -->
@@ -61,8 +62,10 @@
 			</button>
 		</div>
 
+		<!-- HAY QUE PONER UN DIV QUE DIGA EL TOTAL DE LA COMPRA -->
+
 		<!-- Formulario -->
-		<form action="<?php echo FRONT_ROOT?>User/validarTarjeta" method="POST" id="formulario-tarjeta" class="formulario-tarjeta">
+		<form action="<?php echo FRONT_ROOT?>User/finalizarCompra" method="POST" id="formulario-tarjeta" class="formulario-tarjeta">
 			<div class="grupo">
 				<label for="inputNumero">Número Tarjeta</label>
 				<input type="text" id="inputNumero" maxlength="19" autocomplete="off"  name="numeroTarjeta">
