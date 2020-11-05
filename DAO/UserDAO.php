@@ -34,6 +34,9 @@
             }
             catch(PDOException $e){
                 echo $e;
+                echo "<br>";
+                echo "El problema aca es que entra en este exeption... ";
+                
             }
         }
 
@@ -100,14 +103,8 @@
             }
         }
 
-
-
         ///********************
         ///********************
-
-
-
-
 
         private function RetrieveData()
         {
@@ -134,25 +131,27 @@
             }
         }
     
-        private function SaveData()
+    
+        private function SaveData(User $User)
         {
-            $arrayToEncode = array();
+            $sql = "INSERT INTO cines ('firstName','lastName','dni','email','password')";
 
-            foreach($this->UserList as $user)
-            { 
-            
-                $valuesArray["firstName"] = $user->getFirstName();
-                $valuesArray["lastName"] = $user->getLastName();
-                $valuesArray["dni"] = $user->getDni();
-                $valuesArray["email"] = $user->getEmail();
-                $valuesArray["password"] = $user->getPassword();
+            $parameters['firstName'] = $user->getFirsName();
+            $parameters['lastName'] = $user->getLastName();
+            $parameters['dni'] = $user->getDni();
+            $parameters['email'] = $user->getEmail();
+            $parameters['password'] = $user->getPassword();
 
-                array_push($arrayToEncode, $valuesArray);
+            try{
+                $this->connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo "Entrando en la exception !! ";
+                echo $e;
             }
 
-            $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-            
-            file_put_contents($this->fileName, $jsonContent);
+
         }
 
 

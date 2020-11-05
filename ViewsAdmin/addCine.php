@@ -40,22 +40,22 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" required name="nombre" name="nombre" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Nombre del cine">
+                                        <input class="form-control" required name="nombre" name="nombre" id="subject" type="text" minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre Cine'" placeholder="Nombre del cine">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" required name="ciudad" name="ciudad" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Ciudad">
+                                        <input class="form-control" required name="ciudad" name="ciudad" id="subject" type="text" minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ciudad'" placeholder="Ciudad">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" required name="calle" name="calle" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Calle">
+                                        <input class="form-control" required name="calle" name="calle" id="subject" type="text" minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Calle'" placeholder="Calle">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" required name="numero" name="numero" id="subject" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Numero">
+                                        <input class="form-control" required name="numero" name="numero"  id="subject" type="number"  min="12" max="10" step="1" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Numero'" placeholder="Numero">
                                     </div>
                                 </div>
                             </div>
