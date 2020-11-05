@@ -54,6 +54,9 @@
                         $pelicula->setPosterHorizontal($row["PosterHorizontal"]);
                         $pelicula->setTitle($row["Title"]);
                         $pelicula->setOverview($row["Overview"]);
+                        $pelicula->setVideo($row["Video"]);
+                        $pelicula->setRunTime($row["Runtime"]);
+                        $pelicula->setReleaseDate($row["Release_date"]);
        
                          
                         array_push($peliculaList, $pelicula);
@@ -61,7 +64,7 @@
                 }
             
             }catch(PDOException $e){
-                throw new Exception($e->get_message());
+                throw new PDOException($e->getMessage());
             }
             return $peliculaList;
         }
@@ -74,6 +77,7 @@
                 if($values->getId()==$id)
                     return $values;
             }
+             return false;
         }
 
         public function checkPeliRepetida($pelicula){
@@ -100,9 +104,9 @@
 
 
 
-        public function SaveFromApi($pelicula)
+        public function SavePelicula($pelicula)
         {
-            $this->SaveDataApi($pelicula);
+            $this->SaveData($pelicula);
             $this->ConectarConPeliXGenero($pelicula);
         }
 
@@ -139,16 +143,19 @@
 
 
         //guarda todas las peliculas de la api en la base de datos
-        private function SaveDataApi($pelicula)
+        private function SaveData($pelicula)
         {
             $arrayToEncode = array();
-            $sql = "INSERT INTO peliculas (Id_Pelicula,PosterPath,PosterHorizontal,Title,Overview) VALUES (:Id_Pelicula,:PosterPath,:PosterHorizontal,:Title,:Overview)";
+            $sql = "INSERT INTO peliculas (Id_Pelicula,PosterPath,PosterHorizontal,Title,Overview,Video,Runtime,Release_date) VALUES (:Id_Pelicula,:PosterPath,:PosterHorizontal,:Title,:Overview,:Video,:Runtime,:Release_date)";
 
             $parameters["Id_Pelicula"] = $pelicula->getId();
             $parameters["PosterPath"] = $pelicula->getPosterPath();
             $parameters["PosterHorizontal"] = $pelicula->getPosterHorizontal();
             $parameters["Title"] = $pelicula->getTitle();
-            $parameters["Overview"] = $pelicula->getOverview();  
+            $parameters["Overview"] = $pelicula->getOverview(); 
+            $parameters["Video"] = $pelicula->getVideo();
+            $parameters["Runtime"] = $pelicula->getRunTime();
+            $parameters["Release_date"] = $pelicula->getReleaseDate(); 
            
 
             try{
@@ -186,6 +193,9 @@
                         $pelicula->setPosterHorizontal($row["PosterHorizontal"]);
                         $pelicula->setTitle($row["Title"]);
                         $pelicula->setOverview($row["Overview"]);
+                        $pelicula->setVideo($row["Video"]);
+                        $pelicula->setRunTime($row["Runtime"]);
+                        $pelicula->setReleaseDate($row["Release_date"]);
        
                         // Es para que no se repitan las peliculas y se muestren mas de una vez en la cartelera
                          if($this->checkRepetido($peliculaList, $pelicula) == false ){
@@ -257,7 +267,7 @@
         public function getPeliByID($idPelicula){
 
 
-            $pelicula ;
+          $pelicula = new Pelicula();
             try
             {
                 $query = "SELECT * FROM peliculas WHERE Id_Pelicula = '$idPelicula'";
@@ -267,13 +277,16 @@
                 if(!empty($resultSet)) {
                     foreach($resultSet as $row) {
 
-                        $pelicula = new Pelicula();
+                        
                             
                         $pelicula->setId($row["Id_Pelicula"]);
                         $pelicula->setPosterPath($row["PosterPath"]);
                         $pelicula->setPosterHorizontal($row["PosterHorizontal"]);
                         $pelicula->setTitle($row["Title"]);
                         $pelicula->setOverview($row["Overview"]);
+                        $pelicula->setVideo($row["Video"]);
+                        $pelicula->setRunTime($row["Runtime"]);
+                        $pelicula->setReleaseDate($row["Release_date"]);
                     }
                 }
             

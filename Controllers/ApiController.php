@@ -23,16 +23,11 @@ class ApiController{
                     
 
                    $peli = new Pelicula();
-                   $peli->setId($k['id']);
-                   $peli->setTitle($k['title']);
-                   $peli->setPosterPath($k['poster_path']);
-                   $peli->setPosterHorizontal($k['backdrop_path']);
-                   $peli->setGenre($k['genre_ids']);
-                   $peli->setOverview($k['overview']);
-                 
+                   $peli = $this->getDatosPelicula($k['id']);
+                   $peli->setId($k['id']); 
+                   $peli->setGenre($k['genre_ids']);//Los generos los seteo aca por que en los detalles de la peli viene con mas informacion que no necesitamos
+                  
                    array_push($arregloCartelera,$peli);
-                   //echo $k['title'] .  "</br>" . "</br>";
-
                  }
             }
         }
@@ -58,6 +53,49 @@ class ApiController{
         }
         return $arregloGeneros;
     }
+
+    public function getDatosPelicula($id_pelicula)//El id de pelicula se usa para obtener la informacion completa
+    {
+        
+        $pelicula = file_get_contents('https://api.themoviedb.org/3/movie/'. $id_pelicula .'?api_key=b285f5e6eecdd8eda1b3f5a82415153b&language=es');
+       
+        $array = ($pelicula) ? json_decode($pelicula, true) : array();
+
+        $pelicula_completa =  new Pelicula();
+           
+          $pelicula_completa->setTitle($array['title']);
+          $pelicula_completa->setPosterPath($array['poster_path']);
+          $pelicula_completa->setPosterHorizontal($array['backdrop_path']);
+          $pelicula_completa->setOverview($array['overview']);
+          $pelicula_completa->setReleasedate($array['release_date']);
+          $pelicula_completa->setRuntime($array['runtime']);
+          $pelicula_completa->setVideo($this->getTrilerPelicula($id_pelicula));
+        
+          return $pelicula_completa;
+    }
+
+    private function getTrilerPelicula($id_pelicula)//Con el id de pelicula nos traemos los datos para el triller
+    {
+       
+        $datos_video = file_get_contents('https://api.themoviedb.org/3/movie/'. $id_pelicula .'/videos?api_key=b285f5e6eecdd8eda1b3f5a82415153b&language=en-US');
+
+        $array = ($datos_video) ? json_decode($datos_video,true) : array();
+ 
+       
+        foreach($array as $values=>$key)
+        {
+            if($values=='results')
+            {
+               foreach($key as $k)
+               {
+                   return $k['key'];
+               }
+            }
+        }
+
+        return false;
+    }
+
 
 }
 ?>
