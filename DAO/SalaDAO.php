@@ -152,6 +152,7 @@
                         $sala->setNombre($row["Nombre"]);
                         $sala->setPrecio($row["Precio"]);
                         $sala->setCapacidad($row["Capacidad"]);
+                        $sala->setTipoSala($row["Tipo_sala"]);
                         $sala->setIdCine($row["Id_Cine"]);
 
                     }

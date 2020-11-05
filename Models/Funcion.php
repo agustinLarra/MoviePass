@@ -13,11 +13,34 @@ class Funcion {
     private $Dia;
     private $Hora;
     private $Descuento;
+    private $classCine;
+    private $classSala;
+
 
     public function __construct()
     {
         
     }
+
+
+    public function setClassCine( Cine $classCine)
+    {
+        $this->classCine = $classCine;
+    }
+    public function getClassCine()
+    {
+        return $this->classCine;
+    }
+    
+    public function setClassSala( Sala $classSala)
+    {
+        $this->classSala = $classSala;
+    }
+    public function getClassSala()
+    {
+        return $this->classSala;
+    }
+    
 
     public function setId($id)
     {
