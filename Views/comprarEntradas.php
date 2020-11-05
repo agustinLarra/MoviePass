@@ -62,13 +62,14 @@
                        <div class="col-lg-4 col-md-6">
                            <div class="single-do text-center mb-30">
                                    <img class="col-lg-4 col-md-6"  src="<?php echo IMAGE_ROOT . $pelicula->getPosterHorizontal();?>"  style="width:500px; weight:300px; position:relative;" />
+                                   <iframe width="420" height="315" src="https://www.youtube.com/embed/<?=$pelicula->getVideo();?>"></iframe>
                                    <div class="do-icon">
                                        <span  class="flaticon-tasks"></span>
                                    </div>
                                    <div class="do-caption">
                                        <h4><?= $pelicula->getTitle();?></h4>
-                                       <!--<p>Release Date:         </p> --> 
-                                   <!-- <p>Duration: <?php  //ACA DURACION ?></p> --> 
+                                       <p>Release Date: <?=$pelicula->getReleaseDate();?></p> 
+                                       <p>Duration: <?php echo $pelicula->getRuntime(); ?> minutos</p>
                                        <p>Descripcion: <?php echo   $pelicula->getOverview(); ?></p>
                                    </div>
                            </div>

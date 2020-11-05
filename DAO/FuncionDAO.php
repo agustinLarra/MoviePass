@@ -155,7 +155,7 @@
             $funcion = new Funcion();
             try
             {
-                $query = "SELECT f.Id_Funcion, s.Precio 
+                $query = "SELECT f.Id_Funcion, s.Precio, f.Descuento
                           FROM funciones as f
                           INNER JOIN salas as s
                           ON f.Id_Sala = s.Id_Sala
@@ -168,6 +168,7 @@
                     foreach($resultSet as $row) {
                         
                         $funcion->setId($row["Id_Funcion"]);
+                        $funcion->setDescuento($row["Descuento"]);
                         $sala = new Sala();
                         $sala->setPrecio($row["Precio"]);
                         $funcion->setClassSala($sala);

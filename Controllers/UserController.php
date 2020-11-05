@@ -119,29 +119,34 @@ class UserController{
         $funcion = $funcionDao->getById($idFuncion);
         $cantidadEntradas =  $_POST['cantidadEntradas'];
         $total = $cantidadEntradas * $funcion->getClassSala()->getPrecio();
-        
+        $descuento = 0;
+
+        if($funcion->getDescuento() == 1){
+
+            $descuento = (26/100) * $total;
+            $total -=  $descuento;
+        }
+
+
         // GUARDO LOS DATOS EN SESSION
         if(!isset($_SESSION)){
             session_start(); 
         } 
 
         $_SESSION['total'] = $total;
+        $_SESSION['descuento'] =  $descuento;
         $_SESSION['cantidadEntradas'] = $cantidadEntradas;
         $_SESSION['idFuncion'] = $idFuncion;
         $_SESSION['loggedUser'] = 1;
 
         if(isset($_SESSION['loggedUser'])){
 
-            $homeController = new HomeController();
-            $homeController->formularioTarjeta();
+           $homeController = new HomeController();
+           $homeController->formularioTarjeta();
 
         }else{
 
         }
-
-
-        echo $total;
-
 
 
     }
@@ -154,8 +159,8 @@ class UserController{
 
         $numeroTarjeta = $_POST['numeroTarjeta'];
         $nombre = $_POST['nombre'];
-        $mes = $_POST['mes'];
-        $year = $_POST['year'];
+        //$mes = $_POST['mes'];  FALTA COMPROBACION
+        //$year = $_POST['year'];
         $ccv = $_POST['ccv'];
 
         echo '<script>alert("Tarjera aprobada");</script>';

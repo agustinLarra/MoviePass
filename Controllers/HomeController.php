@@ -317,10 +317,8 @@ public function selectDinamicoSalas(){
     public function Comprar(){
 
 
-      $pelicula = new Pelicula();
-      $pelicula->setId($_POST["id"]);
-      $pelicula->setTitle($_POST["title"]);
-      $pelicula->setOverview($_POST["overview"]);
+      $peliculaDAO = new PeliculaDAO();
+      $pelicula = $peliculaDAO->RetrieveOne($_POST["id"]);
 
       $adminController = new AdminController();
       $listaFunciones = $adminController->listarCinesConFuncion_ByIdPelicula( $pelicula->getId() );

@@ -115,7 +115,6 @@
                                             <h4><?= $values->getTitle();?></h4>
                                             <p>Fecha de Estreno: <?=$values->getReleaseDate();?></p>
                                             <p>Duracion: <?=$values->getRuntime();?> Minutos</p> 
-                                            <p>Descripcion: <?php echo   $values->getOverview(); ?></p>
                                         </div>
 
                                             <input name='id' value="<?php echo $values->getId();?>" type="hidden">
