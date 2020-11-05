@@ -2,7 +2,10 @@
 
 namespace Controllers;
 use Models\User as User;
+use Models\Compra as Compra;
 use DAO\UserDAO as UserDAO;
+use DAO\CompraDAO as CompraDAO;
+use DAO\FuncionDAO as FuncionDAO;
 use Controllers\HomeController as homeC;
 
 
@@ -104,7 +107,48 @@ class UserController{
 
 // ##------------------------- Compra ----------------------- ##
 
-    public function validarTarjeta(){
+
+
+    public function funcionElegida(){
+
+        // AGARRO LOS DATOS Y CALCULO EL TOTAL
+        $idFuncion =  $_POST['funcion'];
+        $funcionDao = new FuncionDAO();
+        $funcion = $funcionDao->getById($idFuncion);
+        $cantidadEntradas =  $_POST['cantidadEntradas'];
+        $total = $cantidadEntradas * $funcion->getClassSala()->getPrecio();
+        
+        // GUARDO LOS DATOS EN SESSION
+        if(!isset($_SESSION)){
+            session_start(); 
+        } 
+
+        $_SESSION['total'] = $total;
+        $_SESSION['cantidadEntradas'] = $cantidadEntradas;
+        $_SESSION['idFuncion'] = $idFuncion;
+        $_SESSION['loggedUser'] = 1;
+
+        if(isset($_SESSION['loggedUser'])){
+
+            $homeController = new HomeController();
+            $homeController->formularioTarjeta();
+
+        }else{
+
+        }
+
+
+        echo $total;
+
+
+
+    }
+
+
+
+
+
+    public function finalizarCompra(){
 
         $numeroTarjeta = $_POST['numeroTarjeta'];
         $nombre = $_POST['nombre'];
@@ -114,7 +158,34 @@ class UserController{
 
         echo '<script>alert("Tarjera aprobada");</script>';
 
-        //$this->numeroTarjetaValido($numeroTarjeta);
+        //Agarro todos los datos 
+        $total = $_SESSION['total'];
+        $cantidadEntradas = $_SESSION['cantidadEntradas'];
+        $idFuncion = $_SESSION['idFuncion'] ;
+        $idUser = $_SESSION['loggedUser'];
+
+        // Guardo la compra en la base de datos
+        $compra = new Compra();
+        $compra->setNumeroTarjeta($numeroTarjeta);
+        $compra->setIdUser($idUser);
+        $compra->setCantidadEntradas($cantidadEntradas);
+        $compra->setTotal($total);
+        $compraDAO = new CompraDAO();
+        $compraDAO->Add($compra);
+
+        //Ahora hay que generar la entrada
+        for( $i=1; $i <= $cantidadEntradas ; $i++ ){
+            
+            $entrada = new Entrada();
+            $entrada->setQR();
+            $entrada->setIdCompra();
+            $entrada->setIdFuncion();
+            $entradaDAO = new EntradaDAO();
+            $entradaDAO->Add($entrada);
+        }
+      
+        
+
     }
 
 

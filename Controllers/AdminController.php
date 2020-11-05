@@ -40,8 +40,8 @@ class AdminController{
         $cineDao = new CineDAO();
         $cineDao->Delete($cine);
 
-
-        $this->homeController->viewListCines();
+        $homeController = new HomeController();
+        $homeController->viewListCines();
 
     }
 
@@ -59,8 +59,8 @@ class AdminController{
         // aca va la base de datos (esperar a solera)
         $cineDao->Add($cine);
 
-
-        $this->homeController->viewListCines();
+        $homeController = new HomeController();
+        $homeController->viewListCines();
     }
 
     public function addSala($idCine, $nombreSala, $precio, $capacidad,$tipoSala){
@@ -76,7 +76,8 @@ class AdminController{
         $salaDao = new SalaDAO();
         $salaDao->Add($sala);
 
-        $this->homeController->viewListSalas();
+        $homeController = new HomeController();
+        $homeController->viewListSalas();
             
     }
 
@@ -90,7 +91,8 @@ class AdminController{
         $salaDao = new SalaDAO();
         $salaDao->Delete($sala);
 
-        $this->homeController->viewListSalas();
+        $homeController = new HomeController();
+        $homeController->viewListSalas();
     }
 
 
@@ -122,7 +124,8 @@ class AdminController{
                 require_once(VIEWS_ADMIN_PATH .'index.php');
                 require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
                 */
-                $this->homeController->viewAddFunciones();
+                $homeController = new HomeController();
+                $homeController->viewAddFunciones();
             }
       
     }
@@ -132,7 +135,8 @@ class AdminController{
         $funcionDAO = new FuncionDAO();
         $funcionDAO->Add($funcion);
 
-        $this->homeController->viewListFunciones();
+        $homeController = new HomeController();
+        $homeController->viewListFunciones();
     }
 
     public function checkHorario($dia,$hora_aux)
@@ -189,7 +193,7 @@ class AdminController{
         $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
         //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
 
-        $listaFuncionesConCine = $this->agregarNombreCineAFunciones(  $listaFuncionesConSalas);
+        $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
         //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
         $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
         //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
@@ -204,8 +208,7 @@ class AdminController{
         //Aca tengo en  $listaFunciones Todas las funciones
         $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
         //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
-
-        $listaFuncionesConCine = $this->agregarNombreCineAFunciones(  $listaFuncionesConSalas);
+        $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
         //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
         $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
         //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
@@ -233,22 +236,6 @@ class AdminController{
 
 
 
-    public function listarFuncionesByIdPelicula( $idPelicula ){ 
-        $funcionDAO = new FuncionDAO();
-        $listaFunciones = $funcionDAO->getFuncionesByIdPelicula($idPelicula);
-        //Aca tengo en  $listaFunciones Todas las funciones
-        $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
-        //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
-
-        $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
-        //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
-        $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
-        //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
-    
-        
-        return $listaFuncionesCOMPLETA;
-    }
-
     public function listarCiudadesXfuncion(  $listaFunciones ){
 
         $cineDAO = new CineDAO();
@@ -265,7 +252,8 @@ class AdminController{
 
 
     public function listarCines(){
-        $listaCines = $this->cineDao->GetAll();
+        $cineDao = new CineDAO();
+        $listaCines = $cineDao->GetAll();
         return $listaCines;
     }
 
@@ -302,7 +290,7 @@ class AdminController{
 
         foreach($listaSalas as $sala){
 
-            $cine = $this->cineDao->getByID($sala->getIdCine());
+            $cine = $cineDao->getByID($sala->getIdCine());
             $sala->setNombreCine(  $cine->getNombre()  );
         }
         
@@ -315,10 +303,9 @@ class AdminController{
 
         foreach($listaFunciones as $funcion){
 
-            $sala = $this->salaDao->getByID($funcion->getIdSala());
-            $funcion->setNombreSala(  $sala->getNombre()  );
-            $funcion->setIdCine(  $sala->getIdCine()  );
-
+            $sala = $salaDao->getByID($funcion->getIdSala());
+            $funcion->setClassSala( $sala );
+        
         }
         
         return $listaFunciones;
@@ -331,9 +318,10 @@ class AdminController{
 
         foreach($listaFunciones as $funcion){
 
-            $cine = $this->cineDao->getByID($funcion->getIdCine());
-            $funcion->setNombreCine(  $cine->getNombre()  );
-            $funcion->setCiudad(  $cine->getCiudad()  );
+            $cine = $cineDao->getByID($funcion->getClassSala()->getIdCine());
+            $funcion->setClassCine( $cine );
+           
+           
         }
         
         return $listaFunciones;
@@ -346,7 +334,7 @@ class AdminController{
 
         foreach($listaFunciones as $funcion){
 
-            $pelicula = $this->peliculaDao->getPeliByID($funcion->getIdPelicula());
+            $pelicula = $peliculaDao->getPeliByID($funcion->getIdPelicula());
             $funcion->setTitlePelicula(  $pelicula->getTitle()  );
         }
         
@@ -401,8 +389,9 @@ class AdminController{
         $this->generosToBd();
 
         $this->peliculasToBd();
-        
-        $this->homeController->viewHomeAdmin();
+
+        $homeController = new HomeController();
+        $homeController->viewHomeAdmin();
 
 
         //Poner un script que diga que se registraron exitosamente
@@ -418,9 +407,9 @@ class AdminController{
           $arrayCartelera = $apiPeliculas->getCarteleraApi();
           foreach($arrayCartelera as $value)
           {
-              if(  $this->peliculaDao->checkPeliRepetida($value) == false ){
+              if(  $peliculaDao->checkPeliRepetida($value) == false ){
 
-                $this->peliculaDao->SaveFromApi($value);
+                $peliculaDao->SaveFromApi($value);
               }
           }
       }
@@ -445,19 +434,17 @@ class AdminController{
 
       public function modifyCine($id)
     {
-        echo $id;
         $cine = new Cine();
         $cine->setId($id);
 
-        $retrieve = $this->cineDAO->RetrieveOne($id);
+        $cineDAO = new CineDAO();
+
+        $retrieve = $cineDAO->RetrieveOne($id);
 
 
-        var_dump($retrieve); ///ME GUARDA EN UN ARRAY TODO EL CINE QUE TENGA EL ID QUE LE PASO.
-
-        $updateCine = $this->cineDAO->ModifyCine($cine);
+        $updateCine = $cineDAO->ModifyCine($cine);
 
 
-        echo $updateCine;
         include_once('ViewsAdmin/modifyShowList.php');
         //$this->showModifyCine($retrieve);
     }

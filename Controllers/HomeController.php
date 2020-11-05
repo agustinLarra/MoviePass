@@ -285,6 +285,7 @@ public function selectDinamicoSalas(){
       $adminController = new AdminController();
       $listFunciones = $adminController->listarFunciones();
   
+
       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
       require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
       require(VIEWS_ADMIN_PATH.'listFunciones.php');
@@ -315,7 +316,8 @@ public function selectDinamicoSalas(){
 
       $adminController = new AdminController();
       $listaFunciones = $adminController->listarCinesConFuncion_ByIdPelicula( $pelicula->getId() );
-
+      
+      //var_dump($listaFunciones);
 
       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
       require_once(VIEWS_PATH.'comprarEntradas.php');
@@ -324,10 +326,6 @@ public function selectDinamicoSalas(){
     }
 
 
-      $pelicula = new Pelicula();
-      $pelicula->setId($_POST["id"]);
-      $pelicula->setTitle($_POST["title"]);
-      $pelicula->setOverview($_POST["overview"]);
 
     public function formularioTarjeta(){
 
@@ -342,8 +340,8 @@ public function selectDinamicoSalas(){
     
 
      $ciudad = $_GET['ciudad'];
-     $idPelicula = $_GET['idPelicula'];
-     echo $idPelicula;
+    // $idPelicula = $_GET['idPelicula'];
+    // echo $idPelicula;
       // tengo $ciudad
       // mostrame el cine y la sala pertenecientes a esta funcion
 

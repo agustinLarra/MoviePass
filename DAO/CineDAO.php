@@ -136,22 +136,22 @@
 
         public function getByID($idCine){
 
-            $cine;
+            $cine = new Cine();
             try
             {
-                $query = "SELECT Id_Cine,Nombre,Ciudad FROM cines WHERE Id_Cine = '$idCine'";
+                $query = "SELECT * FROM cines WHERE Id_Cine = '$idCine'";
                 $this->connection = connection::GetInstance();   
                 $resultSet = $this->connection->execute($query);  
 
                 if(!empty($resultSet)) {
                     foreach($resultSet as $row) {
 
-                        $cine = new Cine();
-                                                
-                        $cine->setNombre($row["Nombre"]);
+                       
                         $cine->setId($row["Id_Cine"]);
+                        $cine->setNombre($row["Nombre"]);
                         $cine->setCiudad($row["Ciudad"]);
-
+                        $cine->setNumero($row["Numero"]);
+                        $cine->setCalle($row["Calle"]);
                     }
                 }
             
