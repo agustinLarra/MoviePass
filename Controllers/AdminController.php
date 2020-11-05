@@ -355,6 +355,7 @@ class AdminController{
         foreach($listaFunciones as $funcion){
 
             $pelicula = $peliculaDao->getPeliByID($funcion->getIdPelicula());
+            $funcion->setPosterPelicula();
             $funcion->setTitlePelicula(  $pelicula->getTitle()  );
         }
         

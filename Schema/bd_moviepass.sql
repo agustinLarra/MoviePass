@@ -52,7 +52,7 @@ create table peliculas(
     Overview varchar(900),
     Runtime int,
     Release_date varchar(70),
-    Video boolean,
+    Video varchar(35),
     
     constraint `PK_Pelicula` primary key (Id_Pelicula)
 );

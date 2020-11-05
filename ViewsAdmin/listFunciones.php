@@ -18,6 +18,7 @@
                             <div class="do-caption">
                                 <h4><?= $funcion->getDia();?></h4>
                                 <h4><?= $funcion->getHora();?></h4>
+                                <p><?= $funcion->getPosterPaht();?></p>
                                 <p>Pelicula:  <?= $funcion->getTitlePelicula();?></p>
                                 <p>Cine:  <?= $funcion->getClassCine()->getNombre();?></p>
                                 <p>Sala:  <?= $funcion->getClassSala()->getNombre();?></p>

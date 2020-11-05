@@ -37,7 +37,7 @@ if(!isset($_SESSION)) session_start();
                    <?php if(!isset($_SESSION['userLog'])) { ?>
                            <div class="col-xl-2 col-lg-1 col-md-2">
                                <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>Home/Index" class="btn header-btn">Login</a>
+                                   <a href="<?= FRONT_ROOT?>Home/viewLogin" class="btn header-btn">Login</a>
                                </div>
                            </div>
                            <div class="col-xl-2 col-lg-1 col-md-2">

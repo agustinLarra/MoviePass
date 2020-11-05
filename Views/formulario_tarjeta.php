@@ -14,6 +14,10 @@
 	<div>
 		<h5>El total de la compra es:</h5>
 		<p><?= $_SESSION['total'];?></p>
+		<?php if($_SESSION['descuento'] > 0){
+			echo '<p>Se le han descontado: $'. $_SESSION['descuento'] .'</p>';
+			}?>
+		
 	</div>
 	<div class="contenedor">
 
@@ -73,11 +77,11 @@
 		<form action="<?php echo FRONT_ROOT?>User/finalizarCompra" method="POST" id="formulario-tarjeta" class="formulario-tarjeta">
 			<div class="grupo">
 				<label for="inputNumero">Número Tarjeta</label>
-				<input type="text" id="inputNumero" maxlength="19" autocomplete="off"  name="numeroTarjeta">
+				<input type="text" id="inputNumero" maxlength="19" autocomplete="off"  name="numeroTarjeta" required name="numeroTarjeta">
 			</div>
 			<div class="grupo">
 				<label for="inputNombre">Nombre</label>
-				<input type="text" id="inputNombre" maxlength="19" autocomplete="off" name="nombre">
+				<input type="text" id="inputNombre" maxlength="19" autocomplete="off" name="nombre" required name="inputNombre">
 			</div>
 			<div class="flexbox">
 				<div class="grupo expira">
@@ -100,7 +104,7 @@
 
 				<div class="grupo ccv">
 					<label for="inputCCV">CCV</label>
-					<input type="text" id="inputCCV" maxlength="3" name="ccv">
+					<input type="text" id="inputCCV" maxlength="3" name="ccv"  required name="inputCCV">
 				</div>
 			</div>
 			<button type="submit" class="btn-enviar">Enviar</button>

@@ -8,19 +8,17 @@ use DAO\UserDAO as UserDAO;
 use DAO\CompraDAO as CompraDAO;
 use DAO\EntradaDAO as EntradaDAO;
 use DAO\FuncionDAO as FuncionDAO;
-use Controllers\HomeController as homeC;
+use Controllers\HomeController as HomeController;
 
 
 class UserController{
     
-    private $homeController;
     private $pdo;
 
 	function __construct()
 	{
 
 		$this->pdo = new UserDAO();
-		$this->homeController = new homeC();
 
     }
 
@@ -35,7 +33,7 @@ class UserController{
         $user->setEmail($email);
         $user->setPassword($password);
        
-    
+        $homeController = new HomeController();
         $validation = false;
         /*
         if ($user->getFirstName() != '' && $user->getLastName() != '' && $user->getDni() < 0 && $user->getDni() != '' && $user->getPassword() != '') {
@@ -52,7 +50,7 @@ class UserController{
                 
                 //ACA VA LA PAGINA DIRECTAMENTE
                 $this->pdo->create($user);
-                $this->homeController->viewCartelera();
+                $homeController->viewCartelera();
                 	
             }
             
@@ -60,7 +58,7 @@ class UserController{
         {
             echo "<script>alert('The email entered already exists, please enter another');";
             echo "</script>";
-            $this->homeController->viewSignUp();
+            $homeController->viewSignUp();
         }
 	}
 
@@ -74,36 +72,38 @@ class UserController{
         $userDAO = new UserDAO();
         $userList = $userDAO->getAll();
         $loggedUser = NULL;
-        $this->homeController = new homeC();
+        $homeController = new HomeController();
 
         foreach($userList as $value){
             if($email == $value->getEmail()){
                 if($pass == $value->getPassword()){
                     
                     $loggedUser = $value;
-                    session_start();
+                    //session_start();
                     $_SESSION['userLog'] = $loggedUser;
                     
-                    $this->homeController->viewCartelera();
+                    $homeController->viewCartelera();
                     
                 }
                 else{
-                    $this->homeController->viewLogin();
-                    
+                    $homeController->viewLogin();
                 }
             }
             else{
-                $this->homeController->viewLogin();
+                $homeController->viewLogin();
             }
         }
     }
 
     public function logout(){
+
+        $homeController = new HomeController();
+
         if(session_status() == PHP_SESSION_NONE){
             session_start();
         }
         unset($_SESSION['userLog']);
-        $this->homeController->Index();
+        $homeController->Index();
     }
 
 
@@ -119,29 +119,34 @@ class UserController{
         $funcion = $funcionDao->getById($idFuncion);
         $cantidadEntradas =  $_POST['cantidadEntradas'];
         $total = $cantidadEntradas * $funcion->getClassSala()->getPrecio();
-        
+        $descuento = 0;
+
+        if($funcion->getDescuento() == 1){
+
+            $descuento = (26/100) * $total;
+            $total -=  $descuento;
+        }
+
+
         // GUARDO LOS DATOS EN SESSION
         if(!isset($_SESSION)){
             session_start(); 
         } 
 
         $_SESSION['total'] = $total;
+        $_SESSION['descuento'] =  $descuento;
         $_SESSION['cantidadEntradas'] = $cantidadEntradas;
         $_SESSION['idFuncion'] = $idFuncion;
-        $_SESSION['loggedUser'] = 1;
+        $_SESSION['userLog'] = 1;
 
-        if(isset($_SESSION['loggedUser'])){
+        if(isset($_SESSION['userLog'])){
 
-            $homeController = new HomeController();
-            $homeController->formularioTarjeta();
+           $homeController = new HomeController();
+           $homeController->formularioTarjeta();
 
         }else{
 
         }
-
-
-        echo $total;
-
 
 
     }
@@ -154,8 +159,8 @@ class UserController{
 
         $numeroTarjeta = $_POST['numeroTarjeta'];
         $nombre = $_POST['nombre'];
-        $mes = $_POST['mes'];
-        $year = $_POST['year'];
+        //$mes = $_POST['mes'];  FALTA COMPROBACION
+        //$year = $_POST['year'];
         $ccv = $_POST['ccv'];
 
         echo '<script>alert("Tarjera aprobada");</script>';
