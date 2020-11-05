@@ -133,9 +133,7 @@ class AdminController{
 
     private function newFuncion(Funcion $funcion)
     {   
-        $funcionDAO = new FuncionDAO();
-        $funcionDAO->Add($funcion);
-
+       
         $bd_pelicula = new PeliculaDAO();
         $json = new PeliculasJson();//Desde el id de la pelicula en funcion , la busco en el json y la guardo;
         $pelicula = $json->returnById($funcion->getIdPelicula());
@@ -150,6 +148,11 @@ class AdminController{
            }  
         }
         else {echo "error";}
+
+        $funcionDAO = new FuncionDAO();
+        $funcionDAO->Add($funcion);
+
+
 
         $Home_controller = new HomeController();
    

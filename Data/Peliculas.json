@@ -208,5 +208,25 @@
         "Video": "LFVhB54UqvQ",
         "RunTime": 121,
         "ReleaseDate": "2020-10-16"
+    },
+    {
+        "Id": 499338,
+        "PosterPath": "\/j8D3jXHtA9cNb4epzvmA6hymKQ4.jpg",
+        "PosterHorizontal": "\/fUxq6ilPW01roOpqB5g9SOS3zZv.jpg",
+        "Title": "I Believe",
+        "Overview": "Un ni\u00f1o de 9 a\u00f1os experimenta el poder de Dios de una manera sobrenatural.",
+        "Video": "amVlQozDJkI",
+        "RunTime": 90,
+        "ReleaseDate": "2020-11-05"
+    },
+    {
+        "Id": 531499,
+        "PosterPath": "\/bHke4PS5Whg0pz6dDWhzAmwvEr8.jpg",
+        "PosterHorizontal": "\/g0STgveZSRBDihMTDsy8bG1xtl9.jpg",
+        "Title": "The Tax Collector",
+        "Overview": "David Cuevas es un hombre de familia que trabaja como recaudador de impuestos de los pandilleros de alto rango de Los \u00c1ngeles. Hace colecciones en toda la ciudad con su compa\u00f1ero Creeper asegur\u00e1ndose de que las personas paguen o vean represalias. Una vieja amenaza regresa a Los \u00c1ngeles que pone en peligro todo lo que David ama.",
+        "Video": "yBhUWv5Hzqc",
+        "RunTime": 95,
+        "ReleaseDate": "2020-08-07"
     }
 ]
