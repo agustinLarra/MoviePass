@@ -25,7 +25,20 @@
                                 <p>Tipo de Sala: <?=  $sala->getTipoSala();?></p>
                             </div>
                             <div class="do-btn">
-                                <a href="<?php echo FRONT_ROOT?>Admin/deleteSala/<?php echo $sala->getId()?>" class='btn btn-danger'>Borrar</a>
+
+                            <script>
+                            function ConfirmDelete(){
+                             var respuesta = confirm("¿Estas seguro que quieres eliminar?");
+                             if(respuesta == true){
+                             return true;
+                             }
+                            else{
+                            return false;
+                                }
+                            }
+                            </script>
+
+                                <a href="<?php echo FRONT_ROOT?>Admin/deleteSala/<?php echo $sala->getId()?>" onclick="return ConfirmDelete()" class='btn btn-danger'>Borrar</a>
                             </div>
 
 
