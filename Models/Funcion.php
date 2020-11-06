@@ -6,6 +6,7 @@ class Funcion {
     private $Id_Pelicula;
     private $Title_Pelicula;
     private $Id_Sala;
+    private $PosterPelicula;
     private $Nombre_Sala;
     private $Id_Cine;
     private $Nombre_Cine;
@@ -22,6 +23,14 @@ class Funcion {
         
     }
 
+    
+    public function getPosterPelicula(){
+        return $this->PosterPelicula;
+    }
+
+    public function setPosterPelicula($PosterPelicula){
+        $this->PosterPelicula = $PosterPelicula;
+    }
 
     public function setClassCine( Cine $classCine)
     {

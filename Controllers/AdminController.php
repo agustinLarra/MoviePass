@@ -134,21 +134,22 @@ class AdminController{
     private function newFuncion(Funcion $funcion)
     {   
        
-        $bd_pelicula = new PeliculaDAO();
+        $peliculaDAO = new PeliculaDAO();
         $json = new PeliculasJson();//Desde el id de la pelicula en funcion , la busco en el json y la guardo;
         $pelicula = $json->returnById($funcion->getIdPelicula());
-        
+
         if($pelicula != false)
         {
-           $resul = $bd_pelicula->RetrieveOne($pelicula->getId());//Para no guardar dos veces una pelicula
+           $resul = $peliculaDAO->RetrieveOne($pelicula->getId());//Para no guardar dos veces una pelicula
            
            if($resul == false)
            {
-                $bd_pelicula->SavePelicula($pelicula);
+                $peliculaDAO->SavePelicula($pelicula);
            }  
         }
         else {echo "error";}
 
+        $funcion->setPosterPelicula($pelicula->getPosterPath());
         $funcionDAO = new FuncionDAO();
         $funcionDAO->Add($funcion);
 
@@ -355,7 +356,7 @@ class AdminController{
         foreach($listaFunciones as $funcion){
 
             $pelicula = $peliculaDao->getPeliByID($funcion->getIdPelicula());
-            $funcion->setPosterPelicula();
+            $funcion->setPosterPelicula( $pelicula->getPosterPath() );
             $funcion->setTitlePelicula(  $pelicula->getTitle()  );
         }
         

@@ -85,11 +85,11 @@
                         <h3>Seleccione Generos</h3>
                         <select name="Id_genero">
                             <option selected disabled>Selecionar opcion</option>
+                            <option value="todos">Todos los generos</option>
                         <?php foreach($arrayGeneros as $generos){?>
 
                             <option value="<?=$generos->getID() . "-" .$generos->getTipo();?>"><?=$generos->getTipo()?></option>
                             <?php } ?>
-                            <option value="">Todos los generos</option>
                         </select>
                         <br> <br>
                         <div class="header-left-btn f-left d-none d-lg-block">

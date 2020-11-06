@@ -169,7 +169,7 @@ class UserController{
         $total = $_SESSION['total'];
         $cantidadEntradas = $_SESSION['cantidadEntradas'];
         $idFuncion = $_SESSION['idFuncion'] ;
-        $idUser = $_SESSION['loggedUser'];
+        $idUser = $_SESSION['userLog'];
 
         // Guardo la compra en la base de datos
         $compra = new Compra();

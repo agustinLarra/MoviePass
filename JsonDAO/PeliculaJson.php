@@ -49,7 +49,7 @@ class PeliculaJson{
                 $pelicula->setVideo($valuesArray["Video"]);
                 $pelicula->setRunTime($valuesArray["RunTime"]);
                 $pelicula->setReleaseDate($valuesArray["ReleaseDate"]);
-
+                $pelicula->setGenre($valuesArray["genre_ids"]);
                 array_push($this->PeliculasList, $pelicula);
             }
         }
@@ -71,6 +71,7 @@ class PeliculaJson{
                 $valuesArray["Video"] = $pelicula->getVideo();
                 $valuesArray["RunTime"] = $pelicula->getRunTime();
                 $valuesArray["ReleaseDate"] = $pelicula->getReleaseDate();
+                $valuesArray["genre_ids"] = $pelicula->getGenres();
 
                 array_push($arrayToEncode, $valuesArray);
             }

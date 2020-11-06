@@ -18,7 +18,7 @@
                             <div class="do-caption">
                                 <h4><?= $funcion->getDia();?></h4>
                                 <h4><?= $funcion->getHora();?></h4>
-                                <p><?= $funcion->getPosterPaht();?></p>
+                                <img class="col-lg-10 col-md-6"  src="<?php echo IMAGE_ROOT . $funcion->getPosterPelicula();?>"  style="width:500px; weight:300px; position:relative;" />
                                 <p>Pelicula:  <?= $funcion->getTitlePelicula();?></p>
                                 <p>Cine:  <?= $funcion->getClassCine()->getNombre();?></p>
                                 <p>Sala:  <?= $funcion->getClassSala()->getNombre();?></p>
@@ -29,7 +29,7 @@
                                                         }?></p>
                             </div>
                             <div class="do-btn">
-                                <a href="<?php echo FRONT_ROOT?>Admin/deleteSala/<?php echo $funcion->getId()?>" class='btn btn-danger'>Borrar</a>
+                               <!-- <a href="<?php echo FRONT_ROOT?>Admin/deleteFuncion/<?php echo $funcion->getId();?>" class='btn btn-danger'>Borrar</a> -->
                             </div>
                         </div>
                     </div>

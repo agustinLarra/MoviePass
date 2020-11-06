@@ -118,7 +118,7 @@
                             
                             <div class="form-group">
                                     <p for="cantidadEntradas">Cantidad de entradas: </p>
-                                    <input class="form-control" required name="cantidadEntradas" name="cantidadEntradas" id="cantidadEntradas" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Cantidad de entradas">
+                                    <input class="form-control" required name="cantidadEntradas" name="cantidadEntradas" id="cantidadEntradas" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Cuantas entradas quiere?">
                                     <input name='funcion' value="<?= $funcion->getId(); ?>" type="hidden">
                             </div>
                     </div>

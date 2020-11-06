@@ -287,20 +287,6 @@ public function selectDinamicoSalas(){
   }
 
 
-  public function viewListPeliculas(){
-    $adminController = new AdminController();
-      // Levanto las peliculas del Json 
-      $peliculas = new PeliculasJson();
-      $peliculasList = $peliculas->GetMovieJson(); 
-
-      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-      require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
-
-  }
-
-
     public function viewListFunciones(){
 
       $adminController = new AdminController();
@@ -401,6 +387,29 @@ public function selectDinamicoSalas(){
     }
 
 
+ #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+    //---------------------------------------------- PELICULAS -----------------------------------------------------------------------------------------------------------------
+
+    public function viewListPeliculas(){
+
+      $adminController = new AdminController();
+        // Levanto las peliculas del Json 
+        $peliculas = new PeliculasJson();
+        $peliculasList = $peliculas->GetMovieJson(); 
+
+        $arregloEstrenos = array();
+
+        foreach($peliculasList as $peli){
+          array_push($arregloEstrenos,$peli->getReleaseDate());
+        }
+        var_dump($arregloEstrenos);
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+  
+    }
+  
 
 } ?>
