@@ -37,17 +37,17 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="nombreSala" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Nombre de la sala">
+                                        <input class="form-control" name="nombreSala" id="subject" type="text" minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre Sala'" placeholder="Nombre de la sala">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="precio" id="subject" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Precio">
+                                        <input class="form-control" name="precio" id="subject" type="number" min="100" max="500" step="100" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Precio'" placeholder="Precio">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="capacidad" id="subject" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Capacidad">
+                                        <input class="form-control" name="capacidad" id="subject" type="number" min="50" max="200" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Capacidad'" placeholder="Capacidad">
                                     </div>
                                 </div>
                                 <div class="col-12">
