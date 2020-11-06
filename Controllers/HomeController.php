@@ -159,7 +159,7 @@ class HomeController{
         $idGenero = $_POST['Id_genero'];
       
         list($id,$nombre) = explode("-",$idGenero);
-      echo $id;
+     
         //Agarrar de la tabla peliXgenero las pelis que macheen este idGenero
         $array_peliculas = $this->filtarPelisXgenero($id);
         
@@ -286,6 +286,19 @@ public function selectDinamicoSalas(){
 
   }
 
+
+  public function viewListPeliculas(){
+    $adminController = new AdminController();
+      // Levanto las peliculas del Json 
+      $peliculas = new PeliculasJson();
+      $peliculasList = $peliculas->GetMovieJson(); 
+
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+      require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+
+  }
 
 
     public function viewListFunciones(){

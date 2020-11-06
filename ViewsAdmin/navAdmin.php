@@ -45,6 +45,7 @@
                                      <li><a href="">Peliculas</a>
                                         <ul class="submenu">
                                         <li><a  href="<?php echo FRONT_ROOT?>Admin/actualizarPeliculas">Actualizar peliculas</a></li>
+                                        <li><a  href="<?php echo FRONT_ROOT?>Home/viewListPeliculas">Listado de peliculas</a></li>
                                            <!-- ACA EDITAR Funciones -->
                                            <!-- ACA ELIMINAR Funciones -->
                                            <!-- ACA LISTAR SALAS -->

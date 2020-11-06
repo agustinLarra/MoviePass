@@ -15,35 +15,37 @@
                    <!-- Logo -->
                    <div class="col-xl-2 col-lg-2 col-md-1">
                        <div class="logo">
-                       <!-- L    <a>MOVIEPASS</a> -->
+                        <p>MOVIEPASS</p>
                        </div>
                    </div>
-               
-                </div> 
-                   <div class="col-xl-2 col-lg-2 col-md-3">
-                               <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Home</a>
-                               </div>
-                           </div>   
-                   <?php if(!isset($_SESSION['userLog'])) { ?>
-                           <div class="col-xl-2 col-lg-2 col-md-3">
-                               <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>Home/Index" class="btn header-btn">Login</a>
-                               </div>
-                           </div>
-                           <div class="col-xl-2 col-lg-2 col-md-3">
-                               <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>Home/viewSignUp" class="btn header-btn">Sign Up</a>
-                               </div>
-                           </div>
-                        <?php	} ?>
-                        <?php if(isset($_SESSION['userLog'])) { ?>
-                           <div class="col-xl-2 col-lg-2 col-md-3">
-                               <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Logout</a>
-                               </div>
-                           </div>
-                        <?php	} ?>
+                
+                 
+                   <div class="col-xl-3 col-lg-3 col-md-3">
+                        <div class="header-right-btn f-right d-none d-lg-block">
+                            <a href="<?= FRONT_ROOT?>Home/Index" class="btn header-btn">Home</a>
+                        </div>
+                    </div> 
+
+                    <?php if(!isset($_SESSION['userLog'])) { ?>
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <div class="header-right-btn f-right d-none d-lg-block">
+                            <a href="<?= FRONT_ROOT?>Home/Index" class="btn header-btn">Login</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <div class="header-right-btn f-right d-none d-lg-block">
+                            <a href="<?= FRONT_ROOT?>Home/viewSignUp" class="btn header-btn">Sign Up</a>
+                        </div>
+                    </div>
+                    <?php	} ?>
+
+                    <?php if(isset($_SESSION['userLog'])) { ?>
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <div class="header-right-btn f-right d-none d-lg-block">
+                            <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Logout</a>
+                        </div>
+                    </div>
+                    <?php	} ?>
                </div>
            </div>
        </div>
@@ -59,26 +61,28 @@
 
 
                     <div class="row">
-                       <div class="col-lg-4 col-md-6">
+                       <div class="col-lg-12 col-md-6">
                            <div class="single-do text-center mb-30">
-                                   <img class="col-lg-4 col-md-6"  src="<?php echo IMAGE_ROOT . $pelicula->getPosterHorizontal();?>"  style="width:500px; weight:300px; position:relative;" />
-                                   <iframe width="420" height="315" src="https://www.youtube.com/embed/<?=$pelicula->getVideo();?>"></iframe>
-                                   <div class="do-icon">
-                                       <span  class="flaticon-tasks"></span>
-                                   </div>
+                                <div class="div-imagen">
+                                    <img class="col-lg-10 col-md-6"  src="<?php echo IMAGE_ROOT . $pelicula->getPosterHorizontal();?>"  style="width:90%; weight:90%; position:relative;" />
+                                </div>
+                                
+                               
+
                                    <div class="do-caption">
-                                       <h4><?= $pelicula->getTitle();?></h4>
-                                       <p>Release Date: <?=$pelicula->getReleaseDate();?></p> 
-                                       <p>Duration: <?php echo $pelicula->getRuntime(); ?> minutos</p>
-                                       <p>Descripcion: <?php echo   $pelicula->getOverview(); ?></p>
+                                       <h4  style="font-weight: bold; padding: 30px;"><?= $pelicula->getTitle();?></h4>
+                                       <p  style="font-weight: bold;">Estreno: <?=$pelicula->getReleaseDate();?></p> 
+                                       <p  style="font-weight: bold;">Duracion: <?php echo $pelicula->getRuntime(); ?> minutos</p>
+                                       <p  style="font-weight: bold;">Descripcion: <?php echo   $pelicula->getOverview(); ?></p>
                                    </div>
+                                   <iframe width="500" height="250" src="https://www.youtube.com/embed/<?=$pelicula->getVideo();?>"></iframe>
                            </div>
                        </div>
                     </div>
 
                 <!-- Section-tittle -->
                 <div class="row d-flex justify-content-center">
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <div class="section-tittle text-center">
                             <h2>Lista de Funciones</h2>
                         </div>
@@ -98,7 +102,7 @@
     <div class="row">
         <?php foreach($listaFunciones as $funcion){?>
         <form action="<?php echo FRONT_ROOT?>User/FuncionElegida" method="post">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-12 col-md-6">
                 <div class="single-do text-center mb-30">
                     <div class="do-icon">
                          <span  class="flaticon-tasks"></span>
@@ -114,7 +118,7 @@
                             
                             <div class="form-group">
                                     <p for="cantidadEntradas">Cantidad de entradas: </p>
-                                    <input class="form-control" required name="cantidadEntradas" name="cantidadEntradas" id="cantidadEntradas" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Cuantas entradas quiere comprar?">
+                                    <input class="form-control" required name="cantidadEntradas" name="cantidadEntradas" id="cantidadEntradas" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Cantidad de entradas">
                                     <input name='funcion' value="<?= $funcion->getId(); ?>" type="hidden">
                             </div>
                     </div>

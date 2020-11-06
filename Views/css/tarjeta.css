@@ -1,3 +1,4 @@
+/*
 * {
 	padding: 0;
 	margin: 0;
@@ -8,12 +9,13 @@ body {
 	background: #ddeefc;
 	font-family: 'Lato', sans-serif;
 }
-
+*/
 .contenedor {
 	width: 90%;
 	max-width: 1000px;
 	padding: 40px 20px;
 	margin: auto;
+	margin-top: 50px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -30,6 +32,7 @@ body {
 	transform-style: preserve-3d;
 	cursor: pointer;
 	z-index: 2;
+	
 }
 
 .tarjeta.active {
@@ -52,6 +55,7 @@ body {
 	width: 100%;
 	background: url(../img/bg-tarjeta/bg-tarjeta-02.jpg);
 	background-size: cover;
+
 }
 
 .delantera .logo-marca {
