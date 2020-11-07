@@ -10,6 +10,15 @@ use DAO\EntradaDAO as EntradaDAO;
 use DAO\FuncionDAO as FuncionDAO;
 use Controllers\HomeController as HomeController;
 
+use Librerias\PHPMailer\PHPMailer\PHPMailer;
+use Librerias\PHPMailer\PHPMailer\Exception;
+use Librerias\phpqrcode\bindings\tcpdf\qrcode as QRcode;
+
+require 'Librerias/PHPMailer/Exception.php';
+require 'Librerias/PHPMailer/PHPMailer.php';
+require 'Librerias/PHPMailer/SMTP.php'; 
+require "Librerias/phpqrcode/qrlib.php";   
+
 
 class UserController{
     
@@ -192,11 +201,198 @@ class UserController{
             $entradaDAO->Add($entrada);
         }
       
+       // $userDAO = new UserDAO();
+       // $user = $userDAO->getById($idUser);
+
+       $qr = $this->generarQr(31231); // Id Entrada
+
+        $this->enviarMail($numeroTarjeta,$cantidadEntradas,$total);
+        
+        
         $homeController = new HomeController();
         $homeController->viewFinCompra();
 
     }
 
+    private function enviarMail($numeroTarjeta,$cantidadEntradas,$total){
+
+        $mail = new PHPMailer(true);
+
+        try {
+            //Server settings
+            $mail->SMTPDebug = 0;                      // Enable verbose debug output
+            $mail->isSMTP();                                            // Send using SMTP
+            $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+            $mail->Username   = 'moviepassrsml@gmail.com';                     // SMTP username
+            $mail->Password   = 'Moviepass2020';                               // SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+            $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+
+            //Recipients
+            $MI_MAIL = "moviepassrsml@gmail.com";
+            $mail->setFrom($MI_MAIL, 'Movie Pass');
+            $mail->addAddress('agustinlarra98@gmail.com');     // Add a recipient
+                    // Name is optional
+        
+            // Attachments
+            //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+            //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+
+            // Content
+            $mail->isHTML(true); 
+                                             // Set email format to HTML
+            $mail->Subject = 'Entradas cine Movie Pass';
+            //Contenido
+            $fecha= time();
+            $fechaFormato = date("j/n/Y",$fecha);
+            $cuerpo = "--=C=T=E=C=\r\n";
+            $cuerpo .= "Content-type: text/plain";
+            $cuerpo .= "charset=utf-8\r\n";
+            $cuerpo .= "Content-Transfer-Encoding: 8bit\r\n";
+            $cuerpo .= "\r\n"; // línea vacía
+            $cuerpo .= "Correo enviado por: Movie Pass ";
+            $cuerpo .= " con fecha: " . $fechaFormato;
+            $cuerpo .= "Email: " . $MI_MAIL;
+            $cuerpo .= "Mensaje: Aqui estan los tickets de las entradas que acaba de comprar en nuestra web";
+            $cuerpo .= "\r\n";// línea vacía
+        
+            // -> segunda parte del mensaje (archivo adjunto)
+                //    -> encabezado de la parte
+            $cuerpo .= "--=C=T=E=C=\r\n";
+            $cuerpo .= "Content-Type: application/octet-stream; ";
+            $cuerpo .= "name=" . $nameFile . "\r\n";
+            $cuerpo .= "Content-Transfer-Encoding: base64\r\n";
+            $cuerpo .= "Content-Disposition: attachment; ";
+            $cuerpo .= "filename=" . $nameFile . "\r\n";
+            $cuerpo .= "\r\n"; // línea vacía
+
+
+            $mail->Body = $cuerpo; 
+            $mail->send();
+        
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+        
+    }
+
+    public function generarQr($idEntrada){
+        
+	
+	    //Declaramos una carpeta temporal para guardar la imagenes generadas
+        $dir = 'Views/img/qrs';
+
+	    //Si no existe la carpeta la creamos
+	    if (!file_exists($dir)){
+            mkdir($dir,0777);
+        }
+        
+            //Declaramos la ruta y nombre del archivo a generar
+            $filename = $dir.'test.png';
+    
+            //Parametros de Condiguración
+        
+        $tamaño = 10; //Tamaño de Pixel
+        $level = 'M'; //Precisión Baja
+        $framSize = 3; //Tamaño en blanco
+        $contenido = $idEntrada; //Texto
+        
+            //Enviamos los parametros a la Función para generar código QR 
+        QRcode::png($contenido, $filename, $level, $tamaño, $framSize); 
+        
+            //Mostramos la imagen generada
+      //  echo '<img src="'.$dir.basename($filename).'" /><hr/>';  
+        return $dir.basename($filename);
+
+    }
+
+    public function Ejemplomail(){
+
+        ini_set("SMTP","mail.escuelactec.com");
+        ini_set("smtp_port","localhost");
+        ini_set('sendmail_from', 'info@escuelactec.com');
+        
+        $name = strip_tags($_POST["nombre"]);
+        $apellido = strip_tags( $_POST["apellidos"]);
+        $mail = strip_tags($_POST["correo"]);
+        $mensaje = strip_tags($_POST["comentario"]);
+    
+        $nameFile = $_FILES["archivo"]["name"];
+        $sizeFile= $_FILES["archivo"]["size"];
+        $typeFile= $_FILES["archivo"]["type"];
+        $tempFile= $_FILES["archivo"]["tmp_name"];
+    
+
+            
+        echo "Nombre: " . $nameFile . "<br>";
+        echo "Tamaño: " . $sizeFile . "<br>";
+        echo "Tipo: ". $typeFile . "<br>";
+        echo "Temporal: " . $tempFile . "<br>";
+    
+    
+        $correoDestino = "info@escuelactec.com";
+        
+        //asunto del correo
+        $asunto = "Enviado por " . $name . " ". $apellido;
+    
+         // -> mensaje en formato Multipart MIME
+        $cabecera = "MIME-VERSION: 1.0\r\n";
+        $cabecera .= "Content-type: multipart/mixed;";
+        $cabecera .="boundary=\"=C=T=E=C=\"\r\n";
+        $cabecera .= "From: {$mail}";
+    
+        //Primera parte del mensaje (texto plano)
+        //    -> encabezado de la parte
+        $fecha= time();
+        $fechaFormato = date("j/n/Y",$fecha);
+        $cuerpo = "--=C=T=E=C=\r\n";
+        $cuerpo .= "Content-type: text/plain";
+        $cuerpo .= "charset=utf-8\r\n";
+        $cuerpo .= "Content-Transfer-Encoding: 8bit\r\n";
+        $cuerpo .= "\r\n"; // línea vacía
+        $cuerpo .= "Correo enviado por: Movie Pass ";
+        $cuerpo .= " con fecha: " . $fechaFormato;
+        $cuerpo .= "Email: " . $MI_MAIL;
+        $cuerpo .= "Mensaje: " . $mensaje;
+        $cuerpo .= "\r\n";// línea vacía
+    
+         // -> segunda parte del mensaje (archivo adjunto)
+            //    -> encabezado de la parte
+        $cuerpo .= "--=C=T=E=C=\r\n";
+        $cuerpo .= "Content-Type: application/octet-stream; ";
+        $cuerpo .= "name=" . $nameFile . "\r\n";
+        $cuerpo .= "Content-Transfer-Encoding: base64\r\n";
+        $cuerpo .= "Content-Disposition: attachment; ";
+        $cuerpo .= "filename=" . $nameFile . "\r\n";
+        $cuerpo .= "\r\n"; // línea vacía
+    
+        $fp = fopen($tempFile, "rb");
+        $file = fread($fp, $sizeFile);
+        $file = chunk_split(base64_encode($file));
+    
+        //    -> lectura del archivo correspondiente al archivo adjunto
+        //$datos = file_get_contents($archivo);
+        
+        //    -> codificación y fragmentación de los datos
+        //$datos = chunk_split(base64_encode($datos));
+        //    -> datos de la parte (integración en el mensaje)
+        //$mensaje .= "$datos\r\n";
+        $cuerpo .= "$file\r\n";
+        $cuerpo .= "\r\n"; // línea vacía
+        // Delimitador de final del mensaje.
+        $cuerpo .= "--=C=T=E=C=--\r\n";
+        // Envío del mensaje.
+        // $ok = mail($destinatarios,$asunto,$mensaje,$encabezados);
+        echo 'Nota: la línea de código que permite enviar el correo está en el comentario.<br />';
+    
+        //Enviar el correo
+        if(mail($correoDestino, $asunto, $cuerpo, $cabecera)){
+            echo "Correo enviado";
+        }else{
+            echo "Error de envio";
+        }
+    }
 
     private function numeroTarjetaValido( $numeroTarjeta ){
 
