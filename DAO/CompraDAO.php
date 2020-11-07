@@ -61,7 +61,57 @@
             
         }
 
+        public function getById($idCompra){
 
+            $compra = new Compra();
+            try
+            {
+                $query = "SELECT  * FROM compras WHERE Id_Compra = '$idCompra'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $compra->setId($row["Id_Compra"]);         
+                        $compra->setCantidadEntradas($row["Cantidad_Entradas"]); 
+                        $compra->setTotal($row["Total"]);               
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $compra;
+        }
+
+
+        public function getByIdUser($idUser){
+            
+            $arregloCompras = array();
+            try
+            {
+                $query = "SELECT  * FROM compras WHERE Id_User = '$idUser'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        $compra = new Compra();
+                        $compra->setId($row["Id_Compra"]);         
+                        $compra->setCantidadEntradas($row["Cantidad_Entradas"]); 
+                        $compra->setTotal($row["Total"]);            
+                        
+                        array_push($arregloCompras,$compra);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $arregloCompras;
+
+        }
 
     }
 ?>

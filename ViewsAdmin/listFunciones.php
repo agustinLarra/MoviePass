@@ -28,8 +28,10 @@
                                                             echo "No";
                                                         }?></p>
                                  <p>Valor Unitario de Entrada:  <?= $funcion->getClassSala()->getPrecio();?></p>
-                                 <p>Entradas Vendidas:  <?= $funcion->getEntrada();?></p>    
-                                 <p>Recaudacion Total:  <?=(($funcion->getClassSala()->getPrecio())*($funcion->getEntrada()));?></p> 
+                                 <p>Entradas Vendidas:  <?= $funcion->getEntradasVendidas();?></p>    
+                                 <p>Recaudacion Total:  <?= $funcion->getRecaudacionTotal();?></p> 
+                                 <p>Entradas disponibles:  <?= $funcion->getClassSala()->getCapacidad() - $funcion->getEntradasVendidas();?></p> 
+
                                                       
                             </div>
                             <div class="do-btn">

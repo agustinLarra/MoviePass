@@ -67,7 +67,58 @@
             return $entrada;
         }
 
-        
+        public function getIdCompraByIdFuncion($idFuncion){
+
+            $idCompraList = array();
+            try
+            {
+                $query = "SELECT Id_Compra FROM entradas WHERE Id_Funcion = '$idFuncion';";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $idCompra = $row["Id_Compra"];
+                        
+                        array_push($idCompraList, $idCompra);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+
+            $ArregloIdsUnique = array_unique($idCompraList);
+
+            return $ArregloIdsUnique;
+
+        }
+
+        public function getByIdCompra($idCompra){
+
+            $entrada = new Entrada();
+            try
+            {
+                $query = "SELECT Id_Funcion  FROM entradas WHERE Id_Compra = '$idCompra';";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $entrada->setIdFuncion($row["Id_Funcion"]);
+                       
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+
+
+            return $entrada;
+        }
 
 
 

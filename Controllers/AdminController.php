@@ -15,6 +15,8 @@ use Controllers\ApiController as Api;
 use DAO\GeneroDao as GeneroDao;
 use JsonDAO\PeliculaJson as PeliculasJson;
 use DAO\EntradaDAO as EntradaDAO;
+use DAO\CompraDAO as CompraDAO;
+use Models\Compra as Compra;
 
 use DateTime ;
 
@@ -218,11 +220,12 @@ class AdminController{
 
         $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
         //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
-        $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
+        $listaFuncionesConPelicula = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
         //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
-    
+        $listaFuncionesCompleta = $this->agregarEntradasAFuncion($listaFuncionesConPelicula);
+
         
-        return $listaFuncionesCOMPLETA;
+        return $listaFuncionesCompleta;
     }
 
     public function listarFuncionesByIdPelicula( $idPelicula ){ 
@@ -235,7 +238,6 @@ class AdminController{
         //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
         $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
         //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
-    
         
         return $listaFuncionesCOMPLETA;
     }
@@ -252,7 +254,9 @@ class AdminController{
         // aca agarro el cine
         $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
 
-        return $listaFuncionesConCine;
+        $listaFuncionesCompleta = $this->agregarEntradasAFuncion($listaFuncionesConCine);
+
+        return $listaFuncionesCompleta;
 
     }
 
@@ -306,6 +310,35 @@ class AdminController{
         return $peliculasList;
     }
 
+
+    public function agregarEntradasAFuncion($Listafunciones)
+    {
+        $arregloDeIdCompra = array();
+        $entradaDAO = new EntradaDAO();
+        $compraDAO = new CompraDAO();
+
+        //Por cada funcion que haya
+        foreach($Listafunciones as $funcion){
+            //Busco las entradas que machean con esta funcion Y guardo los id de compra en un arreglo
+            $arregloDeIdCompra = $entradaDAO->getIdCompraByIdFuncion($funcion->getId());
+            $entradasVendidas = 0;
+            $recaudacionTotal = 0;
+            // por cada id de compra, perteneciente a esta funcion
+            foreach($arregloDeIdCompra as $idCompra){
+                $compra = $compraDAO->getById($idCompra);
+                // Empiezo a contar por cada compra, las entradas y el total que salio
+                $entradasVendidas += $compra->getCantidadEntradas();
+                $recaudacionTotal += $compra->getTotal();
+            }
+            // una vez que se repasaron todas las compras vinculadas a esta funcion
+            // agrego todas las entradas y totales que saque de cada compra
+            $funcion->setEntradasVendidas ($entradasVendidas);
+            $funcion->setRecaudacionTotal( $recaudacionTotal );
+        }
+
+        return $Listafunciones;
+
+    }
 
     public function agregarNombreCineASala( $listaSalas){
 
