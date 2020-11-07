@@ -226,6 +226,7 @@
 
 
             $arregloIdsPeliculas = $this->getPelisIdConEsteGenero($idGenero);
+     
 
             $arregloPeliculas = array();
             foreach($arregloIdsPeliculas as $idPelicula){

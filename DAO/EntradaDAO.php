@@ -30,11 +30,41 @@
             }
         }
 
+        private function RetrieveData()
+        {
+            $generoList = array();
+            try
+            {
+                $query = "SELECT Id_Funcion FROM entradas;";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $ticket = new Entrada();
+                        
+                       // $genero->setId($row["Nombre"]);
+                        $ticket->setIdFuncion($row["Id_Funcion"]);
+          
+       
+                         
+                        array_push($generoList, $ticket);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $generoList;
+        }
+
+
 
         public function GetAll() {
             
-            $salaList = $this->RetrieveData();
-            return $salaList;
+            $entrada = $this->RetrieveData();
+            return $entrada;
         }
 
         

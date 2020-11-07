@@ -1,14 +1,16 @@
 
-          
-    
+<main>
 
-<div class="what-we-do we-padding">
+<!--<div class="what-we-do we-padding">LA COMENTO POR QUE TIRA ERROR EN EL SELECT Y MUESTRA UN OPTION SOLO -->
+         <div class="container">
+
             <div class="col-lg-6" style="float:left;">
-                        <!---------------------FILTRO POR FECHA------------------>             
+                        <!---------------------FILTRO POR FECHA DE ESTRENOS------------------>             
                         <form action="<?=FRONT_ROOT?>Home/viewPeliEstrenoAdmin" method="post">
-                            <h3>Seleccione Fecha</h3>
-                            <select name="estreno">
-                                <?php foreach($arregloEstrenos as $values)  {?>
+                            <h3>Buscar por Fecha de Estreno</h3>
+                            <select name="estreno">  
+                                <?php
+                                foreach($fechas_estreno as $values)  {?>
                                     <option value="<?=$values?>"><?=$values?></option>
                                 <?php } ?>
                             </select>
@@ -17,8 +19,46 @@
                                 <button type="submit" class="btn header-btn">Buscar</button>
                             </div>
                         </form>
-            </div>  
-            <div class="container">
+            </div> 
+
+            <div class="col-lg-6" style="float:left;">
+                        <!---------------------FILTRO POR FECHA DE FUNCION------------------>             
+                        <form action="<?=FRONT_ROOT?>Home/viewPeliFuncionAdmin" method="post">
+                            <h3>Buscar por Fecha de Funcion</h3>
+                            <select name="funcion">  
+                                <?php
+                                foreach($fechaDeFuncion as $values)  {?>
+                                    <option value="<?=$values?>"><?=$values?></option>
+                                <?php } ?>
+                            </select>
+                            <br> <br>
+                            <div class="header-left-btn f-left d-none d-lg-block">
+                                <button type="submit" class="btn header-btn">Buscar</button>
+                            </div>
+                        </form>
+            </div> 
+
+            <div class="col-lg-6" style="float:left;">
+                        <!---------------------FILTRO POR GENERO------------------>             
+                        <form action="<?=FRONT_ROOT?>Home/viewPeliGeneroAdmin" method="post">
+                            <h3>Buscar por Genero</h3>
+                            <select name="genero">  
+                                <?php
+                                foreach($generoList as $values)  {?>
+                                    <option value="<?=$values->getId()."-".$values->getTipo();?>"><?=$values->getTipo();?></option>
+                                <?php } ?>
+                            </select>
+                            <br> <br>
+                            <div class="header-left-btn f-left d-none d-lg-block">
+                                <button type="submit" class="btn header-btn">Buscar</button>
+                            </div>
+                        </form>
+            </div> 
+        
+        
+
+            
+ 
                 <!-- Section-tittle -->
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
@@ -27,6 +67,11 @@
                         </div>
                     </div>
                 </div>
+
+                <?php if((isset($seleccion))){ ?>       
+                     <h3>Buscando por: <?=$seleccion?><h/3>
+                <?php } ?>
+
                 <div class="row">
                 <?php foreach($peliculasList as $pelicula){?>
                     
@@ -49,4 +94,8 @@
                 </div>
 
             </div>
-        </div>
+
+        <!--    </div>  -->
+</main>
+     
+

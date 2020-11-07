@@ -124,6 +124,22 @@ class PeliculaJson{
         }
         return false;
     }
+
+    public function GetPorFechaDeEstreno($dia)
+    {
+        $array_pelicula = array();
+        $this->RetrieveData();
+        foreach($this->PeliculasList as $values)
+        {
+            if(($values->getReleaseDate())==$dia)
+            {
+                array_push($array_pelicula,$values);
+            }
+        }
+        return $array_pelicula;
+    }
+
+ 
     
 }
 

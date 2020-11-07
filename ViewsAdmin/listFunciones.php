@@ -27,12 +27,17 @@
                                                         }else{
                                                             echo "No";
                                                         }?></p>
+                                 <p>Valor Unitario de Entrada:  <?= $funcion->getClassSala()->getPrecio();?></p>
+                                 <p>Entradas Vendidas:  <?= $funcion->getEntrada();?></p>    
+                                 <p>Recaudacion Total:  <?=(($funcion->getClassSala()->getPrecio())*($funcion->getEntrada()));?></p> 
+                                                      
                             </div>
                             <div class="do-btn">
                                <!-- <a href="<?php echo FRONT_ROOT?>Admin/deleteFuncion/<?php echo $funcion->getId();?>" class='btn btn-danger'>Borrar</a> -->
                             </div>
                         </div>
                     </div>
+                    
                     <?php } ?>
                 </div>
 

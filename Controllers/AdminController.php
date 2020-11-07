@@ -14,6 +14,8 @@ use DAO\FuncionDAO as FuncionDAO;
 use Controllers\ApiController as Api;
 use DAO\GeneroDao as GeneroDao;
 use JsonDAO\PeliculaJson as PeliculasJson;
+use DAO\EntradaDAO as EntradaDAO;
+
 use DateTime ;
 
 
@@ -508,6 +510,13 @@ class AdminController{
     public function showModifyCine($retrieve){
         //$listaCines = $this->retrieve();
         include_once('ViewsAdmin/modifyShowList.php');
+
+    }
+
+
+    public function viewTicketsVendidos()
+    {
+
 
     }
 
