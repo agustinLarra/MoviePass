@@ -50,7 +50,7 @@
    </div>
    <main> 
         <div class="what-we-do we-padding">
-            <div class="container">
+             <div class="container">
                    <!-- Section-tittle -->
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
@@ -73,7 +73,7 @@
                             </select>
                             <br> <br>
                             <div class="header-left-btn f-left d-none d-lg-block">
-                            <button type="submit" class="btn header-btn">Buscar</button>
+                                <button type="submit" class="btn header-btn">Buscar</button>
                             </div>
                         </form>
                 </div>            

@@ -16,6 +16,7 @@ class Funcion {
     private $Descuento;
     private $classCine;
     private $classSala;
+    private $entrada;
 
 
     public function __construct()
@@ -152,6 +153,16 @@ class Funcion {
     public function getDescuento()
     {
         return $this->Descuento;
+    }
+
+    public function setEntrada($entrada)
+    {
+        $this->entrada=$entrada;
+    }
+
+    public function getEntrada()
+    {
+        return $this->entrada;
     }
     
 

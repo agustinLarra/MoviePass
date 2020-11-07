@@ -9,6 +9,9 @@ use Models\Sala as Sala;
 use Models\Pelicula as Pelicula;
 use DAO\SalaDAO as SalaDAO;
 use JsonDAO\PeliculaJson as PeliculasJson;
+use Exception as Exception;
+use DAO\EntradaDAO as EntradaDAO;
+use Models\Funcion;
 
 class HomeController{
 
@@ -65,7 +68,7 @@ class HomeController{
 
       }catch(Exception $e){
 
-        $message = $e->get_message();
+        $message = $e->getMessage();
        // throw new Exception($e->get_message());
 
       }
@@ -81,12 +84,12 @@ class HomeController{
 
       //Levantar peliculas que esten linkeadas en funciones
       $peliculaDao = new PeliculaDAO();
-     //$peliculaList = $peliculaDao->GetPeliculasEnFunciones();
+     $peliculaList = $peliculaDao->GetPeliculasEnFunciones();
      
       try{
         $peliculaList = $peliculaDao->GetAll();
       }catch(Exception $e){
-         throw new Exception($e->get_message());
+         throw new Exception($e->getMessage());
       }
 
       return  $peliculaList ;
@@ -182,7 +185,7 @@ class HomeController{
 
       $generos_bd = new GeneroDAO();
       $arrayGeneros = $generos_bd->getAll();
-      return  $arrayGeneros  ;
+      return  $arrayGeneros;
     }
 
     private function filtarPelisXgenero($idGenero)
@@ -291,12 +294,42 @@ public function selectDinamicoSalas(){
 
       $adminController = new AdminController();
       $listFunciones = $adminController->listarFunciones();
+     $listaFunciones = $this->entradas($listFunciones);
   
 
       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
       require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
       require(VIEWS_ADMIN_PATH.'listFunciones.php');
       require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+  }
+
+  public function entradas($funciones)
+  {
+    $entrada =  new EntradaDAO();
+    $lista_entrada = $entrada->GetAll();
+    $flag = 0;
+    $funciones_aux = array();
+
+
+    foreach($funciones as $values)
+    { 
+        foreach($lista_entrada as $entrada)
+        {
+            if(($entrada->getIdFuncion())==($values->getId()))
+            {
+              $flag++;
+            }
+
+        }
+
+            
+      $values->setEntrada($flag);  
+      array_push($funciones_aux,$values);
+
+      $flag=0;
+    }
+
+    return $funciones_aux;
   }
   
   public function cargarFunciones(){
@@ -394,22 +427,137 @@ public function selectDinamicoSalas(){
     public function viewListPeliculas(){
 
       $adminController = new AdminController();
-        // Levanto las peliculas del Json 
-        $peliculas = new PeliculasJson();
-        $peliculasList = $peliculas->GetMovieJson(); 
+      
 
-        $arregloEstrenos = array();
+        $generoList = $this->cargarGeneros();
+        $fechaDeFuncion = $this->cargarFunciones();
+        $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
+        $peliculasList = $this->cargarPeliculasJson();
 
-        foreach($peliculasList as $peli){
-          array_push($arregloEstrenos,$peli->getReleaseDate());
-        }
-        var_dump($arregloEstrenos);
         require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
         require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
         require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
         require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
   
     }
-  
+
+    private function cargarPeliculasJson()
+    {
+      $peliculas = new PeliculasJson();
+      return  $peliculasList = $peliculas->GetMovieJson();
+    }
+
+
+    public function FechaDeEstrenoOrdenada()
+    {
+      $peliculas = new PeliculasJson();
+      $peliculasList = $peliculas->GetMovieJson();
+
+      $fecha_estreno = array();
+
+      foreach($peliculasList as $values)
+      {
+        array_push($fecha_estreno,$values->getReleaseDate());
+
+      }
+
+       arsort($fecha_estreno);//Lo ordeno de mayor a menor
+       $fechaSinrepetidos = array_unique($fecha_estreno);//Elemino los duplicados
+
+      return $fechaSinrepetidos;
+
+    }
+
+
+    private function Json_PorFechaDeEstreno($fecha)
+    {
+      
+        $json = new PeliculasJson();
+        $pelicula = $json->GetPorFechaDeEstreno($fecha);
+    
+    return $pelicula;
+    }
+
+
+
+
+#-******************************************VIEWS FILTRO PELICULAS ADMIN******************************
+   
+
+
+
+    public function viewPeliEstrenoAdmin()
+    {
+      $seleccion = $_POST['estreno'];
+      $peliculasList = $this->Json_PorFechaDeEstreno($seleccion);
+
+ 
+      $generoList = $this->cargarGeneros();
+      $fechaDeFuncion = $this->cargarFunciones();
+      $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
+
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+      require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+    }
+
+    public function viewPeliFuncionAdmin()
+    {
+      $seleccion = $_POST['funcion'];
+      $peliculasList =$this->filtarPelisXFecha($seleccion);
+    var_dump($seleccion);
+
+      $generoList = $this->cargarGeneros();
+      $fechaDeFuncion = $this->cargarFunciones();
+      $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
+
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+      require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+
+    }
+
+    public function viewPeliGeneroAdmin()
+    {
+    
+       $seleccion = $_POST['genero'];
+       list($id,$seleccion) = explode("-",$seleccion);
+       
+
+       $peliculasList = $this->filtarPelisXgenero($id);
+
+
+       $generoList = $this->cargarGeneros();
+       $fechaDeFuncion = $this->cargarFunciones();
+       $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
+ 
+       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+       require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+       require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+       require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+ 
+
+    }
+
+#**********************************************TICKETS*******************************************+
+
+    public function viewTicketsVendidos()
+    {
+
+
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+      require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+
+    }
+
+    private function cantidadDeentradasVendidas()
+    {
+
+
+    }
 
 } ?>
