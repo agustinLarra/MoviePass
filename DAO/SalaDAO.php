@@ -50,6 +50,7 @@
                         $sala->setCapacidad($row["Capacidad"]);
                         $sala->setTipoSala($row["Tipo_sala"]);
                         $sala->setIdCine($row["Id_Cine"]);
+                        $sala->setEstado($row["Eliminado"]);
        
                          
                         array_push($salaList, $sala);
@@ -66,13 +67,14 @@
     
         private function SaveData(Sala $sala)
         {
-            $sql = "INSERT INTO salas(Nombre,Precio,Capacidad,Id_Cine,Tipo_sala) VALUES(:Nombre,:Precio,:Capacidad,:Id_Cine,:Tipo_sala)";
+            $sql = "INSERT INTO salas(Nombre,Precio,Capacidad,Id_Cine,Tipo_sala,Eliminado) VALUES(:Nombre,:Precio,:Capacidad,:Id_Cine,:Tipo_sala,:Eliminado)";
     
             $parameters['Nombre'] = $sala->getNombre();
             $parameters['Precio'] = $sala->getPrecio();
             $parameters['Capacidad'] = $sala->getCapacidad();
             $parameters['Id_Cine'] = $sala->getIdCine();
             $parameters['Tipo_sala'] = $sala->getTipoSala();
+            $parameters['Eliminado'] = 0;
             
             try{
                 $this->connection = connection::GetInstance();
@@ -119,10 +121,23 @@
 
 
 
-        public function Delete(Sala $sala)
+        public function Delete($id)
         {
-            $parameters = $sala->getId();
-            $sql = "DELETE FROM salas WHERE Id_Sala = '$parameters'";
+           // $parameters = $sala->getId();
+            $sql ="UPDATE salas SET Eliminado = '1' WHERE salas.Id_Sala = '$id'";
+
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$id);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+        }
+        public function Alta($parameters)
+        {
+          
+            $sql ="UPDATE salas SET Eliminado = '0' WHERE salas.Id_Sala = '$parameters'";
 
             try{
                 $this->connection = connection::GetInstance();
@@ -131,12 +146,13 @@
             catch(PDOException $e){
                 echo $e;
             }
+
         }
 
 
         public function getByID($idSala){
 
-            $sala;
+           // $sala;
             try
             {
                 $query = "SELECT * FROM salas WHERE Id_Sala = '$idSala'";

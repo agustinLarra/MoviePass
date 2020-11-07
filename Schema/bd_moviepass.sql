@@ -22,6 +22,7 @@ create table cines(
     Ciudad varchar(30),
     Calle varchar(30),
     Numero int,
+    Eliminado boolean
     
     constraint `PK_Cine` primary key(Id_Cine)
 );
@@ -36,6 +37,7 @@ create table salas(
     Capacidad int not null,
     Tipo_sala varchar(30), 
     Id_Cine int not null,
+    Eliminado boolean
     
     constraint `PK_Salas` primary key(Id_Sala),
     constraint `FK_Id_Cine` foreign key (Id_Cine) references cines(Id_Cine) on delete cascade on update cascade

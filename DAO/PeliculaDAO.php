@@ -145,7 +145,6 @@
         //guarda todas las peliculas de la api en la base de datos
         private function SaveData($pelicula)
         {
-            $arrayToEncode = array();
             $sql = "INSERT INTO peliculas (Id_Pelicula,PosterPath,PosterHorizontal,Title,Overview,Video,Runtime,Release_date) VALUES (:Id_Pelicula,:PosterPath,:PosterHorizontal,:Title,:Overview,:Video,:Runtime,:Release_date)";
 
             $parameters["Id_Pelicula"] = $pelicula->getId();

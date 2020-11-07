@@ -72,6 +72,7 @@ class HomeController{
        // throw new Exception($e->get_message());
 
       }
+      
         
         require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
         require(VIEWS_PATH.'billboard.php');
@@ -244,6 +245,7 @@ class HomeController{
 
     $adminController = new AdminController();
     $listSalas = $adminController->listarSalasConCine();
+    
 
     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');

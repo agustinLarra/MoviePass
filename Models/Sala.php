@@ -11,6 +11,7 @@ class Sala{
     private $precio;
     private $capacidad;
     private $tipoSala;
+    private $estado;
 
 
     public function getId(){
@@ -68,6 +69,15 @@ class Sala{
 
     public function setTipoSala($tipoSala){
         $this->tipoSala = $tipoSala ;
+    }
+
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
     }
 
 

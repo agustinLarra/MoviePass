@@ -18,15 +18,17 @@
             $this->fileName = dirname(__DIR__)."/Data/User.json";
             $this->connection = null;
         }
+
         
         public function create($user){
+           
             $sql = "INSERT INTO users(FirstName,LastName,DNI,Email,Pass) VALUES(:FirstName,:LastName,:DNI,:Email,:Pass)";
             
-            $parameters['firstName'] = $user->getFirstName();
-            $parameters['lastName'] = $user->getLastName();
-            $parameters['dni'] = $user->getDni();
-            $parameters['email'] = $user->getEmail();
-            $parameters['pass'] = $user->getPassword();
+            $parameters['FirstName'] = $user->getFirstName();
+            $parameters['LastName'] = $user->getLastName();
+            $parameters['DNI'] = $user->getDni();
+            $parameters['Email'] = $user->getEmail();
+            $parameters['Pass'] = $user->getPassword();
             
             try{
                 $this->connection = connection::GetInstance();
@@ -71,8 +73,65 @@
             return $userList;
         }
 
-        public function getByEmail($email) {
-            $this->RetrieveData();
+ 
+
+        public function checkEmailRegistrado($email)
+        { 
+            try
+            {
+                $query = "SELECT * FROM users WHERE Email = '$email'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);
+            
+                if(!empty($resultSet)) {
+                    return false;
+                }
+                else return true;
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+        }
+        public function checkPass ($pass)
+        {
+            try
+            {
+                $query = "SELECT * FROM users WHERE Pass = '$pass'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);
+            
+                if(!empty($resultSet)) {
+                    return false;
+                }
+                else return true;
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+
+        }
+
+        public function checkUsuario($email,$pass)
+        {
+            
+            if(!$this->checkEmailRegistrado($email))
+            {
+           
+                if(!$this->checkPass($pass))
+                {
+                        return true;
+                }
+                else return false;
+
+            }
+            else return false ;
+
+        }
+
+
+
+       /* public function getByEmail($email) {
+            $this->getAll();
             //$validationGetByEmail = false;
 
             foreach ($this->UserList as $key => $user) {
@@ -85,9 +144,9 @@
             /*
             if($validationGetByEmail == 'false'){
                 return $validationGetByEmail;
-            }*/
+            }
                 
-        }
+        }*/
 
         public function modify($email,$pass){
             $sql = "UPDATE users SET  email = :email , pass = :pass, WHERE email = :email";
@@ -105,7 +164,7 @@
 
         ///********************
         ///********************
-
+/*
         private function RetrieveData()
         {
             $this->UserList = array();
@@ -130,29 +189,8 @@
                 }
             }
         }
-    
-    
-        private function SaveData(User $User)
-        {
-            $sql = "INSERT INTO cines ('firstName','lastName','dni','email','password')";
-
-            $parameters['firstName'] = $user->getFirsName();
-            $parameters['lastName'] = $user->getLastName();
-            $parameters['dni'] = $user->getDni();
-            $parameters['email'] = $user->getEmail();
-            $parameters['password'] = $user->getPassword();
-
-            try{
-                $this->connection::GetInstance();
-                return $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo "Entrando en la exception !! ";
-                echo $e;
-            }
-
-
-        }
+    */
+  
 
 
         /* ELIMINAR PERSONA

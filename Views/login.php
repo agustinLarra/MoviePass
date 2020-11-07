@@ -38,6 +38,7 @@
 					</div>
 
 				</form>
+				<a href="<?=FRONT_ROOT?>Views/signUp.php">Registrarse</a>
 			</div>
 		</div>
 	</div>

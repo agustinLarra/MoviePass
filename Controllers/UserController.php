@@ -33,35 +33,42 @@ class UserController{
 
 	public function signUp ($firstName, $lastName, $dni, $email,$password){
 
-        $userDAO = $this->pdo->getByEmail($email);
-        
-        $user = new User();
-        $user->setFirstName($firstName);
-        $user->setLastName($lastName);
-        $user->setDni($dni);
-        $user->setEmail($email);
-        $user->setPassword($password);
-       
+
         $homeController = new HomeController();
-        $validation = false;
-        /*
-        if ($user->getFirstName() != '' && $user->getLastName() != '' && $user->getDni() < 0 && $user->getDni() != '' && $user->getPassword() != '') {
-            */
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $validation = true;
-            }
-        /*}*/
+
+        if($this->pdo->checkEmailRegistrado($email))
+        {
         
-		if($userDAO == null)
-		{
+            $user = new User();
+            $user->setFirstName($firstName);
+            $user->setLastName($lastName);
+            $user->setDni($dni);
+            $user->setEmail($email);
+            $user->setPassword($password);
+        
+         
+            $validation = false;
+            /*
+            if ($user->getFirstName() != '' && $user->getLastName() != '' && $user->getDni() < 0 && $user->getDni() != '' && $user->getPassword() != '') {
+                */
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $validation = true;
+                }
+            /*}*/
             
-            if($validation){
+              if($validation){
                 
-                //ACA VA LA PAGINA DIRECTAMENTE
-                $this->pdo->create($user);
-                $homeController->viewCartelera();
+                  //ACA VA LA PAGINA DIRECTAMENTE
+                  $this->pdo->create($user);
+                 //INICIA SESSION ANTES
+                 if(!isset($_SESSION['userLog']))
+                  {
+                     $_SESSION['userLog'] = $user->getEmail();
+                     $homeController->viewCartelera();  
+                }
+
                 	
-            }
+                }
             
         }else
         {
@@ -72,36 +79,36 @@ class UserController{
 	}
 
         
-	public function getByEmail($email){
+	/*public function getByEmail($email){
 		$userDAO = $this->pdo->getByEmail($email);
-    }
+    }*/
     
     public function login($email,$pass){
-        
-        $userDAO = new UserDAO();
-        $userList = $userDAO->getAll();
-        $loggedUser = NULL;
+
         $homeController = new HomeController();
 
-        foreach($userList as $value){
-            if($email == $value->getEmail()){
-                if($pass == $value->getPassword()){
-                    
-                    $loggedUser = $value;
-                    //session_start();
-                    $_SESSION['userLog'] = $loggedUser;
-                    
-                    $homeController->viewCartelera();
-                    
-                }
-                else{
-                    $homeController->viewLogin();
-                }
-            }
-            else{
-                $homeController->viewLogin();
-            }
+        $userDAO = new UserDAO();
+        $userList = $userDAO->checkUsuario($email,$pass);
+        if($userList==true)
+        {    
+             if($email=="admin@gmail.com" && $pass=="admin123")
+             {
+                $homeController->viewHomeAdmin();
+                 
+             }
+             else{
+                 $_SESSION['userLog'] = $email;
+                  $homeController->viewCartelera();
+             }
+
         }
+        else 
+        {
+            echo '<script>alert("Datos Incorrectos, vuelva a intentar");</script>';
+
+           $homeController->viewLogin();
+        }
+        
     }
 
     public function logout(){

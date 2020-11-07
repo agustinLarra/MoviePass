@@ -90,12 +90,23 @@ class AdminController{
         $sala = new Sala();
 
         $sala->setId($id);
-
+  
         $salaDao = new SalaDAO();
-        $salaDao->Delete($sala);
+        $salaDao->Delete($id);
+        
 
         $homeController = new HomeController();
         $homeController->viewListSalas();
+    }
+
+    public function altaSala($id)
+    {
+        $salaDao = new SalaDAO();
+        $salaDao->Alta($id);
+
+        $homeController = new HomeController();
+        $homeController->viewListSalas();
+
     }
 
 

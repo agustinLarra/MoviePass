@@ -39,7 +39,7 @@
                     <?php if(isset($_SESSION['userLog'])) { ?>
                     <div class="col-xl-3 col-lg-3 col-md-3">
                         <div class="header-right-btn f-right d-none d-lg-block">
-                            <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Logout</a>
+                            <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Logou</a>
                         </div>
                     </div>
                     <?php	} ?>
