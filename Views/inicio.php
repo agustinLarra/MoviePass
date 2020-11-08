@@ -25,7 +25,9 @@ if(!isset($_SESSION)) session_start();
                                            <li><a href="<?php echo FRONT_ROOT?>Home/Index"> Home</a></li>
                                            <!-- ACA REDIRECCIONAR BIEN-->
                                            <li><a href="<?php echo FRONT_ROOT?>Home/viewCartelera">Cartelera</a></li>
-       
+                                           <?php if(isset($_SESSION['userLog'])) { ?>
+                                                <li><a href="<?php echo FRONT_ROOT?>Home/viewEntradasAdquiridas">Entradas Adquiridas</a></li>
+                                            <?php	} ?>
                                            <!-- <a href="destino.php?variable1=valor1&variable2=valor2">Mi enlace</a>-->
        
        

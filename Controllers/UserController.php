@@ -436,6 +436,51 @@ class UserController{
 
     }
 
+    public function getEntradasAdquiridas($idUser){
+
+        $compraDAO = new CompraDAO();    
+        $entradaDAO = new EntradaDAO(); 
+        $funcionDao = new FuncionDAO(); 
+           
+      // agarro las compras que hizo
+      // agarro las entradas vinculadas a esa compra
+      // con la entrada agarro la funcion
+      // con la funcion agarro la peli
+        // En div se va a guardar toda la informacion que va a tener una sola vista
+        $div = array();
+        // Lista de divs esta por si el user vio mas de una funcion
+        $listaDeDivs = array();
+        // busco todas las compras que haya hecho este user
+        $compraDAO = new CompraDAO();
+        $compraList = $compraDAO->getByIdUser($idUser);
+
+        //por cada compra que hizo
+        foreach($compraList as $compra){
+
+            // ya puedo decir cuantas entradas compro y cual fue el costo
+            $div['EntradasAdquiridas'] = $compra->getCantidadEntradas();
+            $div['Total'] = $compra->getTotal();
+
+            //busco las entradas que sean de esa compra
+            $entrada = $entradaDAO->getByIdCompra($compra->getId());
+            $funcion = $funcionDao->getFuncionCompleta( $entrada->getIdFuncion() );
+            //Esto es para que sea mas facil de leer
+            //Al div le agrego los datos que acabo de sacar
+            $div['PosterPath'] =  $funcion->getPosterPelicula();
+            $div['Title'] =  $funcion->getTitlePelicula();
+            $div['NombreCine'] =  $funcion->getNombreCine();
+            $div['NombreSala'] =  $funcion->getNombreSala();
+            $div['Dia'] =  $funcion->getDia();
+            $div['Hora'] =  $funcion->getHora();
+
+            array_push($listaDeDivs, $div);
+
+        }
+
+        return  $listaDeDivs;
+
+    }
+
 
 
 

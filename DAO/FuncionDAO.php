@@ -215,6 +215,44 @@
             return $funcionList;
         }
 
+        public function getFuncionCompleta($idFuncion){
+
+            $Funcion = new Funcion();
+            try
+            {
+                $query = "  SELECT p.PosterPath, p.Title, c.Nombre as NombreCine, s.Nombre as NombreSala, f.Dia, f.Hora 
+                            FROM funciones as f
+                            INNER JOIN peliculas as p
+                            ON p.Id_Pelicula = f.Id_Pelicula
+                            INNER JOIN salas as s
+                            ON s.Id_Sala = f.Id_Sala
+                            INNER JOIN cines as c
+                            ON c.Id_Cine = s.Id_Cine
+                            WHERE f.Id_Funcion = '$idFuncion'";
+
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $Funcion->setPosterPelicula($row["PosterPath"]);
+                        $Funcion->setTitlePelicula($row["Title"]);
+                        $Funcion->setNombreCine($row["NombreCine"]);
+                        $Funcion->setNombreSala($row["NombreSala"]);
+                        $Funcion->setDia($row["Dia"]);
+                        $Funcion->setHora($row["Hora"]);
+       
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $Funcion;
+
+        }
+
         
     }
 ?>

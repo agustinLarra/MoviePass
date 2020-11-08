@@ -16,8 +16,8 @@ class Funcion {
     private $Descuento;
     private $classCine;
     private $classSala;
-    private $entrada;
-
+    private $EntradasVendidas;
+    private $RecaudacionTotal;
 
     public function __construct()
     {
@@ -155,16 +155,26 @@ class Funcion {
         return $this->Descuento;
     }
 
-    public function setEntrada($entrada)
+    public function setEntradasVendidas($EntradasVendidas)
     {
-        $this->entrada=$entrada;
+        $this->EntradasVendidas = $EntradasVendidas;
     }
 
-    public function getEntrada()
+    public function getEntradasVendidas()
     {
-        return $this->entrada;
+        return $this->EntradasVendidas;
     }
-    
+
+    public function setRecaudacionTotal($RecaudacionTotal)
+    {
+        $this->RecaudacionTotal = $RecaudacionTotal;
+    }
+
+    public function getRecaudacionTotal()
+    {
+        return $this->RecaudacionTotal;
+    }
+
 
 
 
