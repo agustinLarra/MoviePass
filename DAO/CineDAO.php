@@ -20,12 +20,22 @@
 
         public function Add(Cine $cine)
         {
-            $this->SaveData($cine);
+            try{
+               $this->SaveData($cine);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
         }
 
         public function GetAll() 
         {
-            $cineList = $this->RetrieveData();
+            try{
+               $cineList = $this->RetrieveData();
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
             return $cineList;
         }
 
@@ -37,9 +47,9 @@
             try{
                 $this->connection = connection::GetInstance();
                 $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
+                
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
   
@@ -57,9 +67,8 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
 
@@ -88,7 +97,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $cineList;
         }
@@ -109,14 +118,11 @@
             $parameters = $cine->getId();
             $sql = "UPDATE cines SET nombre=?,telefono=?,email=? WHERE Id_Cine= $parameters";
 
-            
-
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
 
 
@@ -126,7 +132,12 @@
 
         public function RetrieveOne($id)
         {
-            $cines = $this->RetrieveData();
+            try{
+               $cines = $this->RetrieveData()
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
             foreach($cines as $values)
             {
                 if($values->getId()==$id)
@@ -156,7 +167,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
 
             return $cine;

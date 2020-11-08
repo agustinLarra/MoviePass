@@ -21,26 +21,52 @@
         }
         
         public function Add(Funcion $funcion){
-            $this->SaveData($funcion);
+            try{
+               $this->SaveData($funcion);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
         }
 
         public function GetAll() {
+            try{
+                $funcionList = $this->RetrieveData();
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
             
-            $funcionList = $this->RetrieveData();
             return $funcionList;
         }
         public function GetId($id)
         {
-            return $this->RetrieveOne($id);
+            try{
+                $funcion = $this->RetrieveOne($id);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            return $funcion;
 
         }
         public function GetDia($dia)
         {
-            return $this->RetrieveDia($dia);
+            try{
+              $dia  = $this->RetrieveDia($dia);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
+            return $dia;
         }
         public function DeleteFuncionId($id)
         {
-            $this->DeleteId($id);
+            try{
+               $this->DeleteId($id);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
+            
         }
 
 
@@ -70,7 +96,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $funcionList;
         }
@@ -117,9 +143,8 @@
             try{
                 $this->connection = connection::GetInstance();
                  $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
 
@@ -130,9 +155,8 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$id);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
 
@@ -144,9 +168,8 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
 
@@ -177,7 +200,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $funcion;
         }
@@ -210,7 +233,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $funcionList;
         }
@@ -247,7 +270,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $Funcion;
 

@@ -43,7 +43,13 @@ class AdminController{
         $cine->setId($id);
 
         $cineDao = new CineDAO();
-        $cineDao->Delete($cine);
+
+        try{
+               $cineDao->Delete($cine);
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
 
         $homeController = new HomeController();
         $homeController->viewListCines();
@@ -61,9 +67,12 @@ class AdminController{
         $cine->setNumero($numero);
 
         $cineDao = new CineDAO();
-        // aca va la base de datos (esperar a solera)
-        $cineDao->Add($cine);
-
+        try{
+             $cineDao->Add($cine);
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
         $homeController = new HomeController();
         $homeController->viewListCines();
     }
@@ -79,7 +88,12 @@ class AdminController{
         $sala->setTipoSala($tipoSala);
 
         $salaDao = new SalaDAO();
-        $salaDao->Add($sala);
+        try{
+                $salaDao->Add($sala);
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+       
 
         $homeController = new HomeController();
         $homeController->viewListSalas();
@@ -94,7 +108,13 @@ class AdminController{
         $sala->setId($id);
   
         $salaDao = new SalaDAO();
-        $salaDao->Delete($id);
+
+        try{
+            $salaDao->Delete($id);   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
         
 
         $homeController = new HomeController();
@@ -104,7 +124,13 @@ class AdminController{
     public function altaSala($id)
     {
         $salaDao = new SalaDAO();
-        $salaDao->Alta($id);
+
+        try{
+             $salaDao->Alta($id);  
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
 
         $homeController = new HomeController();
         $homeController->viewListSalas();
@@ -128,9 +154,14 @@ class AdminController{
        $funcion->setDescuento($this->diasDeDescuento($diaDeLaSemana));
 
 
-        if( $this->checkHorario($dia,$hora))
-        {  
+        if( $this->checkHorario($dia,$hora)){  
+            
+            try{
                 $this->newFuncion($funcion);
+            }catch(Exception $e){
+                throw new Exception($e->get_message());
+            }
+              
         }else{
             
             echo '<script>alert("Horario No disponible( aplique 15 minutos de diferencia)");</script>';
@@ -153,23 +184,24 @@ class AdminController{
         $json = new PeliculasJson();//Desde el id de la pelicula en funcion , la busco en el json y la guardo;
         $pelicula = $json->returnById($funcion->getIdPelicula());
 
-        if($pelicula != false)
-        {
-           $resul = $peliculaDAO->RetrieveOne($pelicula->getId());//Para no guardar dos veces una pelicula
-           
-           if($resul == false)
-           {
-                $peliculaDAO->SavePelicula($pelicula);
-           }  
+        try{
+                if($pelicula != false){
+                    $resul = $peliculaDAO->RetrieveOne($pelicula->getId());//Para no guardar dos veces una pelicula
+                    
+                    if($resul == false) {
+                            $peliculaDAO->SavePelicula($pelicula);
+                    }  
+                }
+                else {echo "error";}
+
+                $funcion->setPosterPelicula($pelicula->getPosterPath());
+                $funcionDAO = new FuncionDAO();
+                $funcionDAO->Add($funcion);
+
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
         }
-        else {echo "error";}
-
-        $funcion->setPosterPelicula($pelicula->getPosterPath());
-        $funcionDAO = new FuncionDAO();
-        $funcionDAO->Add($funcion);
-
-
-
+        
         $Home_controller = new HomeController();
    
         $Home_controller->viewListFunciones();
@@ -218,37 +250,54 @@ class AdminController{
         $funcion = new Funcion();
         $funcion->setId($id);
         $funcionDAO = new FuncionDAO();
-        $funcionDAO->Delete($funcion);
+        try{
+                $funcionDAO->Delete($funcion);
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+       
     }
 
 
     public function listarFunciones(){ 
         $FuncionDao = new FuncionDAO();
-        $listaFunciones = $FuncionDao->GetAll();
-        //Aca tengo en  $listaFunciones Todas las funciones
-        $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
-        //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
 
-        $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
-        //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
-        $listaFuncionesConPelicula = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
-        //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
-        $listaFuncionesCompleta = $this->agregarEntradasAFuncion($listaFuncionesConPelicula);
+        try{
 
+            $listaFunciones = $FuncionDao->GetAll();
+            //Aca tengo en  $listaFunciones Todas las funciones
+            $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
+            //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
+            $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
+            //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
+            $listaFuncionesConPelicula = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
+            //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
+            $listaFuncionesCompleta = $this->agregarEntradasAFuncion($listaFuncionesConPelicula);
+
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
         
         return $listaFuncionesCompleta;
     }
 
     public function listarFuncionesByIdPelicula( $idPelicula ){ 
         $funcionDAO = new FuncionDAO();
-        $listaFunciones = $funcionDAO->getFuncionesByIdPelicula($idPelicula);
-        //Aca tengo en  $listaFunciones Todas las funciones
-        $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
-        //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
-        $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
-        //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
-        $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
-        //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO
+
+        try{
+                 $listaFunciones = $funcionDAO->getFuncionesByIdPelicula($idPelicula);
+                //Aca tengo en  $listaFunciones Todas las funciones
+                $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
+                //Aca tengo en  $listaFuncionesConSalas TODAS LAS FUNCIONES CON EL NOMBRE DE sala AGREGADO
+                $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
+                //Aca tengo en  $listaFuncionesConCine TODAS LAS FUNCIONES CON EL NOMBRE DE cine AGREGADO
+                $listaFuncionesCOMPLETA = $this->agregarTitlePeliculaAFunciones(  $listaFuncionesConCine);
+                //Aca tengo en  $listaFuncionesCOMPLETA TODAS LAS FUNCIONES CON EL title de pelicula AGREGADO   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
+      
         
         return $listaFuncionesCOMPLETA;
     }
@@ -259,13 +308,20 @@ class AdminController{
     public function listarCinesConFuncion_ByIdPelicula($idPelicula){
 
         $funcionDAO = new FuncionDAO();
-        $listaFunciones = $funcionDAO->getFuncionesByIdPelicula($idPelicula);
-        //aca agarro las salas
-        $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
-        // aca agarro el cine
-        $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
 
-        $listaFuncionesCompleta = $this->agregarEntradasAFuncion($listaFuncionesConCine);
+        try{
+                
+            $listaFunciones = $funcionDAO->getFuncionesByIdPelicula($idPelicula);
+            //aca agarro las salas
+            $listaFuncionesConSalas = $this->agregarNombreSalaAFunciones(  $listaFunciones);
+            // aca agarro el cine
+            $listaFuncionesConCine = $this->agregarCineAFunciones(  $listaFuncionesConSalas);
+
+            $listaFuncionesCompleta = $this->agregarEntradasAFuncion($listaFuncionesConCine);   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+       
 
         return $listaFuncionesCompleta;
 
@@ -278,12 +334,17 @@ class AdminController{
 
         $cineDAO = new CineDAO();
         $listaCiudades = array();
-        foreach( $listaFunciones as $funcion ){
+        try{
+            foreach( $listaFunciones as $funcion ){
 
-            $idCine = $funcion->getIdCine();
-            array_push($listaCiudades,  $cineDAO->getCiudadById( $idCine ));
-
+                $idCine = $funcion->getIdCine();
+                array_push($listaCiudades,  $cineDAO->getCiudadById( $idCine ));
+    
+            }  
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
         }
+        
         
         return $listaCiudades;
     }
@@ -291,14 +352,24 @@ class AdminController{
 
     public function listarCines(){
         $cineDao = new CineDAO();
-        $listaCines = $cineDao->GetAll();
+        try{
+            $listaCines = $cineDao->GetAll();
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
         return $listaCines;
     }
 
     public function listarSalas(){
 
         $salaDao = new SalaDAO();
-        $listaSalas = $salaDao->GetAll();
+        try{
+            $listaSalas = $salaDao->GetAll();   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
         return $listaSalas;
     }
 
@@ -306,8 +377,12 @@ class AdminController{
     public function listarSalasConCine(){
 
         $salaDao = new SalaDAO();
-
-        $listaSalas = $salaDao->GetAll();
+        try{
+            $listaSalas = $salaDao->GetAll();   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
         $listaSalasConCine = $this->agregarNombreCineASala($listaSalas);
         return $listaSalasConCine;
     }
@@ -317,7 +392,13 @@ class AdminController{
     public function listarPeliculas(){
 
         $peliculaDao = new PeliculaDAO();
-        $peliculasList = $peliculaDao->GetAll();
+        try{
+               $peliculasList = $peliculaDao->GetAll();
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
+        
         return $peliculasList;
     }
 
@@ -328,24 +409,29 @@ class AdminController{
         $entradaDAO = new EntradaDAO();
         $compraDAO = new CompraDAO();
 
-        //Por cada funcion que haya
-        foreach($Listafunciones as $funcion){
-            //Busco las entradas que machean con esta funcion Y guardo los id de compra en un arreglo
-            $arregloDeIdCompra = $entradaDAO->getIdCompraByIdFuncion($funcion->getId());
-            $entradasVendidas = 0;
-            $recaudacionTotal = 0;
-            // por cada id de compra, perteneciente a esta funcion
-            foreach($arregloDeIdCompra as $idCompra){
-                $compra = $compraDAO->getById($idCompra);
-                // Empiezo a contar por cada compra, las entradas y el total que salio
-                $entradasVendidas += $compra->getCantidadEntradas();
-                $recaudacionTotal += $compra->getTotal();
-            }
-            // una vez que se repasaron todas las compras vinculadas a esta funcion
-            // agrego todas las entradas y totales que saque de cada compra
-            $funcion->setEntradasVendidas ($entradasVendidas);
-            $funcion->setRecaudacionTotal( $recaudacionTotal );
+        try{
+              //Por cada funcion que haya
+            foreach($Listafunciones as $funcion){
+                //Busco las entradas que machean con esta funcion Y guardo los id de compra en un arreglo
+                $arregloDeIdCompra = $entradaDAO->getIdCompraByIdFuncion($funcion->getId());
+                $entradasVendidas = 0;
+                $recaudacionTotal = 0;
+                // por cada id de compra, perteneciente a esta funcion
+                foreach($arregloDeIdCompra as $idCompra){
+                    $compra = $compraDAO->getById($idCompra);
+                    // Empiezo a contar por cada compra, las entradas y el total que salio
+                    $entradasVendidas += $compra->getCantidadEntradas();
+                    $recaudacionTotal += $compra->getTotal();
+                }
+                // una vez que se repasaron todas las compras vinculadas a esta funcion
+                // agrego todas las entradas y totales que saque de cada compra
+                $funcion->setEntradasVendidas ($entradasVendidas);
+                $funcion->setRecaudacionTotal( $recaudacionTotal );
+            }   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
         }
+      
 
         return $Listafunciones;
 
@@ -354,12 +440,16 @@ class AdminController{
     public function agregarNombreCineASala( $listaSalas){
 
         $cineDao = new CineDAO();
-
-        foreach($listaSalas as $sala){
-
-            $cine = $cineDao->getByID($sala->getIdCine());
-            $sala->setNombreCine(  $cine->getNombre()  );
+        try{
+             foreach($listaSalas as $sala){
+                $cine = $cineDao->getByID($sala->getIdCine());
+                $sala->setNombreCine(  $cine->getNombre()  );
+            }   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
         }
+
+       
         
         return $listaSalas;
     }
@@ -367,13 +457,15 @@ class AdminController{
     public function agregarNombreSalaAFunciones( $listaFunciones){
 
         $salaDao = new SalaDAO();
-
-        foreach($listaFunciones as $funcion){
-
-            $sala = $salaDao->getByID($funcion->getIdSala());
-            $funcion->setClassSala( $sala );
-        
+        try{
+            foreach($listaFunciones as $funcion){
+                $sala = $salaDao->getByID($funcion->getIdSala());
+                $funcion->setClassSala( $sala );
+            }   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
         }
+        
         
         return $listaFunciones;
     }
@@ -382,14 +474,15 @@ class AdminController{
 
 
         $cineDao = new CineDAO();
-
-        foreach($listaFunciones as $funcion){
-
-            $cine = $cineDao->getByID($funcion->getClassSala()->getIdCine());
-            $funcion->setClassCine( $cine );
-           
-           
+        try{
+             foreach($listaFunciones as $funcion){
+                $cine = $cineDao->getByID($funcion->getClassSala()->getIdCine());
+                $funcion->setClassCine( $cine );
+            }  
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
         }
+        
         
         return $listaFunciones;
     }
@@ -401,9 +494,14 @@ class AdminController{
 
         foreach($listaFunciones as $funcion){
 
-            $pelicula = $peliculaDao->getPeliByID($funcion->getIdPelicula());
-            $funcion->setPosterPelicula( $pelicula->getPosterPath() );
-            $funcion->setTitlePelicula(  $pelicula->getTitle()  );
+            try{
+                $pelicula = $peliculaDao->getPeliByID($funcion->getIdPelicula());
+                $funcion->setPosterPelicula( $pelicula->getPosterPath() );
+                $funcion->setTitlePelicula(  $pelicula->getTitle()  );
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
         }
         
         return $listaFunciones;
@@ -417,7 +515,12 @@ class AdminController{
       
         $salaDao = new SalaDAO();
 
-        $listaSalas = $salaDao->GetByIdCine($_GET['id_cine']);
+        try{
+              $listaSalas = $salaDao->GetByIdCine($_GET['id_cine']);  
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+       
 
 
         echo'<select name="select" id="select">';
@@ -503,17 +606,23 @@ class AdminController{
       public function peliculasToBd()
       { 
           $peliculaDao = new PeliculaDAO();
-
           $arrayCartelera = array();
           $apiPeliculas = new Api();
-          $arrayCartelera = $apiPeliculas->getCarteleraApi();
-          foreach($arrayCartelera as $value)
-          {
-              if(  $peliculaDao->checkPeliRepetida($value) == false ){
+          try{
+                $arrayCartelera = $apiPeliculas->getCarteleraApi();
+                foreach($arrayCartelera as $value)
+                {
+                    if(  $peliculaDao->checkPeliRepetida($value) == false ){
+    
+                    $peliculaDao->SavePelicula($value);
+                    }
+                }
+            }catch(Exception $e){
+               throw new Exception($e->get_message());
+            }
 
-                $peliculaDao->SavePelicula($value);
-              }
-          }
+        
+          
       }
 
      
@@ -522,16 +631,18 @@ class AdminController{
           $apiGeneros = new Api();
           $arrayGeneros = $apiGeneros->getGenerosApi();
           $generoDao = new GeneroDao();
-          foreach($arrayGeneros as $values)
-          {
-            if(  $generoDao->checkGeneroRepetido($values) == false ){
+          try{
+              foreach($arrayGeneros as $values){
 
-                $generoDao->SaveGenero($values);
-            
-            }    
-          }
-  
-      }
+                if(  $generoDao->checkGeneroRepetido($values) == false ){
+
+                    $generoDao->SaveGenero($values);
+                    }    
+                } 
+            }catch(Exception $e){
+                throw new Exception($e->get_message());
+            }
+        }
 
 
       public function modifyCine($id)
@@ -541,12 +652,15 @@ class AdminController{
 
         $cineDAO = new CineDAO();
 
-        $retrieve = $cineDAO->RetrieveOne($id);
+        try{
+            $retrieve = $cineDAO->RetrieveOne($id);
 
 
-        $updateCine = $cineDAO->ModifyCine($cine);
-
-
+            $updateCine = $cineDAO->ModifyCine($cine);   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+       
         include_once('ViewsAdmin/modifyShowList.php');
         //$this->showModifyCine($retrieve);
     }

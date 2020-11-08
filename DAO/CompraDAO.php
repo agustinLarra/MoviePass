@@ -25,16 +25,19 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
 
 
         public function GetAll() {
-            
-            $salaList = $this->RetrieveData();
+            try{
+                $salaList = $this->RetrieveData();
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+           
             return $salaList;
         }
 
@@ -55,7 +58,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $compra;
             
@@ -80,7 +83,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $compra;
         }
@@ -107,7 +110,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $arregloCompras;
 

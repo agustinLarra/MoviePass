@@ -88,7 +88,13 @@ class UserController{
         $homeController = new HomeController();
 
         $userDAO = new UserDAO();
-        $userList = $userDAO->checkUsuario($email,$pass);
+        try{
+                $userList = $userDAO->checkUsuario($email,$pass);
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+
+       
         if($userList==true)
         {    
              if($email=="admin@gmail.com" && $pass=="admin123")
@@ -132,7 +138,13 @@ class UserController{
         // AGARRO LOS DATOS Y CALCULO EL TOTAL
         $idFuncion =  $_POST['funcion'];
         $funcionDao = new FuncionDAO();
-        $funcion = $funcionDao->getById($idFuncion);
+
+        try{
+            $funcion = $funcionDao->getById($idFuncion);   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
         $cantidadEntradas =  $_POST['cantidadEntradas'];
         $total = $cantidadEntradas * $funcion->getClassSala()->getPrecio();
         $descuento = 0;
@@ -194,8 +206,14 @@ class UserController{
         $compra->setCantidadEntradas($cantidadEntradas);
         $compra->setTotal($total);
         $compraDAO = new CompraDAO();
-        $compraDAO->Add($compra);
-        $Ultimacompra = $compraDAO->getUltimaRow();
+        
+        try{
+            $compraDAO->Add($compra);
+            $Ultimacompra = $compraDAO->getUltimaRow();   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
 
         //Ahora hay que generar la entrada
         for( $i=1; $i <= $cantidadEntradas ; $i++ ){
@@ -205,7 +223,12 @@ class UserController{
             $entrada->setIdCompra($Ultimacompra->getId());
             $entrada->setIdFuncion($idFuncion);
             $entradaDAO = new EntradaDAO();
-            $entradaDAO->Add($entrada);
+            try{
+               $entradaDAO->Add($entrada);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
         }
       
        // $userDAO = new UserDAO();
@@ -450,32 +473,37 @@ class UserController{
         $div = array();
         // Lista de divs esta por si el user vio mas de una funcion
         $listaDeDivs = array();
-        // busco todas las compras que haya hecho este user
-        $compraDAO = new CompraDAO();
-        $compraList = $compraDAO->getByIdUser($idUser);
 
-        //por cada compra que hizo
-        foreach($compraList as $compra){
+        try{
+             // busco todas las compras que haya hecho este user
+            $compraList = $compraDAO->getByIdUser($idUser);
 
-            // ya puedo decir cuantas entradas compro y cual fue el costo
-            $div['EntradasAdquiridas'] = $compra->getCantidadEntradas();
-            $div['Total'] = $compra->getTotal();
+            //por cada compra que hizo
+            foreach($compraList as $compra){
 
-            //busco las entradas que sean de esa compra
-            $entrada = $entradaDAO->getByIdCompra($compra->getId());
-            $funcion = $funcionDao->getFuncionCompleta( $entrada->getIdFuncion() );
-            //Esto es para que sea mas facil de leer
-            //Al div le agrego los datos que acabo de sacar
-            $div['PosterPath'] =  $funcion->getPosterPelicula();
-            $div['Title'] =  $funcion->getTitlePelicula();
-            $div['NombreCine'] =  $funcion->getNombreCine();
-            $div['NombreSala'] =  $funcion->getNombreSala();
-            $div['Dia'] =  $funcion->getDia();
-            $div['Hora'] =  $funcion->getHora();
+                // ya puedo decir cuantas entradas compro y cual fue el costo
+                $div['EntradasAdquiridas'] = $compra->getCantidadEntradas();
+                $div['Total'] = $compra->getTotal();
 
-            array_push($listaDeDivs, $div);
+                //busco las entradas que sean de esa compra
+                $entrada = $entradaDAO->getByIdCompra($compra->getId());
+                $funcion = $funcionDao->getFuncionCompleta( $entrada->getIdFuncion() );
+                //Esto es para que sea mas facil de leer
+                //Al div le agrego los datos que acabo de sacar
+                $div['PosterPath'] =  $funcion->getPosterPelicula();
+                $div['Title'] =  $funcion->getTitlePelicula();
+                $div['NombreCine'] =  $funcion->getNombreCine();
+                $div['NombreSala'] =  $funcion->getNombreSala();
+                $div['Dia'] =  $funcion->getDia();
+                $div['Hora'] =  $funcion->getHora();
 
+                array_push($listaDeDivs, $div);
+
+        }  
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
         }
+        
 
         return  $listaDeDivs;
 

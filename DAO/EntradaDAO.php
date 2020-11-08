@@ -24,9 +24,8 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
 
@@ -54,7 +53,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $generoList;
         }
@@ -86,7 +85,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
 
             $ArregloIdsUnique = array_unique($idCompraList);
@@ -113,7 +112,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
 
 

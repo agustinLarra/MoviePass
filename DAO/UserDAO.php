@@ -33,13 +33,10 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
-            catch(PDOException $e){
-                echo $e;
-                echo "<br>";
-                echo "El problema aca es que entra en este exeption... ";
-                
-            }
+            
         }
 
         public function getAll() {
@@ -68,8 +65,9 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
             return $userList;
         }
 
@@ -89,8 +87,9 @@
                 else return true;
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
         }
         public function checkPass ($pass)
         {
@@ -106,8 +105,9 @@
                 else return true;
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
 
         }
 
@@ -155,11 +155,10 @@
             try {
                 $this->Connection = Connection::getInstance();
                 return $this->Connection->ExecuteNonQuery($sql, $parameters);
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
-            catch(PDOException $e)
-            {
-                echo $e;
-            }
+            
         }
 
         ///********************

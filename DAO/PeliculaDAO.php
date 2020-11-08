@@ -71,12 +71,19 @@
 
         public function RetrieveOne($id)
         {
-            $peliculas = $this->RetrieveData();
-            foreach($peliculas as $values)
-            {
-                if($values->getId()==$id)
-                    return $values;
+            try{
+               
+                $peliculas = $this->RetrieveData();
+                foreach($peliculas as $values)
+                {
+                    if($values->getId()==$id)
+                        return $values;
+                }
+
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
             }
+           
              return false;
         }
 
@@ -95,7 +102,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
     
             return $repetido;
@@ -106,8 +113,15 @@
 
         public function SavePelicula($pelicula)
         {
-            $this->SaveData($pelicula);
-            $this->ConectarConPeliXGenero($pelicula);
+            try{
+
+                $this->SaveData($pelicula);
+                $this->ConectarConPeliXGenero($pelicula);
+
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+           
         }
 
         private function ConectarConPeliXGenero($pelicula)
@@ -129,10 +143,10 @@
                 
                 try{
                         $this->connection = connection::GetInstance();
-                         $this->connection->ExecuteNonQuery($sql,$parameters);
-                    }
-                catch(PDOException $e){
-                        echo $e;
+                        $this->connection->ExecuteNonQuery($sql,$parameters);
+                    
+                    }catch(PDOException $e){
+                            throw new PDOException($e->getMessage());
                     }
 
                 $i++;    
@@ -160,10 +174,9 @@
             try{
                     $this->connection = connection::GetInstance();
                     return $this->connection->ExecuteNonQuery($sql,$parameters);
-                }
-            catch(PDOException $e){
-                    echo $e;
-                }
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }            
             
 
         }
@@ -204,8 +217,9 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
             return $peliculaList;
         }
 
@@ -257,8 +271,9 @@
                     }
                 }
             }catch(PDOException $e){
-                        echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
     
             return $arregloIdsPeliculas;
         }
@@ -291,8 +306,9 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
 
             return $pelicula;
         }
