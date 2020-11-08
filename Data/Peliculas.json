@@ -298,5 +298,21 @@
         "genre_ids": [
             27
         ]
+    },
+    {
+        "Id": 671039,
+        "PosterPath": "\/2AhimmTx88WsQfIX8OUjOxxgw5J.jpg",
+        "PosterHorizontal": "\/gnf4Cb2rms69QbCnGFJyqwBWsxv.jpg",
+        "Title": "Bronx",
+        "Overview": "Un polic\u00eda leal, en el punto de mira de agentes corruptos y de belicosas bandas de Marsella, debe proteger a su brigada. Y se ocupar\u00e1 personalmente de la situaci\u00f3n.",
+        "Video": "w1Ww62eIwOI",
+        "RunTime": 116,
+        "ReleaseDate": "2020-10-30",
+        "genre_ids": [
+            53,
+            28,
+            18,
+            80
+        ]
     }
 ]

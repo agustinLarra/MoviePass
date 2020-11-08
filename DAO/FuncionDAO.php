@@ -2,6 +2,7 @@
 
     use PDOException;
     use DAO\IDAO as IDAO;
+    use Models\Cine as Cine;
     use Models\Sala as Sala;
     use Models\Funcion as Funcion;
     use Models\Pelicula as Pelicula;
@@ -21,26 +22,52 @@
         }
         
         public function Add(Funcion $funcion){
-            $this->SaveData($funcion);
+            try{
+               $this->SaveData($funcion);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
         }
 
         public function GetAll() {
+            try{
+                $funcionList = $this->RetrieveData();
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
             
-            $funcionList = $this->RetrieveData();
             return $funcionList;
         }
         public function GetId($id)
         {
-            return $this->RetrieveOne($id);
+            try{
+                $funcion = $this->RetrieveOne($id);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            return $funcion;
 
         }
         public function GetDia($dia)
         {
-            return $this->RetrieveDia($dia);
+            try{
+              $dia  = $this->RetrieveDia($dia);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
+            return $dia;
         }
         public function DeleteFuncionId($id)
         {
-            $this->DeleteId($id);
+            try{
+               $this->DeleteId($id);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
+            
         }
 
 
@@ -70,7 +97,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $funcionList;
         }
@@ -117,9 +144,8 @@
             try{
                 $this->connection = connection::GetInstance();
                  $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
 
@@ -130,9 +156,8 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$id);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
 
@@ -144,21 +169,24 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
-            }
-            catch(PDOException $e){
-                echo $e;
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
         }
 
         public function getById($idFuncion){
 
-            $funcion = new Funcion();
+            $Funcion = new Funcion();
             try
             {
-                $query = "SELECT f.Id_Funcion, s.Precio, f.Descuento
+                $query = "SELECT f.*, s.Precio,s.Nombre as NombreSala, p.Title, c.*
                           FROM funciones as f
                           INNER JOIN salas as s
                           ON f.Id_Sala = s.Id_Sala
+                          INNER JOIN peliculas as p
+                          ON p.Id_Pelicula = f.Id_Pelicula
+                          INNER JOIN cines as c
+                          ON c.Id_Cine = s.Id_Cine
                           WHERE f.Id_Funcion = '$idFuncion'";
 
                 $this->connection = connection::GetInstance();   
@@ -167,19 +195,27 @@
                 if(!empty($resultSet)) {
                     foreach($resultSet as $row) {
                         
-                        $funcion->setId($row["Id_Funcion"]);
-                        $funcion->setDescuento($row["Descuento"]);
+                        $Funcion->setId($row["Id_Funcion"]);
+                        $Funcion->setDia($row["Dia"]);
+                        $Funcion->setHora($row["Hora"]);
+                        $Funcion->setDescuento($row["Descuento"]);
+                        $Funcion->setTitlePelicula($row["Title"]);
+                        $cine = new Cine();
+                        $cine->setNombre($row["Nombre"]);
+                        $cine->setNumero($row["Numero"]);
+                        $cine->setCalle($row["Calle"]);
                         $sala = new Sala();
                         $sala->setPrecio($row["Precio"]);
-                        $funcion->setClassSala($sala);
-
+                        $sala->setNombre($row["NombreSala"]);
+                        $Funcion->setClassSala($sala);
+                        $Funcion->setClassCine($cine);
                     }
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
-            return $funcion;
+            return $Funcion;
         }
         
 
@@ -210,7 +246,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $funcionList;
         }
@@ -247,7 +283,7 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
             return $Funcion;
 

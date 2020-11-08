@@ -10,13 +10,16 @@ use DAO\EntradaDAO as EntradaDAO;
 use DAO\FuncionDAO as FuncionDAO;
 use Controllers\HomeController as HomeController;
 
-use Librerias\PHPMailer\PHPMailer\PHPMailer;
-use Librerias\PHPMailer\PHPMailer\Exception;
+
 use Librerias\phpqrcode\bindings\tcpdf\qrcode as QRcode;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 require 'Librerias/PHPMailer/Exception.php';
 require 'Librerias/PHPMailer/PHPMailer.php';
-require 'Librerias/PHPMailer/SMTP.php'; 
+require 'Librerias/PHPMailer/SMTP.php';
+
+ 
 require "Librerias/phpqrcode/qrlib.php";   
 
 
@@ -88,19 +91,23 @@ class UserController{
         $homeController = new HomeController();
 
         $userDAO = new UserDAO();
-        $userList = $userDAO->checkUsuario($email,$pass);
-        if($userList==true)
+        try{
+                $user = $userDAO->checkUsuario($email,$pass);
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+
+       
+        if(isset($user))
         {    
-             if($email=="admin@gmail.com" && $pass=="admin123")
+             if($user->getEmail() =="admin@gmail.com" && $user->getPassword() =="admin123")
              {
                 $homeController->viewHomeAdmin();
-                 
              }
              else{
-                 $_SESSION['userLog'] = $email;
+                 $_SESSION['userLog'] = $user;
                   $homeController->viewCartelera();
              }
-
         }
         else 
         {
@@ -129,41 +136,52 @@ class UserController{
 
     public function funcionElegida(){
 
-        // AGARRO LOS DATOS Y CALCULO EL TOTAL
-        $idFuncion =  $_POST['funcion'];
-        $funcionDao = new FuncionDAO();
-        $funcion = $funcionDao->getById($idFuncion);
-        $cantidadEntradas =  $_POST['cantidadEntradas'];
-        $total = $cantidadEntradas * $funcion->getClassSala()->getPrecio();
-        $descuento = 0;
 
-        if($funcion->getDescuento() == 1){
+        if(!isset($_SESSION['userLog'])){
 
-            $descuento = (26/100) * $total;
-            $total -=  $descuento;
-        }
-
-
-        // GUARDO LOS DATOS EN SESSION
-        if(!isset($_SESSION)){
-            session_start(); 
-        } 
-
-        $_SESSION['total'] = $total;
-        $_SESSION['descuento'] =  $descuento;
-        $_SESSION['cantidadEntradas'] = $cantidadEntradas;
-        $_SESSION['idFuncion'] = $idFuncion;
-        $_SESSION['userLog'] = 1;
-
-        if(isset($_SESSION['userLog'])){
-
-           $homeController = new HomeController();
-           $homeController->formularioTarjeta();
+            echo '<script>alert("Antes de comprar una entrada debe iniciar sesion");</script>';
+            $homeController = new HomeController();
+            $homeController->viewLogin();
 
         }else{
 
-        }
+                // AGARRO LOS DATOS Y CALCULO EL TOTAL
+            $idFuncion =  $_POST['funcion'];
+            $funcionDao = new FuncionDAO();
 
+            try{
+                $funcion = $funcionDao->getById($idFuncion);   
+            }catch(Exception $e){
+                throw new Exception($e->get_message());
+            }
+            
+            $cantidadEntradas =  $_POST['cantidadEntradas'];
+            $total = $cantidadEntradas * $funcion->getClassSala()->getPrecio();
+            $descuento = 0;
+
+            if($funcion->getDescuento() == 1){
+
+                $descuento = (26/100) * $total;
+                $total -=  $descuento;
+            }
+
+
+            // GUARDO LOS DATOS EN SESSION
+            if(!isset($_SESSION)){
+                session_start(); 
+            } 
+
+            $_SESSION['total'] = $total;
+            $_SESSION['descuento'] =  $descuento;
+            $_SESSION['cantidadEntradas'] = $cantidadEntradas;
+            $_SESSION['Funcion'] = $funcion;
+            $_SESSION['tituloPelicula'] = $funcion->getTitlePelicula();
+
+    
+            $homeController = new HomeController();
+            $homeController->formularioTarjeta();
+
+        }
 
     }
 
@@ -184,18 +202,26 @@ class UserController{
         //Agarro todos los datos 
         $total = $_SESSION['total'];
         $cantidadEntradas = $_SESSION['cantidadEntradas'];
-        $idFuncion = $_SESSION['idFuncion'] ;
-        $idUser = $_SESSION['userLog'];
+        $Funcion = $_SESSION['Funcion'];
+        $tituloPelicula = $_SESSION['tituloPelicula'];
+        $user = $_SESSION['userLog'];
+
 
         // Guardo la compra en la base de datos
         $compra = new Compra();
         $compra->setNumeroTarjeta($numeroTarjeta);
-        $compra->setIdUser($idUser);
+        $compra->setIdUser( $user->getId());
         $compra->setCantidadEntradas($cantidadEntradas);
         $compra->setTotal($total);
         $compraDAO = new CompraDAO();
-        $compraDAO->Add($compra);
-        $Ultimacompra = $compraDAO->getUltimaRow();
+        
+        try{
+            $compraDAO->Add($compra);
+            $Ultimacompra = $compraDAO->getUltimaRow();   
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
 
         //Ahora hay que generar la entrada
         for( $i=1; $i <= $cantidadEntradas ; $i++ ){
@@ -203,85 +229,27 @@ class UserController{
             $entrada = new Entrada();
             $entrada->setQR(345);
             $entrada->setIdCompra($Ultimacompra->getId());
-            $entrada->setIdFuncion($idFuncion);
+            $entrada->setIdFuncion($Funcion->getId());
             $entradaDAO = new EntradaDAO();
-            $entradaDAO->Add($entrada);
+            try{
+               $entradaDAO->Add($entrada);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
         }
       
        // $userDAO = new UserDAO();
        // $user = $userDAO->getById($idUser);
 
-       $qr = $this->generarQr(31231); // Id Entrada
+      // $qr = $this->generarQr(31231); // Id Entrada
 
-        $this->enviarMail($numeroTarjeta,$cantidadEntradas,$total);
+        $this->enviarEmail($user->getEmail(),$total,$cantidadEntradas,$tituloPelicula,$Funcion);
         
         
         $homeController = new HomeController();
         $homeController->viewFinCompra();
 
-    }
-
-    private function enviarMail($numeroTarjeta,$cantidadEntradas,$total){
-
-        $mail = new PHPMailer(true);
-
-        try {
-            //Server settings
-            $mail->SMTPDebug = 0;                      // Enable verbose debug output
-            $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'moviepassrsml@gmail.com';                     // SMTP username
-            $mail->Password   = 'Moviepass2020';                               // SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-            $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-
-            //Recipients
-            $MI_MAIL = "moviepassrsml@gmail.com";
-            $mail->setFrom($MI_MAIL, 'Movie Pass');
-            $mail->addAddress('agustinlarra98@gmail.com');     // Add a recipient
-                    // Name is optional
-        
-            // Attachments
-            //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-            //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-
-            // Content
-            $mail->isHTML(true); 
-                                             // Set email format to HTML
-            $mail->Subject = 'Entradas cine Movie Pass';
-            //Contenido
-            $fecha= time();
-            $fechaFormato = date("j/n/Y",$fecha);
-            $cuerpo = "--=C=T=E=C=\r\n";
-            $cuerpo .= "Content-type: text/plain";
-            $cuerpo .= "charset=utf-8\r\n";
-            $cuerpo .= "Content-Transfer-Encoding: 8bit\r\n";
-            $cuerpo .= "\r\n"; // línea vacía
-            $cuerpo .= "Correo enviado por: Movie Pass ";
-            $cuerpo .= " con fecha: " . $fechaFormato;
-            $cuerpo .= "Email: " . $MI_MAIL;
-            $cuerpo .= "Mensaje: Aqui estan los tickets de las entradas que acaba de comprar en nuestra web";
-            $cuerpo .= "\r\n";// línea vacía
-        
-            // -> segunda parte del mensaje (archivo adjunto)
-                //    -> encabezado de la parte
-            $cuerpo .= "--=C=T=E=C=\r\n";
-            $cuerpo .= "Content-Type: application/octet-stream; ";
-            $cuerpo .= "name=" . $nameFile . "\r\n";
-            $cuerpo .= "Content-Transfer-Encoding: base64\r\n";
-            $cuerpo .= "Content-Disposition: attachment; ";
-            $cuerpo .= "filename=" . $nameFile . "\r\n";
-            $cuerpo .= "\r\n"; // línea vacía
-
-
-            $mail->Body = $cuerpo; 
-            $mail->send();
-        
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }
-        
     }
 
     public function generarQr($idEntrada){
@@ -314,90 +282,46 @@ class UserController{
 
     }
 
-    public function Ejemplomail(){
+    public function enviarEmail($email, $total, $cantidadEntradas,$tituloPelicula,$Funcion){
 
-        ini_set("SMTP","mail.escuelactec.com");
-        ini_set("smtp_port","localhost");
-        ini_set('sendmail_from', 'info@escuelactec.com');
-        
-        $name = strip_tags($_POST["nombre"]);
-        $apellido = strip_tags( $_POST["apellidos"]);
-        $mail = strip_tags($_POST["correo"]);
-        $mensaje = strip_tags($_POST["comentario"]);
-    
-        $nameFile = $_FILES["archivo"]["name"];
-        $sizeFile= $_FILES["archivo"]["size"];
-        $typeFile= $_FILES["archivo"]["type"];
-        $tempFile= $_FILES["archivo"]["tmp_name"];
-    
-
-            
-        echo "Nombre: " . $nameFile . "<br>";
-        echo "Tamaño: " . $sizeFile . "<br>";
-        echo "Tipo: ". $typeFile . "<br>";
-        echo "Temporal: " . $tempFile . "<br>";
-    
-    
-        $correoDestino = "info@escuelactec.com";
-        
-        //asunto del correo
-        $asunto = "Enviado por " . $name . " ". $apellido;
-    
-         // -> mensaje en formato Multipart MIME
-        $cabecera = "MIME-VERSION: 1.0\r\n";
-        $cabecera .= "Content-type: multipart/mixed;";
-        $cabecera .="boundary=\"=C=T=E=C=\"\r\n";
-        $cabecera .= "From: {$mail}";
-    
-        //Primera parte del mensaje (texto plano)
-        //    -> encabezado de la parte
+       // Instantiation and passing `true` enables exceptions
+        $mail = new PHPMailer(true);
         $fecha= time();
         $fechaFormato = date("j/n/Y",$fecha);
-        $cuerpo = "--=C=T=E=C=\r\n";
-        $cuerpo .= "Content-type: text/plain";
-        $cuerpo .= "charset=utf-8\r\n";
-        $cuerpo .= "Content-Transfer-Encoding: 8bit\r\n";
-        $cuerpo .= "\r\n"; // línea vacía
-        $cuerpo .= "Correo enviado por: Movie Pass ";
-        $cuerpo .= " con fecha: " . $fechaFormato;
-        $cuerpo .= "Email: " . $MI_MAIL;
-        $cuerpo .= "Mensaje: " . $mensaje;
-        $cuerpo .= "\r\n";// línea vacía
-    
-         // -> segunda parte del mensaje (archivo adjunto)
-            //    -> encabezado de la parte
-        $cuerpo .= "--=C=T=E=C=\r\n";
-        $cuerpo .= "Content-Type: application/octet-stream; ";
-        $cuerpo .= "name=" . $nameFile . "\r\n";
-        $cuerpo .= "Content-Transfer-Encoding: base64\r\n";
-        $cuerpo .= "Content-Disposition: attachment; ";
-        $cuerpo .= "filename=" . $nameFile . "\r\n";
-        $cuerpo .= "\r\n"; // línea vacía
-    
-        $fp = fopen($tempFile, "rb");
-        $file = fread($fp, $sizeFile);
-        $file = chunk_split(base64_encode($file));
-    
-        //    -> lectura del archivo correspondiente al archivo adjunto
-        //$datos = file_get_contents($archivo);
-        
-        //    -> codificación y fragmentación de los datos
-        //$datos = chunk_split(base64_encode($datos));
-        //    -> datos de la parte (integración en el mensaje)
-        //$mensaje .= "$datos\r\n";
-        $cuerpo .= "$file\r\n";
-        $cuerpo .= "\r\n"; // línea vacía
-        // Delimitador de final del mensaje.
-        $cuerpo .= "--=C=T=E=C=--\r\n";
-        // Envío del mensaje.
-        // $ok = mail($destinatarios,$asunto,$mensaje,$encabezados);
-        echo 'Nota: la línea de código que permite enviar el correo está en el comentario.<br />';
-    
-        //Enviar el correo
-        if(mail($correoDestino, $asunto, $cuerpo, $cabecera)){
-            echo "Correo enviado";
-        }else{
-            echo "Error de envio";
+
+        try {
+            $mail->SMTPDebug = 0;                      // Enable verbose debug output
+            $mail->isSMTP();                                            // Send using SMTP
+            $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+            $mail->Username   = 'moviepassrsml@gmail.com';                     // SMTP username
+            $mail->Password   = 'Moviepass2020';                               // SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+            $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+
+             //Recipients
+             $MI_MAIL = "moviepassrsml@gmail.com";
+             $mail->setFrom($MI_MAIL, 'Movie Pass');
+             $mail->addAddress($email);     // Add a recipient
+
+            // Attachments
+          //  $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+          //  $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+
+            $dia = $Funcion->getDia();
+            $hora = $Funcion->getHora();
+            $nombreCine = $Funcion->getClassCine()->getNombre();
+            $direccion = $Funcion->getClassCine()->getCalle() ." ". $Funcion->getClassCine()->getNumero();
+            // Content
+            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->Subject = 'Compra de entradas en Movie Pass'.$fechaFormato ;
+            $mail->Body    = 'Usted ha comprado '.$cantidadEntradas." entradas, con un total de: $".$total."<br> .Para ver la pelicula:".$tituloPelicula."<br>" 
+            ."La funcion de la pelicula es el dia: ".$dia." a las: ".$hora." horas<br>. Cine: ".$nombreCine ." (Direccion: ".$direccion.")";
+
+            $mail->send();
+          
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     }
 
@@ -450,32 +374,37 @@ class UserController{
         $div = array();
         // Lista de divs esta por si el user vio mas de una funcion
         $listaDeDivs = array();
-        // busco todas las compras que haya hecho este user
-        $compraDAO = new CompraDAO();
-        $compraList = $compraDAO->getByIdUser($idUser);
 
-        //por cada compra que hizo
-        foreach($compraList as $compra){
+        try{
+             // busco todas las compras que haya hecho este user
+            $compraList = $compraDAO->getByIdUser($idUser);
 
-            // ya puedo decir cuantas entradas compro y cual fue el costo
-            $div['EntradasAdquiridas'] = $compra->getCantidadEntradas();
-            $div['Total'] = $compra->getTotal();
+            //por cada compra que hizo
+            foreach($compraList as $compra){
 
-            //busco las entradas que sean de esa compra
-            $entrada = $entradaDAO->getByIdCompra($compra->getId());
-            $funcion = $funcionDao->getFuncionCompleta( $entrada->getIdFuncion() );
-            //Esto es para que sea mas facil de leer
-            //Al div le agrego los datos que acabo de sacar
-            $div['PosterPath'] =  $funcion->getPosterPelicula();
-            $div['Title'] =  $funcion->getTitlePelicula();
-            $div['NombreCine'] =  $funcion->getNombreCine();
-            $div['NombreSala'] =  $funcion->getNombreSala();
-            $div['Dia'] =  $funcion->getDia();
-            $div['Hora'] =  $funcion->getHora();
+                // ya puedo decir cuantas entradas compro y cual fue el costo
+                $div['EntradasAdquiridas'] = $compra->getCantidadEntradas();
+                $div['Total'] = $compra->getTotal();
 
-            array_push($listaDeDivs, $div);
+                //busco las entradas que sean de esa compra
+                $entrada = $entradaDAO->getByIdCompra($compra->getId());
+                $funcion = $funcionDao->getFuncionCompleta( $entrada->getIdFuncion() );
+                //Esto es para que sea mas facil de leer
+                //Al div le agrego los datos que acabo de sacar
+                $div['PosterPath'] =  $funcion->getPosterPelicula();
+                $div['Title'] =  $funcion->getTitlePelicula();
+                $div['NombreCine'] =  $funcion->getNombreCine();
+                $div['NombreSala'] =  $funcion->getNombreSala();
+                $div['Dia'] =  $funcion->getDia();
+                $div['Hora'] =  $funcion->getHora();
 
+                array_push($listaDeDivs, $div);
+
+        }  
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
         }
+        
 
         return  $listaDeDivs;
 

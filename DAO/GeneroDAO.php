@@ -20,13 +20,22 @@ class GeneroDAO
         
  
         public function GetAll() {
-            
-            $generoList = $this->RetrieveData();
+            try{
+                $generoList = $this->RetrieveData();
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+           
             return $generoList;
         }
         public function GetOne($id)
         {
-            $genero = $this->RetrieveOne($id);
+            try{
+               $genero = $this->RetrieveOne($id);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
         }
 
     
@@ -54,9 +63,9 @@ class GeneroDAO
                     }
                 }
             
-            }catch(PDOException $e){
-                echo $e;
-            }
+            }catch(Exception $e){
+                throw new Exception($e->get_message());
+         }
             return $generoList;
         }
 
@@ -90,10 +99,9 @@ class GeneroDAO
             try{
                     $this->connection = connection::GetInstance();
                     return $this->connection->ExecuteNonQuery($sql,$parameters);
-                }
-            catch(PDOException $e){
-                    echo $e;
-                }
+                }catch(Exception $e){
+                    throw new Exception($e->get_message());
+             }
             
 
         }
@@ -112,9 +120,9 @@ class GeneroDAO
                     $repetido = false;
                 }
             
-            }catch(PDOException $e){
-                echo $e;
-            }
+            }catch(Exception $e){
+                throw new Exception($e->get_message());
+         }
     
             return $repetido;
         }

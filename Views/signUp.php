@@ -10,46 +10,21 @@
                                    <a>MOVIEPASS</a>
                                </div>
                            </div>
-                           <div class="col-xl-8 col-lg-8 col-md-8">
-                               <!-- Main-menu -->
-                               <div class="main-menu f-right d-none d-lg-block">
-                                   <nav> 
-                                       <ul id="navigation">    
-                                           <li><a href="<?php echo FRONT_ROOT?>Home/viewHome"> Home</a></li>
-                                           <!-- ACA REDIRECCIONAR BIEN-->
-                                           <li><a href="">Cartelera</a>
-                                               <ul class="submenu">
-                                                   <li><a href="<?php echo FRONT_ROOT?>Home/viewAddCine">Agregar Cines</a></li>
-                                                </ul>
-                                            </li>
-       
-                                            <li><a href="contact.html">Peliculas</a>
-                                               <ul class="submenu">
-                                               <li><a  href="<?php echo FRONT_ROOT?>Admin/actualizarPeliculas">Actualizar peliculas</a></li>
-                                                  <!-- ACA EDITAR Funciones -->
-                                                  <!-- ACA ELIMINAR Funciones -->
-                                                  <!-- ACA LISTAR SALAS -->
-                                                </ul>
-                                            </li>
-       
-       
-                                       </ul>
-                                   </nav>
-                               </div>
-                           </div>     
+                            
                            
                    <?php if(!isset($_SESSION['userLog'])) { ?>
                            <div class="col-xl-2 col-lg-2 col-md-3">
                                <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>Home/Index" class="btn header-btn">Login</a>
+                                   <a href="<?= FRONT_ROOT?>Home/viewLogin" class="btn header-btn">Login</a>
                                </div>
                            </div>
-                           <div class="col-xl-2 col-lg-2 col-md-3">
-                               <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>Home/viewSignUp" class="btn header-btn">Sign Up</a>
-                               </div>
-                           </div>
+                       
                         <?php	} ?>
+                        <div class="col-xl-2 col-lg-2 col-md-3">
+                               <div class="header-right-btn f-right d-none d-lg-block">
+                               <li><a href="<?php echo FRONT_ROOT?>Home/Index"  class="btn header-btn"> Home</a></li>
+                               </div>
+                           </div>
                         <?php if(isset($_SESSION['userLog'])) { ?>
                            <div class="col-xl-2 col-lg-2 col-md-3">
                                <div class="header-right-btn f-right d-none d-lg-block">

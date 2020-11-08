@@ -52,15 +52,7 @@
                                          </ul>
                                      </li>
 
-                                     <li><a href="">Tickets</a>
-                                        <ul class="submenu">
-                                        <li><a  href="<?php echo FRONT_ROOT?>Home/viewTicketsVendidos">Vendidos</a></li>
-                                        <li><a  href="<?php echo FRONT_ROOT?>Home/viewListPeliculas">Adquiridas</a></li>
-                                           <!-- ACA EDITAR Funciones -->
-                                           <!-- ACA ELIMINAR Funciones -->
-                                           <!-- ACA LISTAR SALAS -->
-                                         </ul>
-                                     </li>
+                                    
 
 
 
