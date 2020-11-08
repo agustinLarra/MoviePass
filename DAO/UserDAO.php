@@ -87,8 +87,9 @@
                 else return true;
 
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
         }
       
 
