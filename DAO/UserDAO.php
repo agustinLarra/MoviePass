@@ -33,13 +33,10 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
-            catch(PDOException $e){
-                echo $e;
-                echo "<br>";
-                echo "El problema aca es que entra en este exeption... ";
-                
-            }
+            
         }
 
         public function getAll() {
@@ -68,8 +65,9 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
             return $userList;
         }
 
@@ -80,51 +78,48 @@
             try
             {
                 $query = "SELECT * FROM users WHERE Email = '$email'";
-                $this->connection = connection::GetInstance();   
+                $this->connection = connection::GetInstance();
                 $resultSet = $this->connection->execute($query);
-            
-                if(!empty($resultSet)) {
-                    return false;
-                }
-                else return true;
-            
-            }catch(PDOException $e){
-                echo $e;
-            }
-        }
-        public function checkPass ($pass)
-        {
-            try
-            {
-                $query = "SELECT * FROM users WHERE Pass = '$pass'";
-                $this->connection = connection::GetInstance();   
-                $resultSet = $this->connection->execute($query);
-            
-                if(!empty($resultSet)) {
-                    return false;
-                }
-                else return true;
-            
-            }catch(PDOException $e){
-                echo $e;
-            }
 
+                if(!empty($resultSet)) {
+                    return false;
+                }
+                else return true;
+
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
+            
         }
+      
 
         public function checkUsuario($email,$pass)
         {
-            
-            if(!$this->checkEmailRegistrado($email))
+            try
             {
-           
-                if(!$this->checkPass($pass))
-                {
-                        return true;
+                $query = "SELECT * FROM users WHERE Pass = '$pass' AND Email = '$email'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);
+            
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) { ///PROBAR DE HACERLO TODO JUNTO COMO ESTA EN EL GITHUB DEL PROFESOR
+                        
+                        $user = new User();
+                        $user->setId($row["Id_User"]);
+                        $user->setFirstName($row["FirstName"]);
+                        $user->setLastName($row["LastName"]);
+                        $user->setDNI($row["DNI"]);
+                        $user->setEmail($row["Email"]);
+                        $user->setPassword($row["Pass"]);
+                         
+                    }
                 }
-                else return false;
-
+                
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
-            else return false ;
+            
+            return $user;
 
         }
 
@@ -155,11 +150,10 @@
             try {
                 $this->Connection = Connection::getInstance();
                 return $this->Connection->ExecuteNonQuery($sql, $parameters);
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
-            catch(PDOException $e)
-            {
-                echo $e;
-            }
+            
         }
 
         ///********************

@@ -86,9 +86,9 @@ class HomeController{
      //$peliculaList = $peliculaDao->GetPeliculasEnFunciones();
      
       try{
-        $peliculaList = $peliculaDao->GetAll();
+          $peliculaList = $peliculaDao->GetAll();
       }catch(Exception $e){
-         throw new Exception($e->get_message());
+          throw new Exception($e->get_message());
       }
 
       return  $peliculaList ;
@@ -125,12 +125,17 @@ class HomeController{
 
     private function filtarPelisXFecha($idFuncion)
     {
+        try{
+
           $funcion = new FuncionDao();
 
           $aux = $funcion->GetDia($idFuncion);//Me devuelve las funciones de un dia;
 
           $peliculas_cartelera = $this->fechaToPelicula($aux);
 
+        }catch(Exception $e){
+              throw new Exception($e->get_message());
+        }
           return $peliculas_cartelera;
     }
 
@@ -139,11 +144,15 @@ class HomeController{
     {
           $lista_peliculas = array();
           $pelicula = new PeliculaDAO() ;
-          foreach($funciones as $values)
-          {
-              $pelicula_cartelera = $pelicula->RetrieveOne($values->getIdpelicula());//Busco en las a partir del id_pelicula de la funcion
-              array_push($lista_peliculas,$pelicula_cartelera);
-          }
+          try{
+              foreach($funciones as $values)
+              {
+                  $pelicula_cartelera = $pelicula->RetrieveOne($values->getIdpelicula());//Busco en las a partir del id_pelicula de la funcion
+                  array_push($lista_peliculas,$pelicula_cartelera);
+              }
+        }catch(Exception $e){
+          throw new Exception($e->get_message());
+        }
 
 
 
@@ -181,16 +190,25 @@ class HomeController{
     
   
     public function cargarGeneros(){
-
-      $generos_bd = new GeneroDAO();
-      $arrayGeneros = $generos_bd->getAll();
+      try{
+          $generos_bd = new GeneroDAO();
+          $arrayGeneros = $generos_bd->getAll();          
+      }catch(Exception $e){
+            throw new Exception($e->get_message());
+      }
+      
       return  $arrayGeneros  ;
     }
 
     private function filtarPelisXgenero($idGenero)
     {
       $peliDAO = new PeliculaDAO();
-      $arregloPeliculas = $peliDAO->FiltrarPelisXGenero($idGenero);
+      try{
+            $arregloPeliculas = $peliDAO->FiltrarPelisXGenero($idGenero);   
+      }catch(Exception $e){
+             throw new Exception($e->get_message());
+      }
+    
       return $arregloPeliculas;
 
     }
@@ -245,7 +263,12 @@ class HomeController{
   public function viewListSalas(){
 
     $adminController = new AdminController();
-    $listSalas = $adminController->listarSalasConCine();
+    try{
+          $listSalas = $adminController->listarSalasConCine();     
+    }catch(Exception $e){
+           throw new Exception($e->get_message());
+    }
+    
     
 
     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
@@ -256,10 +279,14 @@ class HomeController{
 
 public function selectDinamicoSalas(){
     
-    
-  $salaDao = new SalaDAO();
-  $listaSalas = $salaDao->GetByIdCine($_GET['id_cine']);
-
+  try{
+      $salaDao = new SalaDAO();
+      $listaSalas = $salaDao->GetByIdCine($_GET['id_cine']);
+       
+  }catch(Exception $e){
+         throw new Exception($e->get_message());
+  }
+  
   
   echo'<select name="select" id="select">';
          foreach($listaSalas as $value){      
@@ -278,12 +305,18 @@ public function selectDinamicoSalas(){
 
       $adminController = new AdminController();
 
-      // Levanto las peliculas del Json 
-      $peliculas = new PeliculasJson();
-      $peliculasList = $peliculas->GetMovieJson(); 
+      // Levanto las peliculas del Json
+      try{
+            $peliculas = new PeliculasJson();
+            $peliculasList = $peliculas->GetMovieJson();  
+            $cineList = $adminController->listarCines();   
+      }catch(Exception $e){
+             throw new Exception($e->get_message());
+      } 
+     
 
       // Levanto las salas de la base de datos
-      $cineList = $adminController->listarCines();
+     
    
       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
       require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
@@ -296,7 +329,12 @@ public function selectDinamicoSalas(){
     public function viewListFunciones(){
 
       $adminController = new AdminController();
-      $listFunciones = $adminController->listarFunciones();
+      try{
+              $listFunciones = $adminController->listarFunciones();  
+      }catch(Exception $e){
+             throw new Exception($e->get_message());
+      }
+     
   
 
       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
@@ -322,11 +360,16 @@ public function selectDinamicoSalas(){
     public function Comprar(){
 
 
-      $peliculaDAO = new PeliculaDAO();
-      $pelicula = $peliculaDAO->RetrieveOne($_POST["id"]);
-
+      $peliculaDAO = new PeliculaDAO(); 
       $adminController = new AdminController();
-      $listaFunciones = $adminController->listarCinesConFuncion_ByIdPelicula( $pelicula->getId() );
+      
+      try{
+             $pelicula = $peliculaDAO->RetrieveOne($_POST["id"]);   
+             $listaFunciones = $adminController->listarCinesConFuncion_ByIdPelicula( $pelicula->getId() );
+
+      }catch(Exception $e){
+             throw new Exception($e->get_message());
+      }
       
 
       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
@@ -363,7 +406,12 @@ public function selectDinamicoSalas(){
       // mostrame el cine y la sala pertenecientes a esta funcion
 
      $adminController = new AdminController();
-     $listaFunciones = $adminController->listarFuncionesByIdPelicula( 539885 );
+     try{
+             $listaFunciones = $adminController->listarFuncionesByIdPelicula( 539885 );  
+    }catch(Exception $e){
+           throw new Exception($e->get_message());
+    }
+     
 
       foreach($listaFunciones as $funcion){
         echo '<div class="col-lg-4 col-md-6">';
@@ -402,14 +450,17 @@ public function selectDinamicoSalas(){
       $adminController = new AdminController();
         // Levanto las peliculas del Json 
         $peliculas = new PeliculasJson();
-        $peliculasList = $peliculas->GetMovieJson(); 
-
+        try{
+               $peliculasList = $peliculas->GetMovieJson(); 
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
         $arregloEstrenos = array();
 
         foreach($peliculasList as $peli){
           array_push($arregloEstrenos,$peli->getReleaseDate());
         }
-        var_dump($arregloEstrenos);
         require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
         require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
         require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
@@ -426,11 +477,18 @@ public function selectDinamicoSalas(){
     public function viewEntradasAdquiridas(){
 
       //agarro el user en session
+      
       $user = $_SESSION['userLog'];
       $idUser = $user->getId();
 
       $userController = new UserController();
-      $listaDeDivs = $userController->getEntradasAdquiridas($idUser);
+      
+      try{
+             $listaDeDivs = $userController->getEntradasAdquiridas($idUser);   
+      }catch(Exception $e){
+             throw new Exception($e->get_message());
+      }
+     
 
      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
      require_once(VIEWS_PATH.'entradasAdquiridas.php');

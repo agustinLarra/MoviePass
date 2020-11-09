@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" required name="numero" name="numero"  id="subject" type="number"  min="1" max="10000" step="1" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Numero'" placeholder="Numero">
+                                        <input class="form-control" required name="numero" name="numero"  id="subject" type="number"  min="1" max="9999" step="1" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Numero'" placeholder="Numero">
                                     </div>
                                 </div>
                             </div>

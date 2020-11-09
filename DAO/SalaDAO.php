@@ -18,13 +18,25 @@
             $this->connection = null;
         }
         
+
         public function Add(Sala $sala){
-            $this->SaveData($sala);
+            try{
+               $this->SaveData($sala);
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
+            
         }
 
         public function GetAll() {
+            try{
+               $salaList = $this->RetrieveData();
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
             
-            $salaList = $this->RetrieveData();
+            
             return $salaList;
         }
 
@@ -57,8 +69,9 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
             return $salaList;
         }
   
@@ -78,10 +91,10 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
-            catch(PDOException $e){
-                echo $e;
-            }
+            
 
         }
 
@@ -112,8 +125,9 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
             return $salaList;
         }
 
@@ -128,10 +142,10 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$id);
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
-            catch(PDOException $e){
-                echo $e;
-            }
+            
         }
 
         public function Alta($parameters)
@@ -142,10 +156,10 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
             }
-            catch(PDOException $e){
-                echo $e;
-            }
+            
 
         }
 
@@ -175,8 +189,9 @@
                 }
             
             }catch(PDOException $e){
-                echo $e;
+                throw new PDOException($e->getMessage());
             }
+            
 
             return $sala;
         }
