@@ -203,6 +203,21 @@ class AdminController{
             }
       
     }
+    public function modificarSala($id,$nombre,$precio,$capacidad,$tipo)
+    {
+        try{
+        
+        $Sala_dao = new SalaDAO();
+        $Sala_dao->EditSala($id,$nombre,$precio,$capacidad,$tipo);
+
+        $Home = new HomeController();
+        $Home->viewListSalas();
+        }catch(Exception $e){
+            throw new Exception($e->get_message());
+        }
+
+        
+    }
 
     private function newFuncion(Funcion $funcion)
     {   
@@ -233,6 +248,7 @@ class AdminController{
    
         $Home_controller->viewListFunciones();
     }
+
 
     public function checkHorario($dia,$hora_aux)
     {

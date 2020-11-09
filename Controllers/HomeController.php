@@ -167,13 +167,18 @@ class HomeController{
     public function viewGenero( )
     {
 
-        $idGenero = $_POST['Id_genero'];
-      
-        list($id,$nombre) = explode("-",$idGenero);
-     
-        //Agarrar de la tabla peliXgenero las pelis que macheen este idGenero
-        $array_peliculas = $this->filtarPelisXgenero($id);
+      $idGenero = $_POST['Id_genero'];
         
+
+      if((strcmp($idGenero,"todos"))==0)
+      {
+        
+        $array_peliculas = $this->cargarCartelera();
+      }
+      else{
+         list($id,$nombre) = explode("-",$idGenero);
+         $array_peliculas = $this->filtarPelisXgenero($id);
+      }        
 
         $arrayGeneros = $this->cargarGeneros();
  
@@ -276,6 +281,23 @@ class HomeController{
     require(VIEWS_ADMIN_PATH.'listSalas.php');
     require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
 }
+
+  public function modificarSala($id,$nombre,$precio,$capacidad)
+  {
+
+    $id_aux = $id;
+    $nombre_sala = $nombre;
+    $precio_aux = $precio;
+    $capacidad_aux = $capacidad;
+    require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+    require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+    require(VIEWS_ADMIN_PATH.'modificarSala.php');
+    require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+
+      
+  }
+
+
 
 public function selectDinamicoSalas(){
     
@@ -447,26 +469,108 @@ public function selectDinamicoSalas(){
 
     public function viewListPeliculas(){
 
-      $adminController = new AdminController();
-        // Levanto las peliculas del Json 
-        $peliculas = new PeliculasJson();
         try{
-               $peliculasList = $peliculas->GetMovieJson(); 
+          $generoList = $this->cargarGeneros();
+          $fechaDeFuncion = $this->cargarFunciones();
+          $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
+          $peliculasList = $this->cargarPeliculasJson();
+
+
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
         
-        $arregloEstrenos = array();
-
-        foreach($peliculasList as $peli){
-          array_push($arregloEstrenos,$peli->getReleaseDate());
-        }
         require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
         require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
         require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
         require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
   
     }
+    private function cargarPeliculasJson()
+    {
+      $peliculas = new PeliculasJson();
+      return  $peliculasList = $peliculas->GetMovieJson();
+    }
+    public function viewPeliEstrenoAdmin()
+    {
+      $seleccion = $_POST['estreno'];
+      $peliculasList = $this->Json_PorFechaDeEstreno($seleccion);
+  
+  
+      $generoList = $this->cargarGeneros();
+      $fechaDeFuncion = $this->cargarFunciones();
+      $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
+  
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+      require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+    }
+    public function viewPeliFuncionAdmin()
+    {
+      $seleccion = $_POST['funcion'];
+      $peliculasList =$this->filtarPelisXFecha($seleccion);
+      var_dump($seleccion);
+  
+      $generoList = $this->cargarGeneros();
+      $fechaDeFuncion = $this->cargarFunciones();
+      $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
+  
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+      require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+  
+    }
+    public function viewPeliGeneroAdmin()
+    {
+    
+       $seleccion = $_POST['genero'];
+       list($id,$seleccion) = explode("-",$seleccion);
+       
+  
+       $peliculasList = $this->filtarPelisXgenero($id);
+  
+  
+       $generoList = $this->cargarGeneros();
+       $fechaDeFuncion = $this->cargarFunciones();
+       $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
+  
+       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+       require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+       require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+       require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+  
+  
+    }
+    private function Json_PorFechaDeEstreno($fecha)
+    {
+      
+        $json = new PeliculasJson();
+        $pelicula = $json->GetPorFechaDeEstreno($fecha);
+    
+    return $pelicula;
+    }
+    public function FechaDeEstrenoOrdenada()
+    {
+      $peliculas = new PeliculasJson();
+      $peliculasList = $peliculas->GetMovieJson();
+  
+      $fecha_estreno = array();
+  
+      foreach($peliculasList as $values)
+      {
+        array_push($fecha_estreno,$values->getReleaseDate());
+  
+      }
+  
+       arsort($fecha_estreno);//Lo ordeno de mayor a menor
+       $fechaSinrepetidos = array_unique($fecha_estreno);//Elemino los duplicados
+  
+      return $fechaSinrepetidos;
+  
+    }
+  
   
 
  #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -162,7 +162,7 @@
             }
         }
 
-        public function Delete(Funcion $funcion)
+    /*    public function Delete(Funcion $funcion)
         {
             $parameters = $funcion->getId();
             $sql = "DELETE FROM funciones WHERE Id_Funcion = '$parameters'";
@@ -173,7 +173,7 @@
             }catch(PDOException $e){
                 throw new PDOException($e->getMessage());
             }
-        }
+        }*/
 
         public function getById($idFuncion){
 

@@ -190,8 +190,11 @@
                 $query = "  SELECT p.* 
                             FROM peliculas as p
                             INNER JOIN funciones as f
-                            ON f.Id_Pelicula = p.Id_Pelicula;";
-
+                            ON f.Id_Pelicula = p.Id_Pelicula
+                            INNER JOIN salas as s
+                            ON s.Id_Sala = f.Id_Sala
+                            WHERE s.Eliminado = 0;";
+                            
                 $this->connection = connection::GetInstance();   
                 $resultSet = $this->connection->execute($query);  
 

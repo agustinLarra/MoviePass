@@ -42,8 +42,12 @@
                             
                             </script>
 
+                               
                                 <a href="<?php echo FRONT_ROOT?>Admin/deleteSala/<?php echo $sala->getId()?>" onclick="return ConfirmDelete()" class='btn btn-danger'>Borrar</a>
+                                <a href="<?php echo FRONT_ROOT?>Home/modificarSala/<?php echo $sala->getId() . '/' . $sala->getNombre()  . '/' . $sala->getPrecio() . '/' .  $sala->getCapacidad()?>"  class='btn btn-danger'>Modificar</a>
+
                             </div>
+
                             
 
 

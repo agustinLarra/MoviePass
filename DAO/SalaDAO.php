@@ -118,7 +118,8 @@
                         $sala->setPrecio($row["Precio"]);
                         $sala->setCapacidad($row["Capacidad"]);
                         $sala->setIdCine($row["Id_Cine"]);
-       
+                        $sala->setEstado($row["Eliminado"]);
+
                          
                         array_push($salaList, $sala);
                     }
@@ -130,6 +131,68 @@
             
             return $salaList;
         }
+
+        public function GetSalasDisponibles()
+        {
+            try{
+             $salas = $this->RetrieveSalasNoEliminadas();
+            }
+            catch(PDOException $e)
+            {
+                throw new PDOException($e->getMessage());
+            }
+            return $salas;
+
+        }
+
+        private function RetrieveSalasNoEliminadas()
+        {
+            $salaList = array();
+            try
+            {
+                $query = "SELECT * FROM salas;";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        if($row['Eliminado']==0)
+                        {
+                            $sala = new Sala();
+                            
+                            $sala->setId($row["Id_Sala"]);
+                            $sala->setNombre($row["Nombre"]);
+                            $sala->setPrecio($row["Precio"]);
+                            $sala->setCapacidad($row["Capacidad"]);
+                            $sala->setTipoSala($row["Tipo_sala"]);
+                            $sala->setIdCine($row["Id_Cine"]);
+                            $sala->setEstado($row["Eliminado"]);
+        
+                            
+                            array_push($salaList, $sala);
+                        }
+                    }
+                }
+            
+            }catch(PDOException $e){
+                echo $e;
+            }
+            return $salaList;
+
+        }
+
+        public function EditSala($id,$nombre,$precio,$capacidad,$tipo)
+        {
+            try{
+                $query = "UPDATE salas SET Nombre = '$nombre' , Precio = '$precio', Capacidad = '$capacidad' , Tipo_sala = '$tipo' WHERE salas.Id_Sala = '$id'";
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($query,$id);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+        }
+  
 
 
 
@@ -184,6 +247,8 @@
                         $sala->setCapacidad($row["Capacidad"]);
                         $sala->setTipoSala($row["Tipo_sala"]);
                         $sala->setIdCine($row["Id_Cine"]);
+                        $sala->setEstado($row["Eliminado"]);
+
 
                     }
                 }
