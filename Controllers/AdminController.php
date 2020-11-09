@@ -36,8 +36,8 @@ class AdminController{
 		$this->homeController = new HomeController();
     }
 
-    public function deleteCine(){
-        $id = $_POST['id'];
+    public function deleteCine($id){
+        //$id = $_POST['id'];
         
         $cine = new Cine();
 
@@ -46,7 +46,7 @@ class AdminController{
         $cineDao = new CineDAO();
 
         try{
-               $cineDao->Delete($cine);
+               $cineDao->Delete($id);
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
@@ -64,9 +64,12 @@ class AdminController{
         $sala->setId($id);
   
         $salaDao = new SalaDAO();
-        $salaDao->Delete($id);
+        try{
+            $salaDao->Delete($id);   
+        }catch(Exception $e){
+            throw new Exception($e->get_messeage());
+        }
         
-
         $homeController = new HomeController();
         $homeController->viewListSalas();
     }
@@ -76,8 +79,14 @@ class AdminController{
 
         $funcion->setId($id);
   
-        $funcionDAO = new SalaDAO();
-        $funcionDAO->Delete($id);
+        $funcionDAO = new FuncionDAO();
+
+        try{
+            $funcionDAO->Delete($id);
+        }
+        catch(Exception $e){
+            throw new Exception($e->get_messeage());
+        }
         
         $homeController = new HomeController();
         $homeController->viewListFunciones();
