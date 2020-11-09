@@ -36,19 +36,47 @@ class AdminController{
 		$this->homeController = new HomeController();
     }
 
-    public function deleteCine($id){
-
+    public function deleteCine(){
+        $id = $_POST['id'];
+        
         $cine = new Cine();
 
         $cine->setId($id);
 
         $cineDao = new CineDAO();
-        $cineDao->Delete($cine);
+        $cineDao->Delete($id);
 
         $homeController = new HomeController();
         $homeController->viewListCines();
 
     }
+
+
+    public function deleteSala($id){
+        $sala = new Sala();
+
+        $sala->setId($id);
+  
+        $salaDao = new SalaDAO();
+        $salaDao->Delete($id);
+        
+
+        $homeController = new HomeController();
+        $homeController->viewListSalas();
+    }
+
+    public function deleteFuncion($id){
+        $funcion = new Funcion();
+
+        $funcion->setId($id);
+  
+        $funcionDAO = new SalaDAO();
+        $funcionDAO->Delete($id);
+        
+        $homeController = new HomeController();
+        $homeController->viewListFunciones();
+    }
+    
 
 
     public function addCine($nombre, $ciudad, $calle, $numero){
@@ -88,19 +116,6 @@ class AdminController{
 
 
 
-    public function deleteSala($id){
-        $sala = new Sala();
-
-        $sala->setId($id);
-  
-        $salaDao = new SalaDAO();
-        $salaDao->Delete($id);
-        
-
-        $homeController = new HomeController();
-        $homeController->viewListSalas();
-    }
-
     public function altaSala($id)
     {
         $salaDao = new SalaDAO();
@@ -110,6 +125,17 @@ class AdminController{
         $homeController->viewListSalas();
 
     }
+
+    public function altaCine($id)
+    {
+        $cineDao = new CineDAO();
+        $cineDao->Alta($id);
+
+        $homeController = new HomeController();
+        $homeController->viewListCines();
+
+    }
+
 
 
 
@@ -213,14 +239,14 @@ class AdminController{
         return true;
 
     }
-    
+    /*
     public function deleteFuncion($id){
         $funcion = new Funcion();
         $funcion->setId($id);
         $funcionDAO = new FuncionDAO();
         $funcionDAO->Delete($funcion);
     }
-
+*/
 
     public function listarFunciones(){ 
         $FuncionDao = new FuncionDAO();

@@ -29,18 +29,33 @@
             return $cineList;
         }
 
-        public function Delete(Cine $cine)
+        public function Delete($id)
         {
-            $parameters = $cine->getId();
-            $sql = "DELETE FROM cines WHERE Id_Cine = '$parameters'";
-    
+           // $parameters = $sala->getId();
+            $sql ="UPDATE cines SET Eliminado = '1' WHERE cines.Id_Cine = '$id'";
+
             try{
                 $this->connection = connection::GetInstance();
-                $this->connection->ExecuteNonQuery($sql,$parameters);
+                return $this->connection->ExecuteNonQuery($sql,$id);
             }
             catch(PDOException $e){
                 echo $e;
             }
+        }
+
+        public function Alta($id)
+        {
+          
+            $sql ="UPDATE cines SET Eliminado = '0' WHERE cines.Id_Cine = '$id'";
+
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+
         }
   
 
@@ -53,6 +68,8 @@
             $parameters['Ciudad'] = $cine->getCiudad();
             $parameters['Calle'] = $cine->getCalle();
             $parameters['Numero'] = $cine->getNumero();
+            $parameters['Eliminado'] = 0;
+
             
             try{
                 $this->connection = connection::GetInstance();
@@ -68,7 +85,7 @@
             $cineList = array();
             try
             {
-                $query = "SELECT * FROM cines;"; /// 
+                $query = "SELECT * FROM cines;";
                 $this->connection = connection::GetInstance();    
                 $resultSet = $this->connection->execute($query);  
 
@@ -82,7 +99,7 @@
                         $cine->setCiudad($row["Ciudad"]);
                         $cine->setNumero($row["Numero"]);
                         $cine->setCalle($row["Calle"]);
-                         
+                        $cine->setEstado($row["Eliminado"]);
                         array_push($cineList, $cine);
                     }
                 }

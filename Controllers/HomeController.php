@@ -214,6 +214,9 @@ class HomeController{
       $adminController = new AdminController();
       $listCines = $adminController->listarCines();
 
+      //var_dump($listCines);
+      //exit;
+
       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
       require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
       require(VIEWS_ADMIN_PATH.'listCines.php');

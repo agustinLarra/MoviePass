@@ -52,7 +52,6 @@
                         $sala->setIdCine($row["Id_Cine"]);
                         $sala->setEstado($row["Eliminado"]);
        
-                         
                         array_push($salaList, $sala);
                     }
                 }
@@ -75,7 +74,7 @@
             $parameters['Id_Cine'] = $sala->getIdCine();
             $parameters['Tipo_sala'] = $sala->getTipoSala();
             $parameters['Eliminado'] = 0;
-            
+        
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
@@ -134,6 +133,7 @@
                 echo $e;
             }
         }
+
         public function Alta($parameters)
         {
           

@@ -113,6 +113,7 @@
             $parameters['Dia'] = $funcion->getDia();
             $parameters['Hora'] = $funcion->getHora();
             $parameters['Descuento'] = $funcion->getDescuento();
+            $parameters['Eliminado'] = $funcion->getEstado();
             
             try{
                 $this->connection = connection::GetInstance();
@@ -130,20 +131,6 @@
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$id);
-            }
-            catch(PDOException $e){
-                echo $e;
-            }
-        }
-
-        public function Delete(Funcion $funcion)
-        {
-            $parameters = $funcion->getId();
-            $sql = "DELETE FROM funciones WHERE Id_Funcion = '$parameters'";
-
-            try{
-                $this->connection = connection::GetInstance();
-                return $this->connection->ExecuteNonQuery($sql,$parameters);
             }
             catch(PDOException $e){
                 echo $e;
@@ -242,7 +229,7 @@
                         $Funcion->setNombreSala($row["NombreSala"]);
                         $Funcion->setDia($row["Dia"]);
                         $Funcion->setHora($row["Hora"]);
-       
+                        
                     }
                 }
             
@@ -252,6 +239,46 @@
             return $Funcion;
 
         }
+
+
+        public function Delete($id)
+        {
+           // $parameters = $sala->getId();
+            $sql ="UPDATE funciones SET Eliminado = '1' WHERE funciones.Id_Funcion = '$id'";
+
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$id);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+        }
+
+        public function Alta($id)
+        {
+          
+            $sql ="UPDATE funciones SET Eliminado = '0' WHERE funciones.Id_Funcion = '$id'";
+
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo $e;
+            }
+
+        }
+
+
+        
+  
+
+
+
+
+
+
 
         
     }

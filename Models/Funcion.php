@@ -18,6 +18,7 @@ class Funcion {
     private $classSala;
     private $EntradasVendidas;
     private $RecaudacionTotal;
+    private $Estado;
 
     public function __construct()
     {
@@ -175,8 +176,14 @@ class Funcion {
         return $this->RecaudacionTotal;
     }
 
+    public function getEstado(){
+        return $this->Estado;
+    }
 
-
+    public function setEstado($Estado)
+    {
+        $this->Estado = $Estado;
+    }
 
 
 

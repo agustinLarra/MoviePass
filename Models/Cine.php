@@ -8,6 +8,7 @@ class Cine{
     private $ciudad;
     private $calle;
     private $numero;
+    private $estado;
 
     public function getId(){
         return $this->id ;
@@ -45,6 +46,16 @@ class Cine{
     public function setCalle($calle){
         $this->calle = $calle ;
     }
+
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+    }
+
 
 
 

@@ -46,9 +46,6 @@ class Sala{
         $this->id_cine = $id_cine ;
     }
 
-
-
-
     public function getPrecio(){
         return $this->precio ;
     }
