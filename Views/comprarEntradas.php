@@ -100,7 +100,10 @@
 
 
     <div class="row">
-        <?php foreach($listaFunciones as $funcion){?>
+    <?php foreach($listaFunciones as $funcion){
+                if(($funcion->getClassSala()->getCapacidad() - $funcion->getEntradasVendidas())>0)
+                {
+            ?>
         <form action="<?php echo FRONT_ROOT?>User/FuncionElegida" method="post">
             <div class="col-lg-12 col-md-6">
                 <div class="single-do text-center mb-30">
@@ -115,10 +118,13 @@
                             <p>Tipo de sala:  <?= $funcion->getClassSala()->getTipoSala();?></p>
                             <p>Precio:  <?= $funcion->getClassSala()->getPrecio();?></p>
                             <p>Descuento:  <?php  if($funcion->getDescuento() == 1){ echo PORCENTAJE_DESCUENTO;} else { echo "NO"; }?> </p>
-                            
+                            <P>Capacida de Sala: <?= $funcion->getClassSala()->getCapacidad()?></P>
+                            <p>Entradas Disponibles: <?=($funcion->getClassSala()->getCapacidad() - $funcion->getEntradasVendidas())?></p>
+
+
                             <div class="form-group">
                                     <p for="cantidadEntradas">Cantidad de entradas: </p>
-                                    <input class="form-control" required name="cantidadEntradas" name="cantidadEntradas" id="cantidadEntradas" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Cuantas entradas quiere?" min="1" max="15" ">
+                                    <input class="form-control" required name="cantidadEntradas" name="cantidadEntradas" id="cantidadEntradas" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" placeholder="Cuantas entradas quiere?" min="1" max="<?=($funcion->getClassSala()->getCapacidad() - $funcion->getEntradasVendidas())?>" ">
                                     <input name='funcion' value="<?= $funcion->getId(); ?>" type="hidden">
                             </div>
                     </div>
@@ -128,7 +134,7 @@
                 </div>
             </div>
             </form>    
-        <?php } ?>
+        <?php } } ?>
     </div>
 
 

@@ -86,7 +86,9 @@ class HomeController{
      //$peliculaList = $peliculaDao->GetPeliculasEnFunciones();
      
       try{
-          $peliculaList = $peliculaDao->GetAll();
+         // $peliculaList = $peliculaDao->GetAll();
+         $peliculaList = $peliculaDao->GetPeliculasEnFunciones();
+
       }catch(Exception $e){
           throw new Exception($e->get_message());
       }
@@ -592,13 +594,76 @@ public function selectDinamicoSalas(){
       }catch(Exception $e){
              throw new Exception($e->get_message());
       }
-     
+      $fechas = $this->EntradasXDia($idUser);  
+    
 
      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
      require_once(VIEWS_PATH.'entradasAdquiridas.php');
      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
 
+    public function EntradasXDia($idUser)
+    {
+      $userController = new UserController();
+      
+      try{
+             $listaDeDivs = $userController->getEntradasAdquiridas($idUser);   
+      }catch(Exception $e){
+             throw new Exception($e->get_message());
+      }
+
+
+      $fechas = array();
+
+      foreach($listaDeDivs as $values)
+      {
+        array_push($fechas,$values["Dia"]);
+
+
+      }
+
+      asort($fechas);
+      $fechasSinRepetidos = array_unique($fechas);
+
+      return $fechasSinRepetidos;
+    }   
+    
+    
+    public function viewFechasEntradas(){
+
+      //agarro el user en session
+      
+      $user = $_SESSION['userLog'];
+      $idUser = $user->getId();
+
+      $fecha_seleccionada = $_POST["Id_fecha"];
+
+      $userController = new UserController();
+      
+      try{
+             $listaDeDivs = $userController->getEntradasAdquiridasPorDia($idUser,$fecha_seleccionada);
+              
+      }catch(Exception $e){
+             throw new Exception($e->get_message());
+      }
+
+      $fechas = $this->EntradasXDia($idUser);  
+    
+
+     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+     require_once(VIEWS_PATH.'entradasAdquiridas.php');
+     require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+    }
+
+    
+
+
+ #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //---------------------------------------------- ENTRADAS -----------------------------------------------------------------------------------------------------------------
+
+
+    public function viewConsultaTotalesVendidos(){
 
  #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -619,6 +684,12 @@ public function selectDinamicoSalas(){
      require_once(VIEWS_ADMIN_PATH.'consultaTotalesVendidos.php');
      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
+
+     $adminController = new AdminController();
+    // Cargo una lista de peliculas
+    $listaPeliculas = $adminController->listarPeliculas();
+    //Cargo una lista de cines
+    $listaCines = $adminController->listarCines();
 
 
     public function viewTotalesVendidos(  $VENTASxPELICULA, $VENTASxCINE,  $Fecha_Inicio,$Fecha_Fin){

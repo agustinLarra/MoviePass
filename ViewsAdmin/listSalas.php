@@ -1,3 +1,8 @@
+<?php
+
+use DAO\CineDAO;
+
+$cine = new CineDAO(); ?>
 <div class="what-we-do we-padding">
             <div class="container">
                 <!-- Section-tittle -->
@@ -23,6 +28,9 @@
                                 <h4><?= $sala->getNombre();?></h4>
                                 <p>Cine:  <?= $sala->getNombreCine();?></p>
                                 <p>Precio:  <?= $sala->getPrecio();?></p>
+                                <p>Ciudad:  <?= ($cine->getByID($sala->getIdCine()))->getCiudad();?></p>
+                                <p>Direccion:  <?= ($cine->getByID($sala->getIdCine()))->getCalle();?> <?= ($cine->getByID($sala->getIdCine()))->getNumero();?></p>
+
                                 <p>Capacidad:  <?= $sala->getCapacidad();?></p>
                                 <p>Tipo de Sala: <?=  $sala->getTipoSala();?></p>
                             </div>
@@ -41,17 +49,16 @@
                             }
                             </script>
 
-                                <div> <form action="<?php echo FRONT_ROOT?>Admin/deleteSala" onclick="return ConfirmDelete()" method="POST">
-                                <input name= "id" type="hidden" value="<?php $sala->getId()?>"></input>
-                                <button type="submit" class='btn btn-danger'> BOTON BORRAR  </button>
-                                </form> </div>
-
-                                <!-- DELETE-->
-                                <a href="<?php echo FRONT_ROOT?>Admin/deleteSala/<?php echo $sala->getId()?>" onclick="return ConfirmDelete()" class='btn btn-danger'>Borrar</a>
-
-                            
+                                <div> 
+                                    <form action="<?php echo FRONT_ROOT?>Admin/deleteSala" onclick="return ConfirmDelete()" method="POST">
+                                    <input name= "id" type="hidden" value="<?= $sala->getId()?>"></input>
+                                    <button type="submit" class='btn btn-danger'>Borrar</button>
+                                    </form> 
+                                </div>
+    
                                 <!-- MODIFY-->
                                 <!-- El MODIFY NO SE MUESTRA POR QUE SE LE PASA 1 SOLO PARAMETRO Y LOS NECESITA TODOS-->
+
                                 <div> <form action="<?php echo FRONT_ROOT?>Admin/EditSala" method="POST">
                                 <input name= "id" type="hidden" value="<?php $sala->getId()?>"></input> 
                                 <button type="submit" class='btn btn-danger'> BOTON MODIFY  </button>
@@ -106,13 +113,10 @@
                             </script>
                                 
                                 <div> <form action="<?php echo FRONT_ROOT?>Admin/altaSala" onclick="return ConfirmAlta()" method="POST">
-                                <input name= "id" type="hidden" value="<?php $sala->getId()?>"></input>
+                                <input name= "id" type="hidden" value="<?= $sala->getId()?>"></input>
                                 <button type="submit" class='btn btn-danger'> Alta BOTON </button>
                                 </form> </div>
 
-
-                                <a href="<?php echo FRONT_ROOT?>Admin/altaSala/<?php echo $sala->getId()?>"  class='btn btn-danger'>Alta</a>
-                            </div>
                             
 
 
