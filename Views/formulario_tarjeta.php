@@ -112,6 +112,7 @@
 		<form action="<?php echo FRONT_ROOT?>User/finalizarCompra" method="POST" id="formulario-tarjeta" class="formulario-tarjeta">
 			<div class="grupo">
 				<label for="inputNumero">Número Tarjeta</label>
+
 				<input type="text" id="inputNumero" maxlength="19" autocomplete="off"  name="numeroTarjeta" required name="numeroTarjeta">
 			</div>
 			<div class="grupo">

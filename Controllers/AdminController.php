@@ -55,9 +55,9 @@ class AdminController{
 
 
     public function deleteSala($id){
-        $sala = new Sala();
+        //$sala = new Sala();
 
-        $sala->setId($id);
+       // $sala->setId($id);
   
         $salaDao = new SalaDAO();
         try{
@@ -71,10 +71,7 @@ class AdminController{
     }
 
     public function deleteFuncion($id){
-        $funcion = new Funcion();
-
-        $funcion->setId($id);
-  
+        
         $funcionDAO = new FuncionDAO();
 
         try{
@@ -87,6 +84,8 @@ class AdminController{
         $homeController = new HomeController();
         $homeController->viewListFunciones();
     }
+
+    
     
     public function addCine($nombre, $ciudad, $calle, $numero){
 
@@ -146,19 +145,18 @@ class AdminController{
      */       
     }
 
+    
 
     public function altaSala($id)
     {
         $salaDao = new SalaDAO();
 
         try{
-            $salaDao->Delete($id);   
+            $salaDao->Alta($id);   
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
         
-        
-
         $homeController = new HomeController();
         $homeController->viewListSalas();
 
@@ -174,7 +172,6 @@ class AdminController{
                throw new Exception($e->get_message());
         }
         
-
         $homeController = new HomeController();
         $homeController->viewListCines();
 
