@@ -142,12 +142,8 @@
             $parameters['Descuento'] = $funcion->getDescuento();
             $parameters['Eliminado'] = $funcion->getEstado();
             
-            try{
                 $this->connection = connection::GetInstance();
                  $this->connection->ExecuteNonQuery($sql,$parameters);
-            }catch(PDOException $e){
-                throw new PDOException($e->getMessage());
-            }
         }
 
         private function DeleteId($id)

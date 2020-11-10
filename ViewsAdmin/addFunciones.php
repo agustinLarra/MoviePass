@@ -38,11 +38,20 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
+                                    <?php $fecha_actual = (date("d-m-Y H:i:00")); 
+                                        
+                                    ?>
+                                    
                                     <h5>Dia de la funcion </h5>
-                                    <input type="date" name="horario" id="horario"  require min="25-10-2020" >
+
+                                    <input type="date" name="horario" id="horario" required min=<?php $hoy=date("Y-m-d"); echo $hoy;?> />
+
+                   
                                     <br> <br>
                                     <h5>Horario de la funcion</h5>
-                                    <input type="time" name="hora" id="hora">                                    </div>
+                                    <input type="time" name="hora" id="hora">
+                                    
+                                    </div>
                                 </div>
 
                                 <div class="col-12">

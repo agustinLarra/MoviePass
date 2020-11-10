@@ -39,11 +39,23 @@
                                  return false;
                                 }
                             }
-                            
                             </script>
 
-                               
+                                <div> <form action="<?php echo FRONT_ROOT?>Admin/deleteSala" onclick="return ConfirmDelete()" method="POST">
+                                <input name= "id" type="hidden" value="<?php $sala->getId()?>"></input>
+                                <button type="submit" class='btn btn-danger'> BOTON BORRAR  </button>
+                                </form> </div>
+
+                                <!-- DELETE-->
                                 <a href="<?php echo FRONT_ROOT?>Admin/deleteSala/<?php echo $sala->getId()?>" onclick="return ConfirmDelete()" class='btn btn-danger'>Borrar</a>
+
+                            
+                                <!-- MODIFY-->
+                                <!-- El MODIFY NO SE MUESTRA POR QUE SE LE PASA 1 SOLO PARAMETRO Y LOS NECESITA TODOS-->
+                                <div> <form action="<?php echo FRONT_ROOT?>Admin/EditSala" method="POST">
+                                <input name= "id" type="hidden" value="<?php $sala->getId()?>"></input> 
+                                <button type="submit" class='btn btn-danger'> BOTON MODIFY  </button>
+                                </form> </div>
                                 <a href="<?php echo FRONT_ROOT?>Home/modificarSala/<?php echo $sala->getId() . '/' . $sala->getNombre()  . '/' . $sala->getPrecio() . '/' .  $sala->getCapacidad()?>"  class='btn btn-danger'>Modificar</a>
 
                             </div>
@@ -80,8 +92,8 @@
                             <div class="do-btn">
 
                             <script>
-                            function ConfirmDelete(){
-                             var respuesta = confirm("¿Estas seguro que quieres eliminar?");
+                            function ConfirmAlta(){
+                             var respuesta = confirm("¿Estas seguro que quieres dar de alta ?");
                              if(respuesta == true)
                              {
                                  return true;
@@ -92,6 +104,12 @@
                             }
                             
                             </script>
+                                
+                                <div> <form action="<?php echo FRONT_ROOT?>Admin/altaSala" onclick="return ConfirmAlta()" method="POST">
+                                <input name= "id" type="hidden" value="<?php $sala->getId()?>"></input>
+                                <button type="submit" class='btn btn-danger'> Alta BOTON </button>
+                                </form> </div>
+
 
                                 <a href="<?php echo FRONT_ROOT?>Admin/altaSala/<?php echo $sala->getId()?>"  class='btn btn-danger'>Alta</a>
                             </div>

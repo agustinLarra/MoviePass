@@ -36,8 +36,8 @@ class AdminController{
 		$this->homeController = new HomeController();
     }
 
-    public function deleteCine(){
-        $id = $_POST['id'];
+    public function deleteCine($id){
+        //$id = $_POST['id'];
         
         $cine = new Cine();
 
@@ -46,7 +46,7 @@ class AdminController{
         $cineDao = new CineDAO();
 
         try{
-               $cineDao->Delete($cine);
+               $cineDao->Delete($id);
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
@@ -64,9 +64,12 @@ class AdminController{
         $sala->setId($id);
   
         $salaDao = new SalaDAO();
-        $salaDao->Delete($id);
+        try{
+            $salaDao->Delete($id);   
+        }catch(Exception $e){
+            throw new Exception($e->get_messeage());
+        }
         
-
         $homeController = new HomeController();
         $homeController->viewListSalas();
     }
@@ -76,15 +79,19 @@ class AdminController{
 
         $funcion->setId($id);
   
-        $funcionDAO = new SalaDAO();
-        $funcionDAO->Delete($id);
+        $funcionDAO = new FuncionDAO();
+
+        try{
+            $funcionDAO->Delete($id);
+        }
+        catch(Exception $e){
+            throw new Exception($e->get_messeage());
+        }
         
         $homeController = new HomeController();
         $homeController->viewListFunciones();
     }
     
-
-
     public function addCine($nombre, $ciudad, $calle, $numero){
 
         /// Podriamos pedir en el formulario que suban una foto del cine, para despues mostrarlo con foto, para la foto tendriamos que cambiarle el nombre y guardarla en una carpeta local, la foto debe llamarse igual que el cine y anidarle el .jpg para que si en algun momento borran el cine, tambien borrar la fotouse Models\Cine as Cine;
@@ -128,8 +135,6 @@ class AdminController{
             
     }
 
-
-
     public function altaSala($id)
     {
         $salaDao = new SalaDAO();
@@ -163,7 +168,18 @@ class AdminController{
 
     }
 
+    public function altaFuncion($id){
+        $funcionDAO = new funcionDAO();
 
+        try{
+            $funcionDAO->Alta($id);
+        }catch(Exception $e){
+            throw new Exception($e->get_message());
+        }
+
+        $homeController = new HomeController();
+        $homeController->viewListFunciones();
+    }
 
 
     
@@ -203,6 +219,7 @@ class AdminController{
             }
       
     }
+
     public function modificarSala($id,$nombre,$precio,$capacidad,$tipo)
     {
         try{
@@ -288,6 +305,7 @@ class AdminController{
         return true;
 
     }
+
     /*
     public function deleteFuncion($id){
         $funcion = new Funcion();

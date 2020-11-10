@@ -193,10 +193,6 @@
             }
         }
   
-
-
-
-
         public function Delete($id)
         {
            // $parameters = $sala->getId();

@@ -10,7 +10,7 @@
                 </div>
                 <div class="row">
                 <?php foreach($listFunciones as $funcion){
-                    if($funcion->getEstado() == NULL){
+                    if($funcion->getEstado() == 0){
                         echo "entro en NULL";
                     ?>
                     <div class="col-lg-4 col-md-6">
@@ -38,6 +38,25 @@
                                                       
                             </div>
                             <div class="do-btn">
+
+                            <script>
+                            function ConfirmDelete(){
+                             var respuesta = confirm("¿Estas seguro que quieres eliminar?");
+                             if(respuesta == true)
+                             {
+                                 return true;
+                             }
+                            else{
+                                 return false;
+                                }
+                            }
+                            </script>
+
+                                <div> <form action="<?php echo FRONT_ROOT?>Admin/deleteFuncion" onclick="return ConfirmDelete()" method="POST">
+                                <input name= "id" type="hidden" value="<?php $funcion->getId()?>"></input>
+                                <button type="submit" class='btn btn-danger'> Borrar BOTON </button>
+                                </form> </div>
+
                                 <a href="<?php echo FRONT_ROOT?>Admin/deleteFuncion/<?php echo $funcion->getId();?>" class='btn btn-danger'>Borrar</a>
                             </div>
                         </div>
@@ -81,6 +100,26 @@
                                                       
                             </div>
                             <div class="do-btn">
+
+                            <script>
+                            function ConfirmAlta(){
+                             var respuesta = confirm("¿Estas seguro que quieres dar de alta?");
+                             if(respuesta == true)
+                             {
+                                 return true;
+                             }
+                            else{
+                                 return false;
+                                }
+                            }
+                            </script>
+
+
+                            <div> <form action="<?php echo FRONT_ROOT?>Admin/altaFuncion" onclick="return ConfirmAlta()" method="POST">
+                                <input name= "id" type="hidden" value="<?php $funcion->getId()?>"></input>
+                                <button type="submit" class='btn btn-danger'> Borrar BOTON </button>
+                                </form> </div>
+
                                <!-- <a href="<?php echo FRONT_ROOT?>Admin/deleteFuncion/<?php echo $funcion->getId();?>" class='btn btn-danger'>Borrar</a> -->
                             </div>
                         </div>
