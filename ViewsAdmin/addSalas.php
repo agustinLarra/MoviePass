@@ -1,7 +1,6 @@
 
 <body>
-    
- 
+
     <!-- Slider Area Start-->
     <div class="services-area">
         <div class="container">
@@ -42,7 +41,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="precio" id="subject" type="number" min="100" max="500" step="100" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Precio'" placeholder="Precio">
+                                        <input class="form-control" name="precio" id="subject" type="number" min="100" max="500"onfocus="this.placeholder = ''" onblur="this.placeholder = 'Precio'" placeholder="Precio">
                                     </div>
                                 </div>
                                 <div class="col-12">

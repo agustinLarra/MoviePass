@@ -42,7 +42,7 @@
         public function Delete($id)
         {
            // $parameters = $sala->getId();
-            $sql ="UPDATE cines SET Eliminado = '1' WHERE cines.Id_Cine = '$id'";
+            $sql ="UPDATE cines SET Eliminado = '1' WHERE Id_Cine = '$id'";
 
             try{
                 $this->connection = connection::GetInstance();
@@ -72,7 +72,7 @@
         public function SaveData(Cine $cine){
             ///REVISAR POR QUE ACA EN LOS VALUES NO SE PASA EL ID.
 
-            $sql = "INSERT INTO cines(Nombre,Ciudad,Calle,Numero) VALUES(:Nombre,:Ciudad,:Calle,:Numero)";
+            $sql = "INSERT INTO cines(Nombre,Ciudad,Calle,Numero,Eliminado) VALUES(:Nombre,:Ciudad,:Calle,:Numero,:Eliminado)";
     
             $parameters['Nombre'] = $cine->getNombre();
             $parameters['Ciudad'] = $cine->getCiudad();

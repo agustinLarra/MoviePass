@@ -215,10 +215,10 @@
             
         }
 
-        public function Alta($parameters)
+        public function Alta($id)
         {
           
-            $sql ="UPDATE salas SET Eliminado = '0' WHERE salas.Id_Sala = '$parameters'";
+            $sql ="UPDATE salas SET Eliminado = '0' WHERE salas.Id_Sala = '$id'";
 
             try{
                 $this->connection = connection::GetInstance();

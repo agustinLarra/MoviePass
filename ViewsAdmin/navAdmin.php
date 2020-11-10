@@ -52,6 +52,12 @@
                                          </ul>
                                      </li>
 
+                                     <li><a href="">Ventas</a>
+                                        <ul class="submenu">
+                                        <li><a  href="<?php echo FRONT_ROOT?>Home/viewConsultaTotalesVendidos">Totales vendidos</a></li>
+                                         </ul>
+                                     </li>
+
                                     
 
 

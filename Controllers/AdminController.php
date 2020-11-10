@@ -39,10 +39,6 @@ class AdminController{
     public function deleteCine($id){
         //$id = $_POST['id'];
         
-        $cine = new Cine();
-
-        $cine->setId($id);
-
         $cineDao = new CineDAO();
 
         try{
@@ -59,9 +55,9 @@ class AdminController{
 
 
     public function deleteSala($id){
-        $sala = new Sala();
+        //$sala = new Sala();
 
-        $sala->setId($id);
+       // $sala->setId($id);
   
         $salaDao = new SalaDAO();
         try{
@@ -75,10 +71,7 @@ class AdminController{
     }
 
     public function deleteFuncion($id){
-        $funcion = new Funcion();
-
-        $funcion->setId($id);
-  
+        
         $funcionDAO = new FuncionDAO();
 
         try{
@@ -91,6 +84,8 @@ class AdminController{
         $homeController = new HomeController();
         $homeController->viewListFunciones();
     }
+
+    
     
     public function addCine($nombre, $ciudad, $calle, $numero){
 
@@ -115,38 +110,53 @@ class AdminController{
     public function addSala($idCine, $nombreSala, $precio, $capacidad,$tipoSala){
 
 
-        $sala = new Sala();
-        $sala->setNombre($nombreSala);
-        $sala->setIdCine($idCine);
-        $sala->setPrecio($precio);
-        $sala->setCapacidad($capacidad);
-        $sala->setTipoSala($tipoSala);
+        //if($precio >= 200 && $precio <= 500 && $capacidad > 1 && $capacidad <= 500){
 
-        $salaDao = new SalaDAO();
-        try{
+            $sala = new Sala();
+            $sala->setNombre($nombreSala);
+            $sala->setIdCine($idCine);
+            $sala->setPrecio($precio);
+            $sala->setCapacidad($capacidad);
+            $sala->setTipoSala($tipoSala);
+    
+            $salaDao = new SalaDAO();
+            try{
                 $salaDao->Add($sala);
-        }catch(Exception $e){
-               throw new Exception($e->get_message());
-        }
-       
-
-        $homeController = new HomeController();
-        $homeController->viewListSalas();
+            }catch(Exception $e){
+                throw new Exception($e->get_message());
+            }
+            $this->homeController->viewListSalas();
             
+        /*        
+        }
+        
+            if($capacidad > 1 && $capacidad <= 500){
+
+                echo '<script>alert("Ingrese una capacidad valida, valores entre 1 y 500");</script>';
+                
+                $homeController->viewAddSalas();
+            }
+            if($precio >= 200 && $precio <= 500){
+            echo '<script>alert("Ingrese un precio valido, valores entre 200 y 500");</script>';
+                
+            $homeController->viewAddSalas();
+            }
+
+     */       
     }
+
+    
 
     public function altaSala($id)
     {
         $salaDao = new SalaDAO();
 
         try{
-            $salaDao->Delete($id);   
+            $salaDao->Alta($id);   
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
         
-        
-
         $homeController = new HomeController();
         $homeController->viewListSalas();
 
@@ -162,7 +172,6 @@ class AdminController{
                throw new Exception($e->get_message());
         }
         
-
         $homeController = new HomeController();
         $homeController->viewListCines();
 
@@ -183,9 +192,9 @@ class AdminController{
 
 
     
-    public function addFuncion($idPelicula, $dia,$hora, $idCine, $idSalas)//Deveria recibir la pelicula(por id) y la sala (por id)
+    public function addFuncion($idPelicula, $dia,$hora, $idSalas)//Deberia recibir la pelicula(por id) y la sala (por id)
     {
-        $horario = $dia .' ' . $hora; //Traigo el dia y la hora por separado y las concateno , haci no hay problema con la letra del dia cuando se guarda en la base de datos
+        $horario = $dia .' ' . $hora; //Traigo el dia y la hora por separado y las concateno , asi no hay problema con la letra del dia cuando se guarda en la base de datos
       
         $diaDeLaSemana = $this->saber_dia($dia);
         
@@ -785,7 +794,19 @@ class AdminController{
     }
 
 
+    /*---------------------------------------------------------------------------------------------------------------------------- */ 
+    /*------------------------------------------------ VENTAS --------------------------------------------------------------------- */ 
 
 
+    public function consultaTotalesVendidos($idPelicula, $idCine, $fechaInicio, $fechaFin){
+
+        if(isset($idPelicula) && $idPelicula == -1){
+           $ID_Pelicula = $idPelicula;
+        }
+        if(isset($idCine) && $idCine == -1){
+            $ID_Cine = $idCine;
+         }
+
+    }
 }
 ?>
