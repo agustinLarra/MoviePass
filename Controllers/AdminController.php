@@ -39,10 +39,6 @@ class AdminController{
     public function deleteCine($id){
         //$id = $_POST['id'];
         
-        $cine = new Cine();
-
-        $cine->setId($id);
-
         $cineDao = new CineDAO();
 
         try{
@@ -199,7 +195,7 @@ class AdminController{
 
 
     
-    public function addFuncion($idPelicula, $dia,$hora, $idCine, $idSalas)//Deberia recibir la pelicula(por id) y la sala (por id)
+    public function addFuncion($idPelicula, $dia,$hora, $idSalas)//Deberia recibir la pelicula(por id) y la sala (por id)
     {
         $horario = $dia .' ' . $hora; //Traigo el dia y la hora por separado y las concateno , asi no hay problema con la letra del dia cuando se guarda en la base de datos
       
@@ -207,7 +203,6 @@ class AdminController{
         
        $funcion = new Funcion();
        $funcion->setIdPelicula($idPelicula);
-       //$funcion->setIdCine($idCine);
        $funcion->setIdSala($idSalas);
        $funcion->setDia($dia);
        $funcion->setHora($hora);
@@ -748,11 +743,159 @@ class AdminController{
     }
 
 
-    public function viewTicketsVendidos()
-    {
+    /*---------------------------------------------------------------------------------------------------------------------------- */ 
+    /*------------------------------------------------ VENTAS --------------------------------------------------------------------- */ 
+
+
+    public function consultaTotalesVendidos($idPelicula, $idCine, $fechaInicio, $fechaFin){
+
+        $ID_Pelicula = 0;
+        $ID_Cine = 0;
+
+        if(isset($idPelicula) && $idPelicula > 0){
+           $ID_Pelicula = $idPelicula;
+        }
+        if(isset($idCine) && $idCine > 0){
+            $ID_Cine = $idCine;
+         }
+
+         $Fecha_Inicio = $fechaInicio;
+
+         $Fecha_Fin  = $fechaFin;
+
+        $this->listarComprasCompatibles($ID_Pelicula, $ID_Cine,$Fecha_Inicio,$Fecha_Fin );
+    }
+
+    public function listarComprasCompatibles($ID_Pelicula, $ID_Cine,$Fecha_Inicio,$Fecha_Fin ){
+
+
+        $VENTASxPELICULA = array ();
+        $VENTASxCINE = array ();
+      
+
+        if($ID_Pelicula > 0){
+
+            $VENTASxPELICULA = $this->RecaudacionPeliculas($ID_Pelicula,$Fecha_Inicio,$Fecha_Fin);
+            
+        }
+
+        if($ID_Cine > 0){
+
+            $VENTASxCINE = $this->RecaudacionCines($ID_Cine,$Fecha_Inicio,$Fecha_Fin);
+        }
+
+        $homeController = new HomeController();
+        $homeController->viewTotalesVendidos(  $VENTASxPELICULA, $VENTASxCINE, $Fecha_Inicio,$Fecha_Fin); 
+
+
+      
+
+    }
+
+
+    private function RecaudacionPeliculas($ID_Pelicula,$Fecha_Inicio,$Fecha_Fin){
+            
+            $VENTASxPELICULA = array ();
+            $funcionDAO =  new FuncionDAO();
+            $peliculaDAO =  new PeliculaDAO();
+            $entradaDAO = new EntradaDAO();
+            $compraDAO = new CompraDAO();
+
+
+            try{
+                // ACA VOY A AGARRAR LAS FUNCIONES QUE MACHEEN CON LA PELI Y LAS FECHAS
+                $FuncionesFiltradasXpelicula = $funcionDAO->consultaPorIdPeliBetween($ID_Pelicula,$Fecha_Inicio,$Fecha_Fin);
+                       
+                $entradasVendidas = 0;
+                $recaudacionTotal = 0;    
+                //Por cada funcion que haya
+                foreach($FuncionesFiltradasXpelicula as $funcion){
+                    //Busco las entradas que machean con esta funcion Y guardo los id de compra en un arreglo
+                    $arregloDeIdCompra = $entradaDAO->getIdCompraByIdFuncion($funcion->getId());
+                    $entradasVendidas = 0;
+                    $recaudacionTotal = 0;
+                    // por cada id de compra, perteneciente a esta funcion
+                    foreach($arregloDeIdCompra as $idCompra){
+                        $compra = $compraDAO->getById($idCompra);
+                        // Empiezo a contar por cada compra, las entradas y el total que salio
+                        $entradasVendidas += $compra->getCantidadEntradas();
+                        $recaudacionTotal += $compra->getTotal();
+                    }
+                } 
+                // Una vez que paso por todas las funciones que macheaban con mi peli, tengo todos los totales
+                $VENTASxPELICULA ['entradasVendidas'] = $entradasVendidas ;
+                $VENTASxPELICULA ['recaudacionTotal'] = $recaudacionTotal; 
+                //Busco la peli
+                $pelicula = $peliculaDAO->getPeliByID($ID_Pelicula);
+                $VENTASxPELICULA ['Pelicula'] = $pelicula ;
+
+            }catch(Exception $e){
+                throw new Exception($e->get_message());
+            }
+            return $VENTASxPELICULA;
+    }
+
+
+    private function RecaudacionCines($ID_Cine,$Fecha_Inicio,$Fecha_Fin){
+
+        $VENTASxCINE = array ();
+        $funcionDAO =  new FuncionDAO();
+        $salaDAO =  new SalaDAO();
+        $cineDAO =  new CineDAO();
+        $entradaDAO = new EntradaDAO();
+        $compraDAO = new CompraDAO();
+
+
+        try{
+            // AGARRO TODAS LAS SALAS QUE MACHEEN CON EL CINE
+            $listaSalas = $salaDAO->GetByIdCine($ID_Cine);
+            // Este va a ser un arreglo de arreglos
+            $funcionesDeUnCine = array();
+            // ACA VOY A AGARRAR LAS FUNCIONES QUE MACHEEN CON LA SALAS Y LAS FECHAS
+            // Guardandolas en una arreglo que contenera, todas las funciones que se junten con nuestro cine buscado
+            foreach($listaSalas as $sala){
+                $FuncionesDeUnaSala = $funcionDAO->consultaPorIdSalaBetween($sala->getId(),$Fecha_Inicio,$Fecha_Fin);
+                array_push($funcionesDeUnCine, $FuncionesDeUnaSala );
+            }
+            
+                   
+            $entradasVendidas = 0;
+            $recaudacionTotal = 0;    
+            //Por cada funcion que haya
+            foreach($funcionesDeUnCine as $FuncionesDeUnaSala){
+                foreach($FuncionesDeUnaSala as $funcion){
+                    //Busco las entradas que machean con esta funcion Y guardo los id de compra en un arreglo
+                    $arregloDeIdCompra = $entradaDAO->getIdCompraByIdFuncion($funcion->getId());
+                    $entradasVendidas = 0;
+                    $recaudacionTotal = 0;
+                    // por cada id de compra, perteneciente a esta funcion
+                    foreach($arregloDeIdCompra as $idCompra){
+                        $compra = $compraDAO->getById($idCompra);
+                        // Empiezo a contar por cada compra, las entradas y el total que salio
+                        $entradasVendidas += $compra->getCantidadEntradas();
+                        $recaudacionTotal += $compra->getTotal();
+                    }
+                } 
+            }
+            
+            // Una vez que paso por todas las funciones que macheaban con mi peli, tengo todos los totales
+            $VENTASxCINE ['entradasVendidas'] = $entradasVendidas ;
+            $VENTASxCINE ['recaudacionTotal'] = $recaudacionTotal; 
+            //Busco la peli
+            $cine = $cineDAO->getByID($ID_Cine);
+            $VENTASxCINE ['Cine'] = $cine ;
+
+        }catch(Exception $e){
+            throw new Exception($e->get_message());
+        }
+        return $VENTASxCINE;
+
+
 
 
     }
+
+
 
 }
 ?>

@@ -34,7 +34,7 @@
 
                      <div class="col-xl-2 col-lg-2 col-md-3">
                         <div class="header-right-btn f-right d-none d-lg-block">
-                            <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Home</a>
+                            <a href="<?= FRONT_ROOT?>Home/viewCartelera" class="btn header-btn">Home</a>
                         </div>
                     </div>  
                 </div>

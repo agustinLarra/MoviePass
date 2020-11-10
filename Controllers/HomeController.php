@@ -600,7 +600,52 @@ public function selectDinamicoSalas(){
     }
 
 
+ #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //---------------------------------------------- ENTRADAS -----------------------------------------------------------------------------------------------------------------
 
 
+    public function viewConsultaTotalesVendidos(){
+
+
+     $adminController = new AdminController();
+    // Cargo una lista de peliculas
+    $listaPeliculas = $adminController->listarPeliculas();
+    //Cargo una lista de cines
+    $listaCines = $adminController->listarCines();
+
+
+     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+     require_once(VIEWS_ADMIN_PATH.'consultaTotalesVendidos.php');
+     require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+    }
+
+
+    public function viewTotalesVendidos(  $VENTASxPELICULA, $VENTASxCINE,  $Fecha_Inicio,$Fecha_Fin){
+
+      $peliculaVendida = $VENTASxPELICULA;
+      $cineVendido = $VENTASxCINE;
+      $pelicula;
+      $cine;
+
+      if(!empty($peliculaVendida)){
+        $pelicula = $peliculaVendida['Pelicula'] ; 
+      }
+
+      if(!empty($cineVendido)){
+        $cine = $cineVendido['Cine'] ; 
+      }
+      
+
+      $listaXcine = $VENTASxCINE;
+      $DiaInicio = $Fecha_Inicio;
+      $DiaFin = $Fecha_Fin;
+
+     
+
+     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+     require_once(VIEWS_ADMIN_PATH.'totalesVendidos.php');
+     require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+    }
 
 } ?>

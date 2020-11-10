@@ -94,6 +94,8 @@ create table funciones(
     Dia date,
     Hora time,
 	Descuento boolean,
+    Eliminado boolean
+
     
     constraint `PK_Funcion` primary key (Id_Funcion),
     constraint `FK_Pelicula` foreign key (Id_Pelicula) references peliculas(Id_Pelicula) on delete cascade on update cascade,
