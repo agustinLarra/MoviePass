@@ -39,10 +39,6 @@ class AdminController{
     public function deleteCine($id){
         //$id = $_POST['id'];
         
-        $cine = new Cine();
-
-        $cine->setId($id);
-
         $cineDao = new CineDAO();
 
         try{
@@ -199,7 +195,7 @@ class AdminController{
 
 
     
-    public function addFuncion($idPelicula, $dia,$hora, $idCine, $idSalas)//Deberia recibir la pelicula(por id) y la sala (por id)
+    public function addFuncion($idPelicula, $dia,$hora, $idSalas)//Deberia recibir la pelicula(por id) y la sala (por id)
     {
         $horario = $dia .' ' . $hora; //Traigo el dia y la hora por separado y las concateno , asi no hay problema con la letra del dia cuando se guarda en la base de datos
       
@@ -207,7 +203,6 @@ class AdminController{
         
        $funcion = new Funcion();
        $funcion->setIdPelicula($idPelicula);
-       //$funcion->setIdCine($idCine);
        $funcion->setIdSala($idSalas);
        $funcion->setDia($dia);
        $funcion->setHora($hora);
@@ -748,11 +743,19 @@ class AdminController{
     }
 
 
-    public function viewTicketsVendidos()
-    {
+    /*---------------------------------------------------------------------------------------------------------------------------- */ 
+    /*------------------------------------------------ VENTAS --------------------------------------------------------------------- */ 
 
+
+    public function consultaTotalesVendidos($idPelicula, $idCine, $fechaInicio, $fechaFin){
+
+        if(isset($idPelicula) && $idPelicula == -1){
+           $ID_Pelicula = $idPelicula;
+        }
+        if(isset($idCine) && $idCine == -1){
+            $ID_Cine = $idCine;
+         }
 
     }
-
 }
 ?>

@@ -133,14 +133,14 @@
     
         private function SaveData($funcion)
         {
-            $sql = "INSERT INTO funciones(Id_Pelicula,Id_Sala,Dia,Hora,Descuento) VALUES(:Id_Pelicula,:Id_Sala,:Dia,:Hora,:Descuento)";
+            $sql = "INSERT INTO funciones(Id_Pelicula,Id_Sala,Dia,Hora,Descuento,:Eliminado) VALUES(:Id_Pelicula,:Id_Sala,:Dia,:Hora,:Descuento,:Eliminado)";
     
             $parameters['Id_Pelicula'] = $funcion->getIdPelicula();
             $parameters['Id_Sala'] = $funcion->getIdSala();
             $parameters['Dia'] = $funcion->getDia();
             $parameters['Hora'] = $funcion->getHora();
             $parameters['Descuento'] = $funcion->getDescuento();
-            $parameters['Eliminado'] = $funcion->getEstado();
+            $parameters['Eliminado'] = '0';
             
                 $this->connection = connection::GetInstance();
                  $this->connection->ExecuteNonQuery($sql,$parameters);
