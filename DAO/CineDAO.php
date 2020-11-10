@@ -189,6 +189,32 @@
 
             return $cine;
         }
+        
+        public function getAll_Id()
+        {
+            $id_cines = array();
+            $array = array();
+            
+            try{
+                 $query = "SELECT Id_Cine FROM cines";
+                 $this->connection = connection::GetInstance();   
+                 $resultSet = $this->connection->execute($query); 
+
+                 if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+
+                       
+                        $id_cines = ($row["Id_Cine"]);
+                        array_push($array,$id_cines);
+
+                    }
+                }
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
+            return $array;
+
+        }
 
 
     

@@ -185,8 +185,16 @@
         {
             try{
                 $query = "UPDATE salas SET Nombre = '$nombre' , Precio = '$precio', Capacidad = '$capacidad' , Tipo_sala = '$tipo' WHERE salas.Id_Sala = '$id'";
+               
+                $parameters['Nombre'] = $nombre;
+                $parameters['Precio'] = $precio;
+                $parameters['Capacidad'] =$capacidad;
+                $parameters['Tipo_sala'] = $tipo;
+             
+            
+
                 $this->connection = connection::GetInstance();
-                return $this->connection->ExecuteNonQuery($query,$id);
+                return $this->connection->ExecuteNonQuery($query,$parameters);
             }
             catch(PDOException $e){
                 echo $e;

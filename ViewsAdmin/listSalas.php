@@ -1,3 +1,8 @@
+<?php
+
+use DAO\CineDAO;
+
+$cine = new CineDAO(); ?>
 <div class="what-we-do we-padding">
             <div class="container">
                 <!-- Section-tittle -->
@@ -23,6 +28,9 @@
                                 <h4><?= $sala->getNombre();?></h4>
                                 <p>Cine:  <?= $sala->getNombreCine();?></p>
                                 <p>Precio:  <?= $sala->getPrecio();?></p>
+                                <p>Ciudad:  <?= ($cine->getByID($sala->getIdCine()))->getCiudad();?></p>
+                                <p>Direccion:  <?= ($cine->getByID($sala->getIdCine()))->getCalle();?> <?= ($cine->getByID($sala->getIdCine()))->getNumero();?></p>
+
                                 <p>Capacidad:  <?= $sala->getCapacidad();?></p>
                                 <p>Tipo de Sala: <?=  $sala->getTipoSala();?></p>
                             </div>

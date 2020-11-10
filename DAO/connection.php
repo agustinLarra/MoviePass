@@ -86,10 +86,12 @@ class Connection{
         private function BindParameters($parameters = array(), $queryType = QueryType::Query)
         {
             $i = 0;
+            
 
             foreach($parameters as $parameterName => $value)
             {                
-                $i++;
+                $i++;          
+  
 
                 if($queryType == QueryType::Query)
                     $this->pdoStatement->bindParam(":".$parameterName, $parameters[$parameterName]);
