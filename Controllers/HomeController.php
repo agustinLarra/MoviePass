@@ -166,29 +166,29 @@ class HomeController{
 
     public function viewGenero( )
     {
-
-      $idGenero = $_POST['Id_genero'];
+      try{
+        $idGenero = $_POST['Id_genero'];
         
-
-      if((strcmp($idGenero,"todos"))==0)
-      {
-        
-        $array_peliculas = $this->cargarCartelera();
-      }
-      else{
-         list($id,$nombre) = explode("-",$idGenero);
-         $array_peliculas = $this->filtarPelisXgenero($id);
-      }        
-
+        if((strcmp($idGenero,"todos"))==0)
+        {
+          $array_peliculas = $this->cargarCartelera();
+        }else{
+           list($id,$nombre) = explode("-",$idGenero);
+           $array_peliculas = $this->filtarPelisXgenero($id);
+        }        
+  
         $arrayGeneros = $this->cargarGeneros();
- 
+   
         $lista_dias = $this->cargarFunciones();
+
+      }catch(Exception $e){
+        $message = $e->get_message();
+      }
+ 
         
-
-
-        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-        require_once(VIEWS_PATH.'billboard.php');
-        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      require(VIEWS_PATH.'billboard.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     
     }
 
