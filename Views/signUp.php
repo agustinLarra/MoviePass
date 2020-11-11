@@ -15,20 +15,20 @@
                    <?php if(!isset($_SESSION['userLog'])) { ?>
                            <div class="col-xl-2 col-lg-2 col-md-3">
                                <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>Home/viewLogin" class="btn header-btn">Login</a>
+                                   <a href="<?= FRONT_ROOT?>Home/viewLogin" class="btn header-btn">Iniciar Sesion</a>
                                </div>
                            </div>
                        
                         <?php	} ?>
                         <div class="col-xl-2 col-lg-2 col-md-3">
                                <div class="header-right-btn f-right d-none d-lg-block">
-                               <li><a href="<?php echo FRONT_ROOT?>Home/Index"  class="btn header-btn"> Home</a></li>
+                               <li><a href="<?php echo FRONT_ROOT?>Home/Index"  class="btn header-btn">Inicio</a></li>
                                </div>
                            </div>
                         <?php if(isset($_SESSION['userLog'])) { ?>
                            <div class="col-xl-2 col-lg-2 col-md-3">
                                <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Logout</a>
+                                   <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Cerrar Sesion</a>
                                </div>
                            </div>
                         <?php	} ?>

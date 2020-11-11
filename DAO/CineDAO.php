@@ -75,7 +75,7 @@
         public function SaveData(Cine $cine){
             ///REVISAR POR QUE ACA EN LOS VALUES NO SE PASA EL ID.
 
-            $sql = "INSERT INTO cines(Nombre,Ciudad,Calle,Numero) VALUES(:Nombre,:Ciudad,:Calle,:Numero)";
+            $sql = "INSERT INTO cines(Nombre,Ciudad,Calle,Numero,Eliminado) VALUES(:Nombre,:Ciudad,:Calle,:Numero,:Eliminado)";
     
             $parameters['Nombre'] = $cine->getNombre();
             $parameters['Ciudad'] = $cine->getCiudad();

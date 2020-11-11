@@ -23,23 +23,26 @@
 
 
     <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="single-do text-center mb-30">
+            <div class="col-lg-12 col-md-12">
+                <div class="single-do text-center mb-80 mt-50">
                     <div class="do-icon">
                          <span  class="flaticon-tasks"></span>
                     </div>
                      <h3> Felicitaciones, su compra se registro correctamente! </h3>
                      <h5> Sus entradas se encuentran disponibles en el mail registrado en esta cuenta</h5>
-                     <h5> Muchas gracias vuelva prontus!</h5>
 
-                     <div class="col-xl-2 col-lg-2 col-md-3">
-                        <div class="header-right-btn f-right d-none d-lg-block">
-                            <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Home</a>
-                        </div>
-                    </div>  
+                
                 </div>
             </div>
     </div>
 
+    <div>
+        <img src="../Views/images/apu.jpg">
+    </div>
+   
 
-    </main>
+    <div class="col-xl-7 col-lg-7 col-md-7 mt-5">
+                        <div class="header-right-btn f-right d-none d-lg-block">
+                            <a href="<?= FRONT_ROOT?>Home/viewCartelera" class="btn header-btn">Inicio</a>
+                        </div>
+                    </div> 

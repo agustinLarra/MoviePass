@@ -39,12 +39,13 @@
                             }
                             
                             </script>
-                                <?php echo "Aca hace bien el direccionamiento pero mal la accion"?>
-                                <div> <form action="<?php echo FRONT_ROOT?>Admin/deletecine" onclick="return ConfirmDelete()" method="POST">
-                                <input name= "id" type="hidden" value="<?=$cine->getId()?>"></input>
-                                <button type="submit" class='btn btn-danger'> Borrar BOTON </button>
-                                </form> </div>
-                                                                 
+                            <div> 
+                                <form action="<?php echo FRONT_ROOT?>Admin/deleteCine" onclick="return ConfirmDelete()" method="POST">
+                                    <input name= "id" type="hidden" value="<?= $cine->getId()?>"></input>
+                                     <button type="submit" class='btn btn-danger'>Borrar </button>
+                                </form> 
+                            </div>
+                                 
                             </div>
 
 

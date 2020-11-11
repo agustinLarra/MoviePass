@@ -82,10 +82,7 @@ class AdminController{
     }
 
     public function deleteFuncion($id){
-        $funcion = new Funcion();
-
-        $funcion->setId($id);
-  
+        
         $funcionDAO = new FuncionDAO();
 
         try{
@@ -98,6 +95,8 @@ class AdminController{
         $homeController = new HomeController();
         $homeController->viewListFunciones();
     }
+
+    
     
     public function addCine($nombre, $ciudad, $calle, $numero){
 
@@ -122,25 +121,44 @@ class AdminController{
     public function addSala($idCine, $nombreSala, $precio, $capacidad,$tipoSala){
 
 
-        $sala = new Sala();
-        $sala->setNombre($nombreSala);
-        $sala->setIdCine($idCine);
-        $sala->setPrecio($precio);
-        $sala->setCapacidad($capacidad);
-        $sala->setTipoSala($tipoSala);
+        //if($precio >= 200 && $precio <= 500 && $capacidad > 1 && $capacidad <= 500){
 
-        $salaDao = new SalaDAO();
-        try{
+            $sala = new Sala();
+            $sala->setNombre($nombreSala);
+            $sala->setIdCine($idCine);
+            $sala->setPrecio($precio);
+            $sala->setCapacidad($capacidad);
+            $sala->setTipoSala($tipoSala);
+    
+            $salaDao = new SalaDAO();
+            try{
                 $salaDao->Add($sala);
-        }catch(Exception $e){
-               throw new Exception($e->get_message());
-        }
-       
-
-        $homeController = new HomeController();
-        $homeController->viewListSalas();
+            }catch(Exception $e){
+             
+                throw new Exception($e->get_message());
+            }
+            $homeController = new HomeController();
+            $homeController->viewListSalas();
             
+        /*        
+        }
+        
+            if($capacidad > 1 && $capacidad <= 500){
+
+                echo '<script>alert("Ingrese una capacidad valida, valores entre 1 y 500");</script>';
+                
+                $homeController->viewAddSalas();
+            }
+            if($precio >= 200 && $precio <= 500){
+            echo '<script>alert("Ingrese un precio valido, valores entre 200 y 500");</script>';
+                
+            $homeController->viewAddSalas();
+            }
+
+     */       
     }
+
+    
 
     public function altaSala($id)
     {
@@ -167,8 +185,6 @@ class AdminController{
                throw new Exception($e->get_message());
         }
         
-        
-
         $homeController = new HomeController();
         $homeController->viewListSalas();
 
@@ -184,7 +200,6 @@ class AdminController{
                throw new Exception($e->get_message());
         }
         
-
         $homeController = new HomeController();
         $homeController->viewListCines();
 
@@ -249,14 +264,14 @@ class AdminController{
                        $homeController->viewAddFunciones();
                    }
            }else {
-               echo '<script>alert("La pelicula ya Tiene un Cine ese Dia");</script>';
+               echo '<script>alert("Esta pelicula solo puede reproducirse en un cine por dia");</script>';
 
                $homeController = new HomeController();
                $homeController->viewAddFunciones();
            }
        }else{
                
-           echo '<script>alert("La pelicula ya Tiene una Sala ese Dia ");</script>';
+           echo '<script>alert("Esta pelicula solo puede reproducirse en un cine por dia");</script>';
 
                $homeController = new HomeController();
                $homeController->viewAddFunciones();
@@ -670,7 +685,7 @@ class AdminController{
         echo'<select name="select" id="select">';
       
                foreach($listaSalas as $value){      
-                    echo "<option value='".$value->getId()."'>".$value->getNombre()."</option>";
+                    echo "<option value='".$value->getId()."' >".$value->getNombre()."</option>";
                }
         echo'</select>';
     }
@@ -815,6 +830,158 @@ class AdminController{
 
     }
 
+
+    /*---------------------------------------------------------------------------------------------------------------------------- */ 
+    /*------------------------------------------------ VENTAS --------------------------------------------------------------------- */ 
+
+
+    public function consultaTotalesVendidos($idPelicula, $idCine, $fechaInicio, $fechaFin){
+
+        $ID_Pelicula = 0;
+        $ID_Cine = 0;
+
+        if(isset($idPelicula) && $idPelicula > 0){
+           $ID_Pelicula = $idPelicula;
+        }
+        if(isset($idCine) && $idCine > 0){
+            $ID_Cine = $idCine;
+         }
+
+         $Fecha_Inicio = $fechaInicio;
+
+         $Fecha_Fin  = $fechaFin;
+
+        $this->listarComprasCompatibles($ID_Pelicula, $ID_Cine,$Fecha_Inicio,$Fecha_Fin );
+    }
+
+    public function listarComprasCompatibles($ID_Pelicula, $ID_Cine,$Fecha_Inicio,$Fecha_Fin ){
+
+
+        $VENTASxPELICULA = array ();
+        $VENTASxCINE = array ();
+      
+
+        if($ID_Pelicula > 0){
+
+            $VENTASxPELICULA = $this->RecaudacionPeliculas($ID_Pelicula,$Fecha_Inicio,$Fecha_Fin);
+            
+        }
+
+        if($ID_Cine > 0){
+
+            $VENTASxCINE = $this->RecaudacionCines($ID_Cine,$Fecha_Inicio,$Fecha_Fin);
+        }
+
+        $homeController = new HomeController();
+        $homeController->viewTotalesVendidos(  $VENTASxPELICULA, $VENTASxCINE, $Fecha_Inicio,$Fecha_Fin); 
+
+
+      
+
+    }
+
+
+    private function RecaudacionPeliculas($ID_Pelicula,$Fecha_Inicio,$Fecha_Fin){
+            
+            $VENTASxPELICULA = array ();
+            $funcionDAO =  new FuncionDAO();
+            $peliculaDAO =  new PeliculaDAO();
+            $entradaDAO = new EntradaDAO();
+            $compraDAO = new CompraDAO();
+
+
+            try{
+                // ACA VOY A AGARRAR LAS FUNCIONES QUE MACHEEN CON LA PELI Y LAS FECHAS
+                $FuncionesFiltradasXpelicula = $funcionDAO->consultaPorIdPeliBetween($ID_Pelicula,$Fecha_Inicio,$Fecha_Fin);
+                       
+                $entradasVendidas = 0;
+                $recaudacionTotal = 0;    
+                //Por cada funcion que haya
+                foreach($FuncionesFiltradasXpelicula as $funcion){
+                    //Busco las entradas que machean con esta funcion Y guardo los id de compra en un arreglo
+                    $arregloDeIdCompra = $entradaDAO->getIdCompraByIdFuncion($funcion->getId());
+                    $entradasVendidas = 0;
+                    $recaudacionTotal = 0;
+                    // por cada id de compra, perteneciente a esta funcion
+                    foreach($arregloDeIdCompra as $idCompra){
+                        $compra = $compraDAO->getById($idCompra);
+                        // Empiezo a contar por cada compra, las entradas y el total que salio
+                        $entradasVendidas += $compra->getCantidadEntradas();
+                        $recaudacionTotal += $compra->getTotal();
+                    }
+                } 
+                // Una vez que paso por todas las funciones que macheaban con mi peli, tengo todos los totales
+                $VENTASxPELICULA ['entradasVendidas'] = $entradasVendidas ;
+                $VENTASxPELICULA ['recaudacionTotal'] = $recaudacionTotal; 
+                //Busco la peli
+                $pelicula = $peliculaDAO->getPeliByID($ID_Pelicula);
+                $VENTASxPELICULA ['Pelicula'] = $pelicula ;
+
+            }catch(Exception $e){
+                throw new Exception($e->get_message());
+            }
+            return $VENTASxPELICULA;
+    }
+
+
+    private function RecaudacionCines($ID_Cine,$Fecha_Inicio,$Fecha_Fin){
+
+        $VENTASxCINE = array ();
+        $funcionDAO =  new FuncionDAO();
+        $salaDAO =  new SalaDAO();
+        $cineDAO =  new CineDAO();
+        $entradaDAO = new EntradaDAO();
+        $compraDAO = new CompraDAO();
+
+
+        try{
+            // AGARRO TODAS LAS SALAS QUE MACHEEN CON EL CINE
+            $listaSalas = $salaDAO->GetByIdCine($ID_Cine);
+            // Este va a ser un arreglo de arreglos
+            $funcionesDeUnCine = array();
+            // ACA VOY A AGARRAR LAS FUNCIONES QUE MACHEEN CON LA SALAS Y LAS FECHAS
+            // Guardandolas en una arreglo que contenera, todas las funciones que se junten con nuestro cine buscado
+            foreach($listaSalas as $sala){
+                $FuncionesDeUnaSala = $funcionDAO->consultaPorIdSalaBetween($sala->getId(),$Fecha_Inicio,$Fecha_Fin);
+                array_push($funcionesDeUnCine, $FuncionesDeUnaSala );
+            }
+            
+                   
+            $entradasVendidas = 0;
+            $recaudacionTotal = 0;    
+            //Por cada funcion que haya
+            foreach($funcionesDeUnCine as $FuncionesDeUnaSala){
+                foreach($FuncionesDeUnaSala as $funcion){
+                    //Busco las entradas que machean con esta funcion Y guardo los id de compra en un arreglo
+                    $arregloDeIdCompra = $entradaDAO->getIdCompraByIdFuncion($funcion->getId());
+                    $entradasVendidas = 0;
+                    $recaudacionTotal = 0;
+                    // por cada id de compra, perteneciente a esta funcion
+                    foreach($arregloDeIdCompra as $idCompra){
+                        $compra = $compraDAO->getById($idCompra);
+                        // Empiezo a contar por cada compra, las entradas y el total que salio
+                        $entradasVendidas += $compra->getCantidadEntradas();
+                        $recaudacionTotal += $compra->getTotal();
+                    }
+                } 
+            }
+            
+            // Una vez que paso por todas las funciones que macheaban con mi peli, tengo todos los totales
+            $VENTASxCINE ['entradasVendidas'] = $entradasVendidas ;
+            $VENTASxCINE ['recaudacionTotal'] = $recaudacionTotal; 
+            //Busco la peli
+            $cine = $cineDAO->getByID($ID_Cine);
+            $VENTASxCINE ['Cine'] = $cine ;
+
+        }catch(Exception $e){
+            throw new Exception($e->get_message());
+        }
+        return $VENTASxCINE;
+
+
+
+
+    }
 
 
 

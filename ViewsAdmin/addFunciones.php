@@ -27,10 +27,11 @@
                                 <div class="col-12">
                                 <h5>Pelicula</h5>
                                     <div class="form-group">
-                                        <select name="idPelicula" class="form-group">
+                                        <select name="idPelicula"  class="form-group" >
+                                        <option selected disabled  required name="idPelicula" >Selecione una opcion</option>
                                         <?php   foreach($peliculasList as $value){      ?>
 
-                                            <option value="<?php echo $value->getId();?>"><?php echo $value->getTitle(); ?></option> 
+                                            <option value="<?php echo $value->getId();?>"  ><?php echo $value->getTitle(); ?></option> 
 
                                         <?php }      ?>   
                                         </select>
@@ -44,12 +45,12 @@
                                     
                                     <h5>Dia de la funcion </h5>
 
-                                    <input type="date" name="horario" id="horario" required min=<?php $hoy=date("Y-m-d"); echo $hoy;?> />
+                                    <input type="date" name="horario" id="horario" required min=<?php $hoy=date("Y-m-d"); echo $hoy;?> required name="horario" />
 
                    
                                     <br> <br>
                                     <h5>Horario de la funcion</h5>
-                                    <input type="time" name="hora" id="hora">
+                                    <input type="time" name="hora" id="hora" required name="hora">
                                     
                                     </div>
                                 </div>
@@ -75,11 +76,11 @@
                                 <div class="col-12">
                                      
                                     <h5>Cines</h5>
-                                     <select name="idCine"id="select"  onclick="muestraselect(this.value)">
+                                     <select name="idCine"id="select"  onclick="muestraselect(this.value)" required name="idCine" >
                                         <option value="">Selecione un cine</option>
                                         <?php   foreach($cineList as $value){      ?>
 
-                                            <option value="<?php echo $value->getId();?>"><?php echo $value->getNombre(); ?></option> 
+                                            <option value="<?php echo $value->getId();?>"   ><?php echo $value->getNombre(); ?></option> 
 
                                         <?php }      ?>   
                                     </select>
@@ -91,7 +92,7 @@
                                     <div class="form-group">    
                                     <h5>Sala</h5>
                                     <div id="salas">      
-                                        <select name="idSalas" id="select">
+                                        <select name="idSalas" id="select"  required name="idSalas">
                                             <option value="">Selecione una sala</option>  
                                         </select>
                                     </div>           

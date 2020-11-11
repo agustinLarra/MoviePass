@@ -34,7 +34,7 @@ $descuento = new DescuentoDAO();
                     <?php if(!isset($_SESSION['userLog'])) { ?>
                     <div class="col-xl-3 col-lg-3 col-md-3">
                         <div class="header-right-btn f-right d-none d-lg-block">
-                            <a href="<?= FRONT_ROOT?>Home/Index" class="btn header-btn">Login</a>
+                            <a href="<?= FRONT_ROOT?>Home/viewLogin" class="btn header-btn">Login</a>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-3">

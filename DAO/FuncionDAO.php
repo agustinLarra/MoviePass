@@ -188,7 +188,10 @@
             $parameters['Eliminado'] = 0;
             
                 $this->connection = connection::GetInstance();
-                 $this->connection->ExecuteNonQuery($sql,$parameters);
+                $this->connection->ExecuteNonQuery($sql,$parameters);
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
         }
 
         private function DeleteId($id)
@@ -442,7 +445,67 @@
 
 
         
-  
+        public function consultaPorIdPeliBetween($ID_Pelicula,$Fecha_Inicio,$Fecha_Fin){
+
+           
+            $funcionList = array();
+            try
+            {
+                $query = " SELECT * FROM `funciones` WHERE `Id_Pelicula`= '$ID_Pelicula' AND `Dia` BETWEEN '$Fecha_Inicio' AND '$Fecha_Fin'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $Funcion = new Funcion();
+                        $Funcion->setId($row["Id_Funcion"]);
+                        $Funcion->setIdPelicula($row["Id_Pelicula"]);
+                        $Funcion->setIdSala($row["Id_Sala"]);
+                        $Funcion->setDia($row["Dia"]);
+                        $Funcion->setHora($row["Hora"]);
+                        $Funcion->setDescuento($row["Descuento"]);
+       
+                         
+                        array_push($funcionList, $Funcion);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
+            return $funcionList;
+        }
+
+        public function consultaPorIdSalaBetween($Id_sala,$Fecha_Inicio,$Fecha_Fin){
+            $funcionList = array();
+            try
+            {
+                $query = " SELECT * FROM `funciones` WHERE `Id_Sala`= '$Id_sala' AND `Dia` BETWEEN '$Fecha_Inicio' AND '$Fecha_Fin'";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $Funcion = new Funcion();
+                        $Funcion->setId($row["Id_Funcion"]);
+                        $Funcion->setIdPelicula($row["Id_Pelicula"]);
+                        $Funcion->setIdSala($row["Id_Sala"]);
+                        $Funcion->setDia($row["Dia"]);
+                        $Funcion->setHora($row["Hora"]);
+                        $Funcion->setDescuento($row["Descuento"]);
+       
+                         
+                        array_push($funcionList, $Funcion);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
+            return $funcionList;
+        }
 
 
 

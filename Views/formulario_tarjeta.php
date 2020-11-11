@@ -50,7 +50,7 @@
 	<div class="contenedor">
 		<div>
 			<h2>El total de la compra es: $<?= $_SESSION['total'];?></h2>
-	
+			<h3>Cantidad de entradas a comprar: <?= $_SESSION['cantidadEntradas'];?></h3>
 			<?php if($_SESSION['descuento'] > 0){
 				echo '<h3>Se le han descontado: $'. $_SESSION['descuento'] .'</h3>';
 				}?>
@@ -112,6 +112,7 @@
 		<form action="<?php echo FRONT_ROOT?>User/finalizarCompra" method="POST" id="formulario-tarjeta" class="formulario-tarjeta">
 			<div class="grupo">
 				<label for="inputNumero">Número Tarjeta</label>
+
 				<input type="text" id="inputNumero" maxlength="19" autocomplete="off"  name="numeroTarjeta" required name="numeroTarjeta">
 			</div>
 			<div class="grupo">

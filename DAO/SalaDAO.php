@@ -208,6 +208,8 @@
             $parameters["Eliminado"] = $id;
 
             try{
+                $parameters['Eliminado'] = 1;
+
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
             }catch(PDOException $e){
@@ -223,6 +225,9 @@
             $parameters["Eliminado"] = 0;
 
             try{
+
+                $parameters['Eliminado'] = 0;
+
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
             }catch(PDOException $e){
