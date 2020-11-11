@@ -207,8 +207,10 @@
             $sql ="UPDATE salas SET Eliminado = '1' WHERE salas.Id_Sala = '$id'";
 
             try{
+                $parameters['Eliminado'] = 1;
+
                 $this->connection = connection::GetInstance();
-                return $this->connection->ExecuteNonQuery($sql,$id);
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
             }catch(PDOException $e){
                 throw new PDOException($e->getMessage());
             }
@@ -221,6 +223,9 @@
             $sql ="UPDATE salas SET Eliminado = '0' WHERE salas.Id_Sala = '$id'";
 
             try{
+
+                $parameters['Eliminado'] = 0;
+
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
             }catch(PDOException $e){

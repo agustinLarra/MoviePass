@@ -224,12 +224,15 @@ class UserController{
         //Ahora hay que generar la entrada
         for( $i=1; $i <= $cantidadEntradas ; $i++ ){
             
-            
-            $entrada->setQR($Funcion->getId()  . "100"+$i);
-
+            $entrada->setQR($Ultimacompra->getId()  . "100"+$i);
             $entrada->setIdCompra($Ultimacompra->getId());
             $entrada->setIdFuncion($Funcion->getId());
             $entradaDAO = new EntradaDAO();
+
+            $qr =$this->generarQr($entrada->getQR()); // Id Entrada
+
+            $this->enviarEmail($user->getEmail(),$total,$cantidadEntradas,$tituloPelicula,$Funcion,$qr);
+
             try{
                $entradaDAO->Add($entrada);
             }catch(Exception $e){
@@ -239,11 +242,8 @@ class UserController{
         }
       
        // $userDAO = new UserDAO();
-       // $user = $userDAO->getById($idUser);
-
-       $qr =$this->generarQr($entrada->getQR()); // Id Entrada
-
-        $this->enviarEmail($user->getEmail(),$total,$cantidadEntradas,$tituloPelicula,$Funcion,$qr);
+       // $user = $userDAO->getById($idUser)
+      
         
         
         $homeController = new HomeController();
@@ -275,8 +275,6 @@ class UserController{
             //Enviamos los parametros a la Función para generar código QR 
         QRcode::png($contenido, $filename, $level, $tamaño, $framSize); 
         
-            //Mostramos la imagen generada
-            echo '<img src="'. FRONT_ROOT .$filename .'" /><hr/>'; 
 
         return $dir.basename($filename);
 
@@ -307,7 +305,7 @@ class UserController{
             // Attachments
           //  $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
           //  $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-          $mail->addEmbeddedImage("C:/wamp64/www/" . FRONT_ROOT .$directorio_qr , 'qrcode');    // Optional nameC:\wamp64\www\MoviePass\Views\img\qrs
+          $mail->addEmbeddedImage( ROOT  .$directorio_qr , 'qrcode');    // Optional nameC:\wamp64\www\MoviePass\Views\img\qrs
 
 
             $dia = $Funcion->getDia();
@@ -318,7 +316,7 @@ class UserController{
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Compra de entradas en Movie Pass'.$fechaFormato ;
             $mail->Body    = 'Usted ha comprado '.$cantidadEntradas." entradas, con un total de: $".$total."<br> .Para ver la pelicula:".$tituloPelicula."<br>" 
-            ."La funcion de la pelicula es el dia: ".$dia." a las: ".$hora." horas<br>. Cine: ".$nombreCine ." (Direccion: ".$direccion.")".'<img src="cid:qrcode" />';
+            ."La funcion de la pelicula es el dia: ".$dia." a las: ".$hora." horas<br>. Cine: ".$nombreCine ." (Direccion: ".$direccion.")".'<br><img src="cid:qrcode" />';
 
             $mail->send();
           

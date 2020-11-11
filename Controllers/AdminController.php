@@ -123,9 +123,11 @@ class AdminController{
             try{
                 $salaDao->Add($sala);
             }catch(Exception $e){
+             
                 throw new Exception($e->get_message());
             }
-            $this->homeController->viewListSalas();
+            $homeController = new HomeController();
+            $homeController->viewListSalas();
             
         /*        
         }
@@ -192,7 +194,7 @@ class AdminController{
 
 
     
-    public function addFuncion($idPelicula, $dia,$hora, $idSalas)//Deberia recibir la pelicula(por id) y la sala (por id)
+    public function addFuncion($idPelicula, $dia,$hora,$idCine, $idSalas)//Deberia recibir la pelicula(por id) y la sala (por id)
     {
         $horario = $dia .' ' . $hora; //Traigo el dia y la hora por separado y las concateno , asi no hay problema con la letra del dia cuando se guarda en la base de datos
       
@@ -334,7 +336,7 @@ class AdminController{
         $lista_funciones = $lista_funciones->GetAll();
         $flag = 0;
         
-        foreach($lista_unciones as $values)
+        foreach($lista_funciones as $values)
         {
             //Me va a tirar error por que ya no tengo el id de cine en funcion
 

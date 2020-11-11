@@ -59,10 +59,13 @@ $cine = new CineDAO(); ?>
                                 <!-- MODIFY-->
                                 <!-- El MODIFY NO SE MUESTRA POR QUE SE LE PASA 1 SOLO PARAMETRO Y LOS NECESITA TODOS-->
 
-                                <div> <form action="<?php echo FRONT_ROOT?>Admin/EditSala" method="POST">
-                                <input name= "id" type="hidden" value="<?php $sala->getId()?>"></input> 
-                                <button type="submit" class='btn btn-danger'> BOTON MODIFY  </button>
-                                </form> </div>
+                                <div> 
+                                    <form action="<?php echo FRONT_ROOT?>Admin/EditSala" method="POST">
+                                    <input name= "id" type="hidden" value="<?php $sala->getId()?>"></input> 
+
+                                    <button type="submit" class='btn btn-danger'> BOTON MODIFY  </button>
+                                    </form> 
+                                </div>
                                 <a href="<?php echo FRONT_ROOT?>Home/modificarSala/<?php echo $sala->getId() . '/' . $sala->getNombre()  . '/' . $sala->getPrecio() . '/' .  $sala->getCapacidad()?>"  class='btn btn-danger'>Modificar</a>
 
                             </div>

@@ -381,14 +381,14 @@ public function selectDinamicoSalas(){
 
     //----------------------------------------------COMPRA-----------------------------------------------------------------------------------------------------------------
 
-    public function Comprar(){
+    public function Comprar($id){
 
 
       $peliculaDAO = new PeliculaDAO(); 
       $adminController = new AdminController();
       
       try{
-             $pelicula = $peliculaDAO->RetrieveOne($_POST["id"]);   
+             $pelicula = $peliculaDAO->RetrieveOne($id);   
              $listaFunciones = $adminController->listarCinesConFuncion_ByIdPelicula( $pelicula->getId() );
 
       }catch(Exception $e){
@@ -512,7 +512,6 @@ public function selectDinamicoSalas(){
     {
       $seleccion = $_POST['funcion'];
       $peliculasList =$this->filtarPelisXFecha($seleccion);
-      var_dump($seleccion);
   
       $generoList = $this->cargarGeneros();
       $fechaDeFuncion = $this->cargarFunciones();
@@ -658,12 +657,6 @@ public function selectDinamicoSalas(){
     
 
 
- #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    //---------------------------------------------- ENTRADAS -----------------------------------------------------------------------------------------------------------------
-
-
-    public function viewConsultaTotalesVendidos(){
 
  #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -685,11 +678,6 @@ public function selectDinamicoSalas(){
      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
 
-     $adminController = new AdminController();
-    // Cargo una lista de peliculas
-    $listaPeliculas = $adminController->listarPeliculas();
-    //Cargo una lista de cines
-    $listaCines = $adminController->listarCines();
 
 
     public function viewTotalesVendidos(  $VENTASxPELICULA, $VENTASxCINE,  $Fecha_Inicio,$Fecha_Fin){

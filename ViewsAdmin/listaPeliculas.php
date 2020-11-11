@@ -44,11 +44,11 @@
                             <!---------------------FILTRO POR GENERO------------------>             
                             <form action="<?=FRONT_ROOT?>Home/viewPeliGeneroAdmin" method="post">
                                 <h3>Buscar por Genero</h3>
-                                <select name="genero">  
+                                <select name="genero">
+                                <option selected disable>Seleccionar opcion</option>
+                                <option value="todos">Todos los generos</option>  
                                     <?php
                                     foreach($generoList as $values)  {?>
-                                        <option selected disable>Seleccionar opcion</option>
-                                        <option value="todos">Todos los generos</option>
                                         <option value="<?=$values->getId()."-".$values->getTipo();?>"><?=$values->getTipo();?></option>
                                     <?php } ?>
                                 </select>
