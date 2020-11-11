@@ -6,6 +6,16 @@
 
             <div class="filtados">
             
+                      
+            <div class="col-lg-4" style="float:left; padding: 20px;">
+                            <!---------------------FILTRO POR GENERO------------------>             
+                            <form action="<?=FRONT_ROOT?>Home/viewListPeliculas" method="post">
+                                <div class="header-left-btn f-left d-none d-lg-block" style="padding: 30px;">
+                                    <button type="submit" class="btn header-btn">Todas las peliculas</button>
+                                </div>
+                            </form>
+                </div> 
+                
                 <div class="col-lg-4" style="float:left;padding: 20px;">
                             <!---------------------FILTRO POR FECHA DE ESTRENOS------------------>             
                             <form action="<?=FRONT_ROOT?>Home/viewPeliEstrenoAdmin" method="post">
@@ -58,6 +68,8 @@
                                 </div>
                             </form>
                 </div> 
+
+          
               
         </div>
 

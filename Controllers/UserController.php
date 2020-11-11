@@ -100,12 +100,14 @@ class UserController{
         {    
              if($user->getEmail() =="admin@gmail.com" && $user->getPassword() =="admin123")
              {
+                $_SESSION['userLog'] = $user;
                 $homeController->viewHomeAdmin();
              }
              else{
-                 $_SESSION['userLog'] = $user;
+                  $_SESSION['userLog'] = $user;
                   $homeController->viewCartelera();
              }
+
         }
         else 
         {

@@ -28,11 +28,17 @@ class HomeController{
 
     public function viewHomeAdmin(){
        
+      if($this->adminIsLogged()){
 
-      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-      require(VIEWS_ADMIN_PATH.'index.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require(VIEWS_ADMIN_PATH.'index.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+   
   }
 
 
@@ -228,10 +234,18 @@ class HomeController{
 
 
     public function viewAddCine(){
-      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-      require(VIEWS_ADMIN_PATH.'addCine.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+
+      if($this->adminIsLogged()){
+
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require(VIEWS_ADMIN_PATH.'addCine.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+     
   }
 
     public function viewListCines(){
@@ -239,13 +253,18 @@ class HomeController{
       $adminController = new AdminController();
       $listCines = $adminController->listarCines();
 
-      //var_dump($listCines);
-      //exit;
 
-      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-      require(VIEWS_ADMIN_PATH.'listCines.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      if($this->adminIsLogged()){
+
+          require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+          require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+          require(VIEWS_ADMIN_PATH.'listCines.php');
+          require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+ 
   }
 
 
@@ -257,11 +276,18 @@ class HomeController{
     public function viewAddSalas(){
       $adminController = new AdminController();
       $cineList = $adminController->listarCines();
+      
+      if($this->adminIsLogged()){
 
-      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-      require(VIEWS_ADMIN_PATH.'addSalas.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require(VIEWS_ADMIN_PATH.'addSalas.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+      
 
       //header('location:../ViewsAdmin/addSalas.php');
 
@@ -276,12 +302,18 @@ class HomeController{
            throw new Exception($e->get_message());
     }
     
-    
+    if($this->adminIsLogged()){
 
-    require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-    require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-    require(VIEWS_ADMIN_PATH.'listSalas.php');
-    require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+      require(VIEWS_ADMIN_PATH.'listSalas.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+    }else{
+      echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+      $this->Index();
+    }
+
+    
 }
 
   public function modificarSala($id,$nombre,$precio,$capacidad)
@@ -292,10 +324,17 @@ class HomeController{
     $precio_aux = $precio;
     $capacidad_aux = $capacidad;
     
-    require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-    require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-    require(VIEWS_ADMIN_PATH.'modificarSala.php');
-    require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+    if($this->adminIsLogged()){
+
+      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+      require(VIEWS_ADMIN_PATH.'modificarSala.php');
+      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+    }else{
+      echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+      $this->Index();
+    }
+ 
 
       
   }
@@ -342,11 +381,17 @@ public function selectDinamicoSalas(){
 
       // Levanto las salas de la base de datos
      
-   
-      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-      require_once(VIEWS_ADMIN_PATH.'addFunciones.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      if($this->adminIsLogged()){
+
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require_once(VIEWS_ADMIN_PATH.'addFunciones.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+     
 
   }
 
@@ -361,11 +406,17 @@ public function selectDinamicoSalas(){
       }
      
   
+      if($this->adminIsLogged()){
 
-      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-      require(VIEWS_ADMIN_PATH.'listFunciones.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require(VIEWS_ADMIN_PATH.'listFunciones.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+      
   }
   
   public function cargarFunciones(){
@@ -482,11 +533,21 @@ public function selectDinamicoSalas(){
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
+
+
+        if($this->adminIsLogged()){
+
+          require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+          require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+          require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+          require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
         
-        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-        require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
-        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+        }else{
+          echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+          $this->Index();
+        }
+        
+     
   
     }
     private function cargarPeliculasJson()
@@ -504,10 +565,19 @@ public function selectDinamicoSalas(){
       $fechaDeFuncion = $this->cargarFunciones();
       $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
   
-      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-      require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+
+      if($this->adminIsLogged()){
+
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+
+  
     }
     public function viewPeliFuncionAdmin()
     {
@@ -518,10 +588,17 @@ public function selectDinamicoSalas(){
       $fechaDeFuncion = $this->cargarFunciones();
       $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
   
-      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-      require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-      require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      if($this->adminIsLogged()){
+
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+  
   
     }
     public function viewPeliGeneroAdmin()
@@ -538,11 +615,18 @@ public function selectDinamicoSalas(){
        $fechaDeFuncion = $this->cargarFunciones();
        $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
   
-       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-       require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-       require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
-       require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+       if($this->adminIsLogged()){
+
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
   
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+       
   
     }
     private function Json_PorFechaDeEstreno($fecha)
@@ -674,10 +758,17 @@ public function selectDinamicoSalas(){
     $listaCines = $adminController->listarCines();
 
 
-     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-     require_once(VIEWS_ADMIN_PATH.'consultaTotalesVendidos.php');
-     require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      if($this->adminIsLogged()){
+
+          require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+          require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+          require_once(VIEWS_ADMIN_PATH.'consultaTotalesVendidos.php');
+          require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+
     }
 
 
@@ -702,12 +793,38 @@ public function selectDinamicoSalas(){
       $DiaInicio = $Fecha_Inicio;
       $DiaFin = $Fecha_Fin;
 
-     
+      if($this->adminIsLogged()){
 
-     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-     require(VIEWS_ADMIN_PATH.'totalesVendidos.php');
-     require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+        require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+        require(VIEWS_ADMIN_PATH.'totalesVendidos.php');
+        require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+      }else{
+        echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+        $this->Index();
+      }
+
+     
     }
+
+
+    public function adminIsLogged(){
+
+      if(isset($_SESSION['userLog'])){
+
+        $user = $_SESSION['userLog'];
+
+        if($user->getEmail() == "admin@gmail.com"){
+          return true;
+        }
+        else{
+         // echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
+          return false;
+        }
+      }
+      
+    }
+  
+
 
 } ?>

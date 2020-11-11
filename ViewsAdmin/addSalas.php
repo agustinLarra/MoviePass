@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="precio" id="subject" type="number" min="100" max="500"onfocus="this.placeholder = ''" onblur="this.placeholder = 'Precio'" placeholder="Precio">
+                                        <input class="form-control" name="precio" id="subject" type="number" min="10" max="3000"onfocus="this.placeholder = ''" onblur="this.placeholder = 'Precio'" placeholder="Precio">
                                     </div>
                                 </div>
                                 <div class="col-12">

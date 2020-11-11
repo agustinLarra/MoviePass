@@ -234,14 +234,14 @@ class AdminController{
                        $homeController->viewAddFunciones();
                    }
            }else {
-               echo '<script>alert("La pelicula ya Tiene un Cine ese Dia");</script>';
+               echo '<script>alert("Esta pelicula solo puede reproducirse en un cine por dia");</script>';
 
                $homeController = new HomeController();
                $homeController->viewAddFunciones();
            }
        }else{
                
-           echo '<script>alert("La pelicula ya Tiene una Sala ese Dia ");</script>';
+           echo '<script>alert("Esta pelicula solo puede reproducirse en un cine por dia");</script>';
 
                $homeController = new HomeController();
                $homeController->viewAddFunciones();
@@ -650,7 +650,7 @@ class AdminController{
         echo'<select name="select" id="select">';
       
                foreach($listaSalas as $value){      
-                    echo "<option value='".$value->getId()."'>".$value->getNombre()."</option>";
+                    echo "<option value='".$value->getId()."' >".$value->getNombre()."</option>";
                }
         echo'</select>';
     }
