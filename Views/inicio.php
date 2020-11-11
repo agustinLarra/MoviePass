@@ -22,7 +22,7 @@ if(!isset($_SESSION)) session_start();
                                <div class="main-menu f-right d-none d-lg-block">
                                    <nav> 
                                        <ul id="navigation">    
-                                           <li><a href="<?php echo FRONT_ROOT?>Home/Index"> Home</a></li>
+                                           <li><a href="<?php echo FRONT_ROOT?>Home/Index"> Inicio</a></li>
                                            <!-- ACA REDIRECCIONAR BIEN-->
                                            <li><a href="<?php echo FRONT_ROOT?>Home/viewCartelera">Cartelera</a></li>
                                            <?php if(isset($_SESSION['userLog'])) { ?>
@@ -39,19 +39,19 @@ if(!isset($_SESSION)) session_start();
                    <?php if(!isset($_SESSION['userLog'])) { ?>
                            <div class="col-xl-2 col-lg-1 col-md-2">
                                <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>Home/viewLogin" class="btn header-btn">Login</a>
+                                   <a href="<?= FRONT_ROOT?>Home/viewLogin" class="btn header-btn">Iniciar Sesion</a>
                                </div>
                            </div>
                            <div class="col-xl-2 col-lg-1 col-md-2">
                                <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>Home/viewSignUp" class="btn header-btn">Sign Up</a>
+                                   <a href="<?= FRONT_ROOT?>Home/viewSignUp" class="btn header-btn">Registrarse</a>
                                </div>
                            </div>
                         <?php	} ?>
                         <?php if(isset($_SESSION['userLog'])) { ?>
                            <div class="col-xl-2 col-lg-1 col-md-2">
                                <div class="header-right-btn f-right d-none d-lg-block">
-                                   <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Logout</a>
+                                   <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Cerrar Sesion</a>
                                </div>
                            </div>
                         <?php	} ?>
@@ -70,7 +70,7 @@ if(!isset($_SESSION)) session_start();
                                    <div class="col-lg-7 col-md-9 ">
                                        <div class="hero__caption">
                                            <h1 data-animation="fadeInLeft" data-delay=".4s">Movie Pass</h1>
-                                           <p data-animation="fadeInLeft" data-delay=".6s">Welcome to MoviePass</p>
+                                           <p data-animation="fadeInLeft" data-delay=".6s">Bienvenido a MoviePass</p>
                                        </div>
                                    </div>
                                    <div class="col-lg-5">

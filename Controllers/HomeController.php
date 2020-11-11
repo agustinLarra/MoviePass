@@ -291,6 +291,7 @@ class HomeController{
     $nombre_sala = $nombre;
     $precio_aux = $precio;
     $capacidad_aux = $capacidad;
+    
     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
     require(VIEWS_ADMIN_PATH.'modificarSala.php');
@@ -657,14 +658,6 @@ public function selectDinamicoSalas(){
 
     
 
-
- #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    //---------------------------------------------- ENTRADAS -----------------------------------------------------------------------------------------------------------------
-
-
-    public function viewConsultaTotalesVendidos(){
-
  #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------- ENTRADAS -----------------------------------------------------------------------------------------------------------------
@@ -681,15 +674,11 @@ public function selectDinamicoSalas(){
 
 
      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
      require_once(VIEWS_ADMIN_PATH.'consultaTotalesVendidos.php');
      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
 
-     $adminController = new AdminController();
-    // Cargo una lista de peliculas
-    $listaPeliculas = $adminController->listarPeliculas();
-    //Cargo una lista de cines
-    $listaCines = $adminController->listarCines();
 
 
     public function viewTotalesVendidos(  $VENTASxPELICULA, $VENTASxCINE,  $Fecha_Inicio,$Fecha_Fin){
@@ -715,7 +704,8 @@ public function selectDinamicoSalas(){
      
 
      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-     require_once(VIEWS_ADMIN_PATH.'totalesVendidos.php');
+     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+     require(VIEWS_ADMIN_PATH.'totalesVendidos.php');
      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
 

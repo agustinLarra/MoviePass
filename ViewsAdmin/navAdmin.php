@@ -74,7 +74,7 @@
                               
                     <div class="col-xl-2 col-lg-2 col-md-3">
                         <div class="header-right-btn f-right d-none d-lg-block">
-                            <a href="<?= FRONT_ROOT?>Home/Index" class="btn header-btn">Logout</a>
+                            <a href="<?= FRONT_ROOT?>Home/Index" class="btn header-btn">Cerrar Sesion</a>
                         </div>
                     </div>
                 </div>
