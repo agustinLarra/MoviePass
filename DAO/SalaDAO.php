@@ -185,8 +185,16 @@
         {
             try{
                 $query = "UPDATE salas SET Nombre = '$nombre' , Precio = '$precio', Capacidad = '$capacidad' , Tipo_sala = '$tipo' WHERE salas.Id_Sala = '$id'";
+               
+                $parameters['Nombre'] = $nombre;
+                $parameters['Precio'] = $precio;
+                $parameters['Capacidad'] =$capacidad;
+                $parameters['Tipo_sala'] = $tipo;
+             
+            
+
                 $this->connection = connection::GetInstance();
-                return $this->connection->ExecuteNonQuery($query,$id);
+                return $this->connection->ExecuteNonQuery($query,$parameters);
             }
             catch(PDOException $e){
                 echo $e;
@@ -197,20 +205,22 @@
         {
            // $parameters = $sala->getId();
             $sql ="UPDATE salas SET Eliminado = '1' WHERE salas.Id_Sala = '$id'";
+            $parameters["Eliminado"] = $id;
 
             try{
                 $this->connection = connection::GetInstance();
-                return $this->connection->ExecuteNonQuery($sql,$id);
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
             }catch(PDOException $e){
                 throw new PDOException($e->getMessage());
             }
             
         }
 
-        public function Alta($parameters)
+        public function Alta($id)
         {
           
-            $sql ="UPDATE salas SET Eliminado = '0' WHERE salas.Id_Sala = '$parameters'";
+            $sql ="UPDATE salas SET Eliminado = '0' WHERE salas.Id_Sala = '$id'";
+            $parameters["Eliminado"] = 0;
 
             try{
                 $this->connection = connection::GetInstance();
@@ -225,7 +235,7 @@
 
         public function getByID($idSala){
 
-           // $sala;
+           $sala = new Sala();
             try
             {
                 $query = "SELECT * FROM salas WHERE Id_Sala = '$idSala'";
@@ -235,7 +245,7 @@
                 if(!empty($resultSet)) {
                     foreach($resultSet as $row) {
 
-                        $sala = new Sala();
+                        
                                                 
                         $sala->setId($row["Id_Sala"]);
                         $sala->setNombre($row["Nombre"]);
@@ -244,6 +254,8 @@
                         $sala->setTipoSala($row["Tipo_sala"]);
                         $sala->setIdCine($row["Id_Cine"]);
                         $sala->setEstado($row["Eliminado"]);
+
+                     
 
 
                     }
@@ -256,6 +268,8 @@
 
             return $sala;
         }
+
+
 
         
 

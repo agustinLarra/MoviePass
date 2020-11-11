@@ -9,6 +9,7 @@ use Models\Sala as Sala;
 use Models\Pelicula as Pelicula;
 use DAO\SalaDAO as SalaDAO;
 use JsonDAO\PeliculaJson as PeliculasJson;
+use DAO\DescuentoDAO as DescuentoDAO;
 
 class HomeController{
 
@@ -59,10 +60,12 @@ class HomeController{
 
       try{
         $array_peliculas = $this->cargarCartelera();
+        if(!empty($array_peliculas)){
         
-        $arrayGeneros = $this->cargarGeneros();
- 
-        $lista_dias = $this->cargarFunciones();
+          $arrayGeneros = $this->cargarGeneros();
+  
+          $lista_dias = $this->cargarFunciones();
+        }
 
       }catch(Exception $e){
 
@@ -86,7 +89,9 @@ class HomeController{
      //$peliculaList = $peliculaDao->GetPeliculasEnFunciones();
      
       try{
-          $peliculaList = $peliculaDao->GetAll();
+         // $peliculaList = $peliculaDao->GetAll();
+         $peliculaList = $peliculaDao->GetPeliculasEnFunciones();
+
       }catch(Exception $e){
           throw new Exception($e->get_message());
       }
@@ -284,11 +289,15 @@ class HomeController{
 
   public function modificarSala($id,$nombre,$precio,$capacidad)
   {
+    $sala = new Sala();
+    $sala->setId($id);
+    $sala->setNombre($nombre);
+    $sala->setPrecio($precio);
+    $sala->setCapacidad($capacidad);
+   
 
-    $id_aux = $id;
-    $nombre_sala = $nombre;
-    $precio_aux = $precio;
-    $capacidad_aux = $capacidad;
+
+    
     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
     require(VIEWS_ADMIN_PATH.'modificarSala.php');
@@ -330,8 +339,11 @@ public function selectDinamicoSalas(){
       // Levanto las peliculas del Json
       try{
             $peliculas = new PeliculasJson();
+            $descuento = new DescuentoDAO();
             $peliculasList = $peliculas->GetMovieJson();  
             $cineList = $adminController->listarCines();   
+            $descuentosList =$descuento->GetAll();//ahora los descuentos estan en la bd
+
       }catch(Exception $e){
              throw new Exception($e->get_message());
       } 
@@ -592,12 +604,68 @@ public function selectDinamicoSalas(){
       }catch(Exception $e){
              throw new Exception($e->get_message());
       }
-     
+      $fechas = $this->EntradasXDia($idUser);  
+    
 
      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
      require_once(VIEWS_PATH.'entradasAdquiridas.php');
      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
+
+    public function EntradasXDia($idUser)
+    {
+      $userController = new UserController();
+      
+      try{
+             $listaDeDivs = $userController->getEntradasAdquiridas($idUser);   
+      }catch(Exception $e){
+             throw new Exception($e->get_message());
+      }
+
+
+      $fechas = array();
+
+      foreach($listaDeDivs as $values)
+      {
+        array_push($fechas,$values["Dia"]);
+
+
+      }
+
+      asort($fechas);
+      $fechasSinRepetidos = array_unique($fechas);
+
+      return $fechasSinRepetidos;
+    }   
+    
+    
+    public function viewFechasEntradas(){
+
+      //agarro el user en session
+      
+      $user = $_SESSION['userLog'];
+      $idUser = $user->getId();
+
+      $fecha_seleccionada = $_POST["Id_fecha"];
+
+      $userController = new UserController();
+      
+      try{
+             $listaDeDivs = $userController->getEntradasAdquiridasPorDia($idUser,$fecha_seleccionada);
+              
+      }catch(Exception $e){
+             throw new Exception($e->get_message());
+      }
+
+      $fechas = $this->EntradasXDia($idUser);  
+    
+
+     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+     require_once(VIEWS_PATH.'entradasAdquiridas.php');
+     require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+    }
+
+    
 
 
 

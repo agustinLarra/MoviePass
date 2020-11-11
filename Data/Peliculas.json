@@ -314,5 +314,36 @@
             18,
             80
         ]
+    },
+    {
+        "Id": 340102,
+        "PosterPath": "\/pBWrc52L3NmJLMZwfLzmP61ZO3.jpg",
+        "PosterHorizontal": "\/eCIvqa3QVCx6H09bdeOS8Al2Sqy.jpg",
+        "Title": "Los nuevos mutantes",
+        "Overview": "Los cinco j\u00f3venes mutantes descubren sus habilidades mientras est\u00e1n recluidos en una instalaci\u00f3n secreta contra su voluntad. Juntos, luchar\u00e1n para escapar de sus pecados pasados y salvarse a s\u00ed mismos.",
+        "Video": "bu9e410C__I",
+        "RunTime": 98,
+        "ReleaseDate": "2020-08-26",
+        "genre_ids": [
+            28,
+            878,
+            27,
+            12
+        ]
+    },
+    {
+        "Id": 624779,
+        "PosterPath": "\/AnVD7Gn14uOTQhcc5xYZGQ9DRvS.jpg",
+        "PosterHorizontal": "\/h5sUE9jqoYrjsFjANJXL0gpZGye.jpg",
+        "Title": "VFW",
+        "Overview": "Una noche t\u00edpica para veteranos en un VFW se convierte en una batalla total por la supervivencia cuando un adolescente desesperado corre al bar con una bolsa de drogas robadas. Cuando una banda de punks violentos viene a buscarla, los veteranos usan todas las armas a su disposici\u00f3n para proteger a la ni\u00f1a y a ellos mismos de un ataque implacable.",
+        "Video": "YUSSUpTGhZw",
+        "RunTime": 95,
+        "ReleaseDate": "2020-10-14",
+        "genre_ids": [
+            28,
+            53,
+            27
+        ]
     }
 ]

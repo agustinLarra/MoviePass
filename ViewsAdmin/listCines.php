@@ -41,13 +41,10 @@
                             </script>
                                 <?php echo "Aca hace bien el direccionamiento pero mal la accion"?>
                                 <div> <form action="<?php echo FRONT_ROOT?>Admin/deletecine" onclick="return ConfirmDelete()" method="POST">
-                                <input name= "id" type="hidden" value="<?php $cine->getId()?>"></input>
+                                <input name= "id" type="hidden" value="<?=$cine->getId()?>"></input>
                                 <button type="submit" class='btn btn-danger'> Borrar BOTON </button>
                                 </form> </div>
-                                 
-                                <?php echo "Aca hace mal el direccionamiento pero bien la accion"?>
-                                <a href="<?php echo FRONT_ROOT?>Admin/deletecine/<?php echo $cine->getId()?>" onclick="return ConfirmDelete()" class='btn btn-danger'>Borrar</a>
-                                
+                                                                 
                             </div>
 
 
@@ -94,11 +91,10 @@
                             </script>
 
                                 <div> <form action="<?php echo FRONT_ROOT?>Admin/altaCine" onclick="return ConfirmAlta()" method="POST">
-                                <input name= "id" type="hidden" value="<?php $cine->getId()?>"></input>
+                                <input name= "id" type="hidden" value="<?=$cine->getId()?>"></input>
                                 <button type="submit" class='btn btn-danger'> Boton Alta </button>
                                 </form> </div>
 
-                                <a href="<?php echo FRONT_ROOT?>Admin/altaCine/<?php echo $cine->getId()?>"  onclick="return ConfirmAlta()"class='btn btn-danger'>Alta</a>
                             </div>
                             
 

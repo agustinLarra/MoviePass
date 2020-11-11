@@ -9,17 +9,14 @@ use DAO\CompraDAO as CompraDAO;
 use DAO\EntradaDAO as EntradaDAO;
 use DAO\FuncionDAO as FuncionDAO;
 use Controllers\HomeController as HomeController;
-
-
-use Librerias\phpqrcode\bindings\tcpdf\qrcode as QRcode;
+use DAO\DescuentoDAO;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use QRcode;
 
 require 'Librerias/PHPMailer/Exception.php';
 require 'Librerias/PHPMailer/PHPMailer.php';
 require 'Librerias/PHPMailer/SMTP.php';
-
- 
 require "Librerias/phpqrcode/qrlib.php";   
 
 
@@ -136,6 +133,7 @@ class UserController{
 
     public function funcionElegida(){
 
+        $descuento_bd = new DescuentoDAO();
 
         if(!isset($_SESSION['userLog'])){
 
@@ -159,9 +157,10 @@ class UserController{
             $total = $cantidadEntradas * $funcion->getClassSala()->getPrecio();
             $descuento = 0;
 
-            if($funcion->getDescuento() == 1){
+            if($funcion->getDescuento() > 1){
 
-                $descuento = (26/100) * $total;
+                //$descuento = (26/100) * $total;
+                $descuento = (($descuento_bd->getPorcentajeBtId($funcion->getDescuento()))/100) * $total;
                 $total -=  $descuento;
             }
 
@@ -210,7 +209,7 @@ class UserController{
         // Guardo la compra en la base de datos
         $compra = new Compra();
         $compra->setNumeroTarjeta($numeroTarjeta);
-        $compra->setIdUser( $user->getId());
+        $compra->setIdUser($user->getId());
         $compra->setCantidadEntradas($cantidadEntradas);
         $compra->setTotal($total);
         $compraDAO = new CompraDAO();
@@ -222,12 +221,13 @@ class UserController{
                throw new Exception($e->get_message());
         }
         
-
+        $entrada = new Entrada();
         //Ahora hay que generar la entrada
         for( $i=1; $i <= $cantidadEntradas ; $i++ ){
             
-            $entrada = new Entrada();
-            $entrada->setQR(345);
+            
+            $entrada->setQR($Funcion->getId()  . "100"+$i);
+
             $entrada->setIdCompra($Ultimacompra->getId());
             $entrada->setIdFuncion($Funcion->getId());
             $entradaDAO = new EntradaDAO();
@@ -242,9 +242,9 @@ class UserController{
        // $userDAO = new UserDAO();
        // $user = $userDAO->getById($idUser);
 
-      // $qr = $this->generarQr(31231); // Id Entrada
+       $qr =$this->generarQr($entrada->getQR()); // Id Entrada
 
-        $this->enviarEmail($user->getEmail(),$total,$cantidadEntradas,$tituloPelicula,$Funcion);
+        $this->enviarEmail($user->getEmail(),$total,$cantidadEntradas,$tituloPelicula,$Funcion,$qr);
         
         
         $homeController = new HomeController();
@@ -256,7 +256,7 @@ class UserController{
         
 	
 	    //Declaramos una carpeta temporal para guardar la imagenes generadas
-        $dir = 'Views/img/qrs';
+        $dir = 'Views/img/qrs/';
 
 	    //Si no existe la carpeta la creamos
 	    if (!file_exists($dir)){
@@ -264,7 +264,7 @@ class UserController{
         }
         
             //Declaramos la ruta y nombre del archivo a generar
-            $filename = $dir.'test.png';
+            $filename =$dir.uniqid() . ".png";
     
             //Parametros de Condiguración
         
@@ -277,13 +277,14 @@ class UserController{
         QRcode::png($contenido, $filename, $level, $tamaño, $framSize); 
         
             //Mostramos la imagen generada
-      //  echo '<img src="'.$dir.basename($filename).'" /><hr/>';  
+            echo '<img src="'. FRONT_ROOT .$filename .'" /><hr/>'; 
+
         return $dir.basename($filename);
 
     }
 
-    public function enviarEmail($email, $total, $cantidadEntradas,$tituloPelicula,$Funcion){
-
+    public function enviarEmail($email, $total, $cantidadEntradas,$tituloPelicula,$Funcion,$directorio_qr){
+   
        // Instantiation and passing `true` enables exceptions
         $mail = new PHPMailer(true);
         $fecha= time();
@@ -307,6 +308,8 @@ class UserController{
             // Attachments
           //  $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
           //  $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+          $mail->addEmbeddedImage("C:/wamp64/www/" . FRONT_ROOT .$directorio_qr , 'qrcode');    // Optional nameC:\wamp64\www\MoviePass\Views\img\qrs
+
 
             $dia = $Funcion->getDia();
             $hora = $Funcion->getHora();
@@ -316,7 +319,7 @@ class UserController{
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Compra de entradas en Movie Pass'.$fechaFormato ;
             $mail->Body    = 'Usted ha comprado '.$cantidadEntradas." entradas, con un total de: $".$total."<br> .Para ver la pelicula:".$tituloPelicula."<br>" 
-            ."La funcion de la pelicula es el dia: ".$dia." a las: ".$hora." horas<br>. Cine: ".$nombreCine ." (Direccion: ".$direccion.")";
+            ."La funcion de la pelicula es el dia: ".$dia." a las: ".$hora." horas<br>. Cine: ".$nombreCine ." (Direccion: ".$direccion.")".'<img src="cid:qrcode" />';
 
             $mail->send();
           
@@ -399,6 +402,61 @@ class UserController{
                 $div['Hora'] =  $funcion->getHora();
 
                 array_push($listaDeDivs, $div);
+
+        }  
+        }catch(Exception $e){
+               throw new Exception($e->get_message());
+        }
+        
+
+        return  $listaDeDivs;
+
+    }
+
+   
+
+
+    public function  getEntradasAdquiridasPorDia($idUser,$fecha){
+
+        $compraDAO = new CompraDAO();    
+        $entradaDAO = new EntradaDAO(); 
+        $funcionDao = new FuncionDAO(); 
+           
+      // agarro las compras que hizo
+      // agarro las entradas vinculadas a esa compra
+      // con la entrada agarro la funcion
+      // con la funcion agarro la peli
+        // En div se va a guardar toda la informacion que va a tener una sola vista
+        $div = array();
+        // Lista de divs esta por si el user vio mas de una funcion
+        $listaDeDivs = array();
+
+        try{
+             // busco todas las compras que haya hecho este user
+            $compraList = $compraDAO->getByIdUser($idUser);
+
+            //por cada compra que hizo
+            foreach($compraList as $compra){
+
+                // ya puedo decir cuantas entradas compro y cual fue el costo
+                $div['EntradasAdquiridas'] = $compra->getCantidadEntradas();
+                $div['Total'] = $compra->getTotal();
+
+                //busco las entradas que sean de esa compra
+                $entrada = $entradaDAO->getByIdCompra($compra->getId());
+                $funcion = $funcionDao->getFuncionCompleta( $entrada->getIdFuncion() );
+                //Esto es para que sea mas facil de leer
+                //Al div le agrego los datos que acabo de sacar
+                if(($funcion->getDia())==$fecha){
+                    $div['PosterPath'] =  $funcion->getPosterPelicula();
+                    $div['Title'] =  $funcion->getTitlePelicula();
+                    $div['NombreCine'] =  $funcion->getNombreCine();
+                    $div['NombreSala'] =  $funcion->getNombreSala();
+                    $div['Dia'] =  $funcion->getDia();
+                    $div['Hora'] =  $funcion->getHora();
+
+                    array_push($listaDeDivs, $div);
+                }
 
         }  
         }catch(Exception $e){

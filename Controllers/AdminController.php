@@ -37,16 +37,23 @@ class AdminController{
     }
 
     public function deleteCine($id){
-        //$id = $_POST['id'];
-        
+     
         $cine = new Cine();
 
         $cine->setId($id);
 
         $cineDao = new CineDAO();
+        $salaDao = new SalaDAO();
+        
 
         try{
-               $cineDao->Delete($id);
+              if($cineDao->Delete($cine->getId())==true){
+                  $sala_list = $salaDao->GetByIdCine($cine->getId());
+                  foreach($sala_list as $sala_aux)
+                  {
+                      $salaDao->Delete($sala_aux->getId());
+                  }
+              }
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
@@ -60,12 +67,12 @@ class AdminController{
 
     public function deleteSala($id){
         $sala = new Sala();
-
-        $sala->setId($id);
-  
         $salaDao = new SalaDAO();
+        $sala->setId($id);  
+        
+
         try{
-            $salaDao->Delete($id);   
+            $salaDao->Delete($sala->getId());   
         }catch(Exception $e){
             throw new Exception($e->get_messeage());
         }
@@ -138,9 +145,24 @@ class AdminController{
     public function altaSala($id)
     {
         $salaDao = new SalaDAO();
-
+        $cineDao = new CineDAO();
+     
         try{
-            $salaDao->Delete($id);   
+               $sala = $salaDao->getByID($id);
+
+                $cineList = $cineDao->getByID($sala->getIdCine());
+
+              if($cineList->getEstado()==0){
+           
+                $salaDao->Alta($id);  
+               }
+
+               else{
+                echo '<script>alert("El Cine No se Encuentra Activo");</script>';
+
+               }
+
+             
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
@@ -154,10 +176,10 @@ class AdminController{
 
     public function altaCine($id)
     {
-        $salaDao = new SalaDAO();
+        $cineDao = new CineDAO();
 
         try{
-             $salaDao->Alta($id);  
+             $cineDao->Alta($id);  
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
@@ -183,41 +205,97 @@ class AdminController{
 
 
     
-    public function addFuncion($idPelicula, $dia,$hora, $idCine, $idSalas)//Deveria recibir la pelicula(por id) y la sala (por id)
+    public function addFuncion($idPelicula, $dia,$hora,$descuento, $idCine, $idSalas)//Deveria recibir la pelicula(por id) y la sala (por id)
     {
+
+     
         $horario = $dia .' ' . $hora; //Traigo el dia y la hora por separado y las concateno , haci no hay problema con la letra del dia cuando se guarda en la base de datos
       
-        $diaDeLaSemana = $this->saber_dia($dia);
+       // $diaDeLaSemana = $this->saber_dia($dia);
         
        $funcion = new Funcion();
        $funcion->setIdPelicula($idPelicula);
        $funcion->setIdSala($idSalas);
        $funcion->setDia($dia);
        $funcion->setHora($hora);
-       $funcion->setDescuento($this->diasDeDescuento($diaDeLaSemana));
+       $funcion->setDescuento($descuento);
+       //$funcion->setDescuento($this->diasDeDescuento($diaDeLaSemana));
+ 
 
 
-        if( $this->checkHorario($dia,$hora)){  
-            
-            try{
-                $this->newFuncion($funcion);
-            }catch(Exception $e){
-                throw new Exception($e->get_message());
-            }
-              
-        }else{
-            
-            echo '<script>alert("Horario No disponible( aplique 15 minutos de diferencia)");</script>';
-                /*
-                require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-                require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
-                require_once(VIEWS_ADMIN_PATH .'index.php');
-                require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
-                */
-                $homeController = new HomeController();
-                $homeController->viewAddFunciones();
-            }
+       if(($this->checkPeliculaEnFuncionSala($idPelicula, $dia ))==false)
+       {
+           if(($this->checkPeliculaEnFuncionCine($idPelicula, $dia, $idCine))==false)
+           {
+           
+               if( $this->checkHorario($dia,$hora,$idSalas,$idCine)){  
+                   
+                   try{
+                       $this->newFuncion($funcion);
+                   }catch(Exception $e){
+                       throw new Exception($e->get_message());
+                   }
+                   
+               }else{
+                   
+                   echo '<script>alert("Horario No disponible( aplique 15 minutos de diferencia)");</script>';
+                       /*
+                       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+                       require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+                       require_once(VIEWS_ADMIN_PATH .'index.php');
+                       require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+                       */
+                       $homeController = new HomeController();
+                       $homeController->viewAddFunciones();
+                   }
+           }else {
+               echo '<script>alert("La pelicula ya Tiene un Cine ese Dia");</script>';
+
+               $homeController = new HomeController();
+               $homeController->viewAddFunciones();
+           }
+       }else{
+               
+           echo '<script>alert("La pelicula ya Tiene una Sala ese Dia ");</script>';
+
+               $homeController = new HomeController();
+               $homeController->viewAddFunciones();
+           }
       
+    }
+
+
+    private function checkPeliculaEnFuncionSala($idPelicula,$dia)
+    {
+        //Checkear que la pelicula no este un dia determinado en mas de un cine y sala(query?)
+        $funcion = new FuncionDAO();
+        $resultado = $funcion->CheckExistenciaSala($idPelicula,$dia);
+
+        return $resultado;
+    }
+    private function checkPeliculaEnFuncionCine($idPelicula,$dia,$idCine)
+    {
+        //Checkear que la pelicula no este un dia determinado en mas de un cine y sala(query?)
+        $funcion = new FuncionDAO();
+
+        $cine = new CineDAO();
+        $id_cine = $cine->getAll_Id();//guardo en una variable todos los id de cines para poder compararlo en las funcion
+        $flag = false;
+
+        foreach($id_cine as $values)
+        {
+            $resultado = $funcion->CheckExistenciaCine_aux($idPelicula,$dia,$values);
+         
+            if($resultado==true)
+            {
+                $flag=true;
+
+            }
+
+        }
+        
+    
+        return $flag;
     }
 
     public function modificarSala($id,$nombre,$precio,$capacidad,$tipo)
@@ -267,17 +345,22 @@ class AdminController{
     }
 
 
-    public function checkHorario($dia,$hora_aux)
+    public function checkHorario($dia,$hora_aux,$sala,$cine)
     {
         $lista_funciones = new FuncionDAO();
         $lista_funciones = $lista_funciones->GetAll();
+        $sala_aux = new SalaDAO();
         $flag = 0;
         
         foreach($lista_funciones as $values)
         {
-            
+            //Me va a tirar error por que ya no tengo el id de cine en funcion
+          $aux_cine = $sala_aux->getByID($values->getIdSala()); 
 
-           if($dia == $values->getDia())
+
+           //if(($dia == $values->getDia()) && ($sala == $values->getIdSala()) && ($cine == ($aux->getIdCine())))
+            
+           if(($dia == $values->getDia()) && ($cine == ($aux_cine->getIdCine())))
            {        
                    
                 $aux = $values->getHora();//Asigno a aux la hora de la funcion
@@ -733,11 +816,7 @@ class AdminController{
     }
 
 
-    public function viewTicketsVendidos()
-    {
 
-
-    }
 
 }
 ?>

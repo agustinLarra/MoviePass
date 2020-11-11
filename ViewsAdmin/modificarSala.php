@@ -10,7 +10,7 @@
                 <div class="col-lg-8">
                     <div class="section-tittle text-center mb-80">
                         <span>Salas</span>
-                        <h2>Modificando sala<?=$nombre?></h2>
+                        <h2>Modificando sala<?=$sala->getNombre();?></h2>
                     </div>
                 </div>
             </div>
@@ -25,24 +25,24 @@
                     <div class="col-lg-8">
                     <form class="form-contact contact_form" action="<?php echo FRONT_ROOT?>Admin/modificarSala" method="post">
 
-                    <input id="id_sala" name="id_sala" type="hidden" value="<?=$id_aux?>">
+                    <input id="id_sala" name="id_sala" type="hidden" value="<?=$sala->getId()?>">
                             </select>
                                 <br> <br>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                       Nombre: <input class="form-control" name="nombreSala" id="subject" type="text" minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$nombre_sala?>'" placeholder="<?=$nombre_sala?>">
+                                       Nombre: <input class="form-control" name="nombreSala" id="subject" type="text" minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$sala->getNombre();?>'" placeholder="<?=$sala->getNombre();?>">
                                     </div>
                                 </div>
                                 
                                 <div class="col-12">
                                     <div class="form-group">
-                                      Precio: <input class="form-control" name="precio" id="subject" type="number" min="100" max="500" step="100" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$precio_aux?>'" placeholder="<?=$precio_aux?>">
+                                      Precio: <input class="form-control" name="precio" id="subject" type="number" min="100" max="500" step="100" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$sala->getPrecio();?>'" placeholder="<?=$sala->getPrecio();?>">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                       Capacidad: <input class="form-control" name="capacidad" id="subject" type="number" min="50" max="200" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$capacidad_aux?>''" placeholder="<?=$capacidad_aux?>">
+                                       Capacidad: <input class="form-control" name="capacidad" id="subject" type="number" min="50" max="200" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$sala->getCapacidad();?>''" placeholder="<?=$sala->getCapacidad();?>">
                                     </div>
                                 </div>
                                 <div class="col-12">

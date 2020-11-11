@@ -28,7 +28,10 @@ create table cines(
 );
 insert into cines (Nombre,Ciudad,Calle,Numero) values ("Ambassador","Mar del plata","Tejedor",800);
 
-
+CREATE table Descuento( 
+    Id_Descuento int not null auto_increment,
+     porcentaje int not null, 
+     Constraint PK_Id_Descuento Primary key (Id_Descuento) );
 
 create table salas(
 	Id_Sala int not null auto_increment,
@@ -94,6 +97,7 @@ create table funciones(
     Dia date,
     Hora time,
 	Descuento boolean,
+    Eliminado boolean
     
     constraint `PK_Funcion` primary key (Id_Funcion),
     constraint `FK_Pelicula` foreign key (Id_Pelicula) references peliculas(Id_Pelicula) on delete cascade on update cascade,
