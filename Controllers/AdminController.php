@@ -234,14 +234,14 @@ class AdminController{
                        $homeController->viewAddFunciones();
                    }
            }else {
-               echo '<script>alert("La pelicula ya Tiene un Cine ese Dia");</script>';
+               echo '<script>alert("Esta pelicula solo puede reproducirse en un cine por dia");</script>';
 
                $homeController = new HomeController();
                $homeController->viewAddFunciones();
            }
        }else{
                
-           echo '<script>alert("La pelicula ya Tiene una Sala ese Dia ");</script>';
+           echo '<script>alert("Esta pelicula solo puede reproducirse en un cine por dia");</script>';
 
                $homeController = new HomeController();
                $homeController->viewAddFunciones();
@@ -650,7 +650,7 @@ class AdminController{
         echo'<select name="select" id="select">';
       
                foreach($listaSalas as $value){      
-                    echo "<option value='".$value->getId()."'>".$value->getNombre()."</option>";
+                    echo "<option value='".$value->getId()."' >".$value->getNombre()."</option>";
                }
         echo'</select>';
     }
@@ -902,25 +902,27 @@ class AdminController{
         try{
             // AGARRO TODAS LAS SALAS QUE MACHEEN CON EL CINE
             $listaSalas = $salaDAO->GetByIdCine($ID_Cine);
+        
             // Este va a ser un arreglo de arreglos
             $funcionesDeUnCine = array();
             // ACA VOY A AGARRAR LAS FUNCIONES QUE MACHEEN CON LA SALAS Y LAS FECHAS
             // Guardandolas en una arreglo que contenera, todas las funciones que se junten con nuestro cine buscado
             foreach($listaSalas as $sala){
                 $FuncionesDeUnaSala = $funcionDAO->consultaPorIdSalaBetween($sala->getId(),$Fecha_Inicio,$Fecha_Fin);
+                
                 array_push($funcionesDeUnCine, $FuncionesDeUnaSala );
             }
             
-                   
+        
+            
             $entradasVendidas = 0;
             $recaudacionTotal = 0;    
             //Por cada funcion que haya
-            foreach($funcionesDeUnCine as $FuncionesDeUnaSala){
-                foreach($FuncionesDeUnaSala as $funcion){
+            foreach($funcionesDeUnCine as $funcionesXsala){
+                foreach($funcionesXsala as $funcion){
                     //Busco las entradas que machean con esta funcion Y guardo los id de compra en un arreglo
                     $arregloDeIdCompra = $entradaDAO->getIdCompraByIdFuncion($funcion->getId());
-                    $entradasVendidas = 0;
-                    $recaudacionTotal = 0;
+                  
                     // por cada id de compra, perteneciente a esta funcion
                     foreach($arregloDeIdCompra as $idCompra){
                         $compra = $compraDAO->getById($idCompra);

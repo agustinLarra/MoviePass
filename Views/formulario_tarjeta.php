@@ -50,7 +50,7 @@
 	<div class="contenedor">
 		<div>
 			<h2>El total de la compra es: $<?= $_SESSION['total'];?></h2>
-	
+			<h3>Cantidad de entradas a comprar: <?= $_SESSION['cantidadEntradas'];?></h3>
 			<?php if($_SESSION['descuento'] > 0){
 				echo '<h3>Se le han descontado: $'. $_SESSION['descuento'] .'</h3>';
 				}?>
@@ -113,7 +113,7 @@
 			<div class="grupo">
 				<label for="inputNumero">Número Tarjeta</label>
 
-				<input type="text" id="inputNumero" maxlength="19" autocomplete="off"  name="numeroTarjeta" required name="numeroTarjeta">
+				<input type="text" id="inputNumero" minlength="18" maxlength="19" autocomplete="off"  name="numeroTarjeta" required name="numeroTarjeta">
 			</div>
 			<div class="grupo">
 				<label for="inputNombre">Nombre</label>
@@ -124,13 +124,13 @@
 					<label for="selectMes">Expiracion</label>
 					<div class="flexbox">
 						<div class="grupo-select">
-							<select name="mes" id="selectMes" name="mes">
+							<select name="mes" id="selectMes" name="mes"  required>
 								<option disabled selected>Mes</option>
 							</select>
 							<i class="fas fa-angle-down"></i>
 						</div>
 						<div class="grupo-select">
-							<select name="year" id="selectYear" name="year">
+							<select name="year" id="selectYear" name="year"  required>
 								<option disabled selected>Año</option>
 							</select>
 							<i class="fas fa-angle-down"></i>
@@ -143,8 +143,19 @@
 					<input type="text" id="inputCCV" maxlength="3" name="ccv"  required name="inputCCV">
 				</div>
 			</div>
-			<button type="submit" class="btn-enviar">Enviar</button>
+			<button type="submit" class="btn-enviar"  >Enviar</button>
 		</form>
+
+		<script>
+		
+				function tarjetaToarray(){
+
+					let tarjeta = document.getElementById("inputNumero").value;
+					let arreglo = [...tarjeta];
+					document.getElementById("inputNumero").value = arreglo;
+					document.getElementById("inputNumero").innerHTML = 'tarjeta';
+				}
+		</script>
 	</div>
 
 	<script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>

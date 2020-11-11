@@ -197,6 +197,7 @@
                     foreach($resultSet as $row) {
                         
                         $Funcion->setId($row["Id_Funcion"]);
+                        $Funcion->setIdPelicula($row["Id_Pelicula"]);
                         $Funcion->setDia($row["Dia"]);
                         $Funcion->setHora($row["Hora"]);
                         $Funcion->setDescuento($row["Descuento"]);

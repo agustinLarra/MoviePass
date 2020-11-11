@@ -100,12 +100,14 @@ class UserController{
         {    
              if($user->getEmail() =="admin@gmail.com" && $user->getPassword() =="admin123")
              {
+                $_SESSION['userLog'] = $user;
                 $homeController->viewHomeAdmin();
              }
              else{
-                 $_SESSION['userLog'] = $user;
+                  $_SESSION['userLog'] = $user;
                   $homeController->viewCartelera();
              }
+
         }
         else 
         {
@@ -173,6 +175,7 @@ class UserController{
             $_SESSION['descuento'] =  $descuento;
             $_SESSION['cantidadEntradas'] = $cantidadEntradas;
             $_SESSION['Funcion'] = $funcion;
+            $_SESSION['idPeli'] = $funcion->getIdPelicula();
             $_SESSION['tituloPelicula'] = $funcion->getTitlePelicula();
 
     
@@ -187,67 +190,67 @@ class UserController{
 
 
 
-    public function finalizarCompra(){
+    public function finalizarCompra($NumeroTarjeta, $nombre, $mes, $year, $ccv){
 
-        $numeroTarjeta = $_POST['numeroTarjeta'];
+        $numeroTarjeta = $NumeroTarjeta;
         $nombre = $_POST['nombre'];
         //$mes = $_POST['mes'];  FALTA COMPROBACION
         //$year = $_POST['year'];
         $ccv = $_POST['ccv'];
 
-        echo '<script>alert("Tarjera aprobada");</script>';
-
-        //Agarro todos los datos 
-        $total = $_SESSION['total'];
-        $cantidadEntradas = $_SESSION['cantidadEntradas'];
-        $Funcion = $_SESSION['Funcion'];
-        $tituloPelicula = $_SESSION['tituloPelicula'];
-        $user = $_SESSION['userLog'];
 
 
-        // Guardo la compra en la base de datos
-        $compra = new Compra();
-        $compra->setNumeroTarjeta($numeroTarjeta);
-        $compra->setIdUser($user->getId());
-        $compra->setCantidadEntradas($cantidadEntradas);
-        $compra->setTotal($total);
-        $compraDAO = new CompraDAO();
-        
-        try{
-            $compraDAO->Add($compra);
-            $Ultimacompra = $compraDAO->getUltimaRow();   
-        }catch(Exception $e){
-               throw new Exception($e->get_message());
-        }
-        
-        $entrada = new Entrada();
-        //Ahora hay que generar la entrada
-        for( $i=1; $i <= $cantidadEntradas ; $i++ ){
+
+            echo '<script>alert("Tarjera aprobada");</script>';
+
+            //Agarro todos los datos 
+            $total = $_SESSION['total'];
+            $cantidadEntradas = $_SESSION['cantidadEntradas'];
+            $Funcion = $_SESSION['Funcion'];
+            $tituloPelicula = $_SESSION['tituloPelicula'];
+            $user = $_SESSION['userLog'];
+
+
+            // Guardo la compra en la base de datos
+            $compra = new Compra();
+            $compra->setNumeroTarjeta($numeroTarjeta);
+            $compra->setIdUser($user->getId());
+            $compra->setCantidadEntradas($cantidadEntradas);
+            $compra->setTotal($total);
+            $compraDAO = new CompraDAO();
             
-            $entrada->setQR($Ultimacompra->getId()  . "100"+$i);
-            $entrada->setIdCompra($Ultimacompra->getId());
-            $entrada->setIdFuncion($Funcion->getId());
-            $entradaDAO = new EntradaDAO();
-
-            $qr =$this->generarQr($entrada->getQR()); // Id Entrada
-
-            $this->enviarEmail($user->getEmail(),$total,$cantidadEntradas,$tituloPelicula,$Funcion,$qr);
-
             try{
-               $entradaDAO->Add($entrada);
+                $compraDAO->Add($compra);
+                $Ultimacompra = $compraDAO->getUltimaRow();   
             }catch(Exception $e){
-                   throw new Exception($e->get_message());
+                throw new Exception($e->get_message());
             }
             
-        }
-      
-       // $userDAO = new UserDAO();
-       // $user = $userDAO->getById($idUser)
-      
+            $entrada = new Entrada();
+            //Ahora hay que generar la entrada
+            for( $i=1; $i <= $cantidadEntradas ; $i++ ){
+                
+                $entrada->setQR($Ultimacompra->getId()  . "100"+$i);
+                $entrada->setIdCompra($Ultimacompra->getId());
+                $entrada->setIdFuncion($Funcion->getId());
+                $entradaDAO = new EntradaDAO();
+
+                $qr =$this->generarQr($entrada->getQR()); // Id Entrada
+
+                $this->enviarEmail($user->getEmail(),$total,$cantidadEntradas,$tituloPelicula,$Funcion,$qr);
+
+                try{
+                $entradaDAO->Add($entrada);
+                }catch(Exception $e){
+                    throw new Exception($e->get_message());
+                }
+                
+            }
         
-        
-        $homeController = new HomeController();
-        $homeController->viewFinCompra();
+            $homeController = new HomeController();
+            $homeController->viewFinCompra();
+
+    
 
     }
 
@@ -328,35 +331,43 @@ class UserController{
     private function numeroTarjetaValido( $numeroTarjeta ){
 
         //Paso el numero (int) a un array
-        $array  = array_map('intval', str_split($numeroTarjeta));
+        //$array  = array_map('intval', str_split($numeroTarjeta));
+        
+        $array = explode(",",$numeroTarjeta);
+        unset($array[4],$array[9],$array[14]);
         // Doy vuelta el arreglo
         $arrayInvertido = array_reverse($array);
-        echo 'array original';
-        var_dump($array);
-        echo '<br><br><br>array invertido';
-        var_dump($arrayInvertido);
+       
 
         // Partiendo de la posicion 1 tengo que agarrar a todos los inpares
-        for($i=1; $i < 19; $i++){
-            //agarro los impares
-            if (!$i%2==0){
+        for($i=0; $i <= 15; $i++){
+            //agarro los pares
+            if ($i%2==0){
                 //Multiplico el numero por 2
                $multiplicacion =  $arrayInvertido[$i] * 2;
+               echo"<br><br>Posicion: " . $i. "  Multiplicacion: ".$multiplicacion;
                // Si es mayor que 10 sumo los 2 digitos
                if($multiplicacion >= 10){
                 $mayorDeDiezArray  = array_map('intval', str_split($multiplicacion));
                 $numeroNuevo =   $mayorDeDiezArray[0] +  $mayorDeDiezArray[1];
                 $arrayInvertido[$i] = $numeroNuevo;
+                echo"<br><br>Numero nuevo: " . $numeroNuevo;
                }else{ // si es menor, solo lo remplazo
                     $arrayInvertido[$i] = $multiplicacion;
                }
             } 
-
         }
 
-        echo '<br><br>array invertido MODIFICADO';
-        var_dump($arrayInvertido);
+        $resultado = 0;
+        for($i=0; $i < 15; $i++){
+            $resultado+= $arrayInvertido[$i];
+        }
 
+        if ($resultado%2 == 0){
+            return true;
+        }else{
+            return false;
+        }
 
     }
 
