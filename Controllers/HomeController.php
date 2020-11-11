@@ -291,6 +291,7 @@ class HomeController{
     $nombre_sala = $nombre;
     $precio_aux = $precio;
     $capacidad_aux = $capacidad;
+    
     require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
     require(VIEWS_ADMIN_PATH.'modificarSala.php');
@@ -674,6 +675,7 @@ public function selectDinamicoSalas(){
 
 
      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
+     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
      require_once(VIEWS_ADMIN_PATH.'consultaTotalesVendidos.php');
      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
@@ -703,7 +705,8 @@ public function selectDinamicoSalas(){
      
 
      require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
-     require_once(VIEWS_ADMIN_PATH.'totalesVendidos.php');
+     require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
+     require(VIEWS_ADMIN_PATH.'totalesVendidos.php');
      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
 
