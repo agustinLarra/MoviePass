@@ -9,6 +9,7 @@ use Models\Sala as Sala;
 use Models\Pelicula as Pelicula;
 use DAO\SalaDAO as SalaDAO;
 use JsonDAO\PeliculaJson as PeliculasJson;
+use DAO\DescuentoDAO as DescuentoDAO;
 
 class HomeController{
 
@@ -65,10 +66,12 @@ class HomeController{
 
       try{
         $array_peliculas = $this->cargarCartelera();
+        if(!empty($array_peliculas)){
         
-        $arrayGeneros = $this->cargarGeneros();
- 
-        $lista_dias = $this->cargarFunciones();
+          $arrayGeneros = $this->cargarGeneros();
+  
+          $lista_dias = $this->cargarFunciones();
+        }
 
       }catch(Exception $e){
 
@@ -318,11 +321,13 @@ class HomeController{
 
   public function modificarSala($id,$nombre,$precio,$capacidad)
   {
+    $sala = new Sala();
+    $sala->setId($id);
+    $sala->setNombre($nombre);
+    $sala->setPrecio($precio);
+    $sala->setCapacidad($capacidad);
+   
 
-    $id_aux = $id;
-    $nombre_sala = $nombre;
-    $precio_aux = $precio;
-    $capacidad_aux = $capacidad;
     
     if($this->adminIsLogged()){
 
@@ -372,8 +377,11 @@ public function selectDinamicoSalas(){
       // Levanto las peliculas del Json
       try{
             $peliculas = new PeliculasJson();
+            $descuento = new DescuentoDAO();
             $peliculasList = $peliculas->GetMovieJson();  
             $cineList = $adminController->listarCines();   
+            $descuentosList =$descuento->GetAll();//ahora los descuentos estan en la bd
+
       }catch(Exception $e){
              throw new Exception($e->get_message());
       } 

@@ -54,9 +54,27 @@
                                     
                                     </div>
                                 </div>
+                                
+                            <h5>Aplica Descuento De:</h5>
+                             <div class="form-group">  
+                                    <select name="descuento"  class="form-group"> 
+                                        <?php foreach($descuentosList as $values)
+                                        { ?>
+                                       
+                                         <option value="<?=$values->getIdDescuento();?>" ><?=$values->getPorcentaje() . "%"?></option>
+                                        
+                                      <?php } ?>
+
+                               
+                                    </select>
+                             </div>
+      
+
+                                        
+       
 
                                 <div class="col-12">
-                                    <div class="form-group">   
+                                     
                                     <h5>Cines</h5>
                                      <select name="idCine"id="select"  onclick="muestraselect(this.value)" required name="idCine" >
                                         <option value="">Selecione un cine</option>

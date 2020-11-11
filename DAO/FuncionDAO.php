@@ -39,6 +39,19 @@
             
             return $funcionList;
         }
+
+        public function GetAll_Exist() {
+            try{
+                $funcionList = $this->RetrieveDataExist();
+            }catch(Exception $e){
+                   throw new Exception($e->get_message());
+            }
+            
+            return $funcionList;
+        }
+
+
+
         public function GetId($id)
         {
             try{
@@ -77,6 +90,38 @@
             try
             {
                 $query = "SELECT * FROM funciones";
+                $this->connection = connection::GetInstance();   
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $Funcion = new Funcion();
+                        $Funcion->setId($row["Id_Funcion"]);
+                        $Funcion->setIdPelicula($row["Id_Pelicula"]);
+                        $Funcion->setIdSala($row["Id_Sala"]);
+                        $Funcion->setDia($row["Dia"]);
+                        $Funcion->setHora($row["Hora"]);
+                        $Funcion->setDescuento($row["Descuento"]);
+                        $Funcion->setEstado($row["Eliminado"]);
+       
+                         
+                        array_push($funcionList, $Funcion);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
+            return $funcionList;
+        }
+
+        private function RetrieveDataExist()
+        {
+            $funcionList = array();
+            try
+            {
+                $query = "SELECT * FROM funciones WHERE Eliminado = '0";
                 $this->connection = connection::GetInstance();   
                 $resultSet = $this->connection->execute($query);  
 
@@ -133,15 +178,14 @@
     
         private function SaveData($funcion)
         {
-
             $sql = "INSERT INTO funciones(Id_Pelicula,Id_Sala,Dia,Hora,Descuento,Eliminado) VALUES(:Id_Pelicula,:Id_Sala,:Dia,:Hora,:Descuento,:Eliminado)";
-            try{
-                $parameters['Id_Pelicula'] = $funcion->getIdPelicula();
-                $parameters['Id_Sala'] = $funcion->getIdSala();
-                $parameters['Dia'] = $funcion->getDia();
-                $parameters['Hora'] = $funcion->getHora();
-                $parameters['Descuento'] = $funcion->getDescuento();
-                $parameters['Eliminado'] = 0;
+    
+            $parameters['Id_Pelicula'] = $funcion->getIdPelicula();
+            $parameters['Id_Sala'] = $funcion->getIdSala();
+            $parameters['Dia'] = $funcion->getDia();
+            $parameters['Hora'] = $funcion->getHora();
+            $parameters['Descuento'] = $funcion->getDescuento();
+            $parameters['Eliminado'] = 0;
             
                 $this->connection = connection::GetInstance();
                 $this->connection->ExecuteNonQuery($sql,$parameters);
@@ -296,10 +340,11 @@
         {
            // $parameters = $sala->getId();
             $sql ="UPDATE funciones SET Eliminado = '1' WHERE funciones.Id_Funcion = '$id'";
+            $parameters["Eliminado"] = 1;
 
             try{
                 $this->connection = connection::GetInstance();
-                return $this->connection->ExecuteNonQuery($sql,$id);
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
             }
             catch(PDOException $e){
                 echo $e;
@@ -310,7 +355,7 @@
         {
           
             $sql ="UPDATE funciones SET Eliminado = '0' WHERE funciones.Id_Funcion = '$id'";
-
+            $parameters["Eliminado"] = 0;
             try{
                 $this->connection = connection::GetInstance();
                 return $this->connection->ExecuteNonQuery($sql,$parameters);
@@ -324,7 +369,7 @@
         public function CheckExistenciaSala($idPelicula,$dia)
         {
 
-            $query = "SELECT funciones.Id_Funcion FROM funciones WHERE Id_pelicula = '$idPelicula'  AND dia = '$dia' ";
+            $query = "SELECT funciones.Id_Funcion FROM funciones WHERE Id_pelicula = '$idPelicula'  AND dia = '$dia' AND Eliminado = '0' ";
             $this->connection = connection::GetInstance();   
             $resultSet = $this->connection->execute($query);  
 
@@ -381,7 +426,7 @@
                             ON s.Id_Sala = f.Id_Sala
                             INNER JOIN cines as c
                             ON c.Id_Cine = s.Id_Cine
-                            WHERE c.Id_Cine = '$cine' AND f.Dia = '$dia' AND f.Id_Pelicula = '$idPelicula'";
+                            WHERE c.Id_Cine = '$cine' AND f.Dia = '$dia' AND f.Id_Pelicula = '$idPelicula' AND f.Eliminado = '0'";
 
                 $this->connection = connection::GetInstance();   
                 $resultSet = $this->connection->execute($query);  

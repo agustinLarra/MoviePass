@@ -41,23 +41,26 @@
 
         public function Delete($id)
         {
-           // $parameters = $sala->getId();
-            $sql ="UPDATE cines SET Eliminado = '1' WHERE Id_Cine = '$id'";
+        
+            $sql ="UPDATE cines SET Eliminado = '1' WHERE cines.Id_Cine = '$id'";
+            $parameters["Eliminado"]= 1;
 
             try{
                 $this->connection = connection::GetInstance();
-                return $this->connection->ExecuteNonQuery($sql,$id);
+                 $this->connection->ExecuteNonQuery($sql,$parameters);
+                 return true;
             }
             catch(PDOException $e){
                 echo $e;
             }
+            return false;
         }
 
         public function Alta($id)
         {
           
             $sql ="UPDATE cines SET Eliminado = '0' WHERE cines.Id_Cine = '$id'";
-
+            $parameters["Eliminado"]= 0;
             try{
                 $this->connection = connection::GetInstance();
                 $this->connection->ExecuteNonQuery($sql,$parameters);
@@ -180,6 +183,7 @@
                         $cine->setCiudad($row["Ciudad"]);
                         $cine->setNumero($row["Numero"]);
                         $cine->setCalle($row["Calle"]);
+                        $cine->setEstado($row["Eliminado"]);
                     }
                 }
             
@@ -215,6 +219,37 @@
             return $array;
 
         }
+
+        public function RetrieveDataExist(){
+            
+            $cineList = array();
+            try
+            {
+                $query = "SELECT * FROM cines WHERE Eliminado = '0' ";
+                $this->connection = connection::GetInstance();    
+                $resultSet = $this->connection->execute($query);  
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) {
+                        
+                        $cine = new Cine();
+                                                
+                        $cine->setId($row["Id_Cine"]);
+                        $cine->setNombre($row["Nombre"]);
+                        $cine->setCiudad($row["Ciudad"]);
+                        $cine->setNumero($row["Numero"]);
+                        $cine->setCalle($row["Calle"]);
+                        $cine->setEstado($row["Eliminado"]);
+                        array_push($cineList, $cine);
+                    }
+                }
+            
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
+            return $cineList;
+        }
+
 
 
     

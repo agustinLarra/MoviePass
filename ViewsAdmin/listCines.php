@@ -91,13 +91,12 @@
                             
                             </script>
 
-                                <div> 
-                                    <form action="<?php echo FRONT_ROOT?>Admin/altaCine" onclick="return ConfirmAlta()" method="POST">
-                                        <input name= "id" type="hidden" value="<?= $cine->getId()?>"></input>
-                                        <button type="submit" class='btn btn-danger'> Boton Alta </button>
-                                    </form> 
-                                </div>
+                                <div> <form action="<?php echo FRONT_ROOT?>Admin/altaCine" onclick="return ConfirmAlta()" method="POST">
+                                <input name= "id" type="hidden" value="<?=$cine->getId()?>"></input>
+                                <button type="submit" class='btn btn-danger'> Boton Alta </button>
+                                </form> </div>
 
+                            </div>
                             
 
 

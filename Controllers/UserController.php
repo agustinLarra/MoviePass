@@ -9,8 +9,7 @@ use DAO\CompraDAO as CompraDAO;
 use DAO\EntradaDAO as EntradaDAO;
 use DAO\FuncionDAO as FuncionDAO;
 use Controllers\HomeController as HomeController;
-
-
+use DAO\DescuentoDAO;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use QRcode;
@@ -136,6 +135,7 @@ class UserController{
 
     public function funcionElegida(){
 
+        $descuento_bd = new DescuentoDAO();
 
         if(!isset($_SESSION['userLog'])){
 
@@ -159,9 +159,10 @@ class UserController{
             $total = $cantidadEntradas * $funcion->getClassSala()->getPrecio();
             $descuento = 0;
 
-            if($funcion->getDescuento() == 1){
+            if($funcion->getDescuento() > 1){
 
-                $descuento = (26/100) * $total;
+                //$descuento = (26/100) * $total;
+                $descuento = (($descuento_bd->getPorcentajeBtId($funcion->getDescuento()))/100) * $total;
                 $total -=  $descuento;
             }
 

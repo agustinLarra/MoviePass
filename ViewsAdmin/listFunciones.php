@@ -1,3 +1,8 @@
+<?php
+
+use DAO\DescuentoDAO;
+
+$descuento = new DescuentoDAO();?>
 <div class="what-we-do we-padding">
             <div class="container">
                 <!-- Section-tittle -->
@@ -25,8 +30,8 @@
                                 <p>Pelicula:  <?= $funcion->getTitlePelicula();?></p>
                                 <p>Cine:  <?= $funcion->getClassCine()->getNombre();?></p>
                                 <p>Sala:  <?= $funcion->getClassSala()->getNombre();?></p>
-                                <p>Descuento:  <?php  if($funcion->getDescuento() == 1){
-                                                            echo PORCENTAJE_DESCUENTO;
+                                <p>Descuento:  <?php  if($funcion->getDescuento() > 1){
+                                                            echo $descuento->getPorcentajeBtId($funcion->getDescuento()) . "%";
                                                         }else{
                                                             echo "No";
                                                         }?></p>
@@ -53,11 +58,9 @@
                             </script>
 
                                 <div> <form action="<?php echo FRONT_ROOT?>Admin/deleteFuncion" onclick="return ConfirmDelete()" method="POST">
-                                <input name= "id" type="hidden" value="<?php $funcion->getId()?>"></input>
-                                <button type="submit" class='btn btn-danger'> Borrar BOTON </button>
+                                <input name= "id" type="hidden" value="<?= $funcion->getId()?>"></input>
+                                <button type="submit" class='btn btn-danger'> Borrar </button>
                                 </form> </div>
-
-                                <a href="<?php echo FRONT_ROOT?>Admin/deleteFuncion/<?php echo $funcion->getId();?>" class='btn btn-danger'>Borrar</a>
                             </div>
                         </div>
                     </div>
@@ -116,10 +119,9 @@
 
 
                             <div> <form action="<?php echo FRONT_ROOT?>Admin/altaFuncion" onclick="return ConfirmAlta()" method="POST">
-                                <input name= "id" type="hidden" value="<?= $funcion->getId()?>"></input>
-                                <button type="submit" class='btn btn-danger'> Borrar </button>
+                                <input name= "id" type="hidden" value="<?=$funcion->getId()?>"></input>
+                                <button type="submit" class='btn btn-danger'> Alta </button>
                                 </form> </div>
-
                             </div>
                         </div>
                     </div>

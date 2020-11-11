@@ -193,7 +193,9 @@
                             ON f.Id_Pelicula = p.Id_Pelicula
                             INNER JOIN salas as s
                             ON s.Id_Sala = f.Id_Sala
-                            WHERE s.Eliminado = 0;";
+                            INNER JOIN cines as c
+                            ON s.Id_Cine = c.Id_Cine
+                            WHERE s.Eliminado = 0 AND c.Eliminado = '0'";
                             
                 $this->connection = connection::GetInstance();   
                 $resultSet = $this->connection->execute($query);  

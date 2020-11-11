@@ -37,12 +37,23 @@ class AdminController{
     }
 
     public function deleteCine($id){
-        //$id = $_POST['id'];
-        
+     
+        $cine = new Cine();
+
+        $cine->setId($id);
+
         $cineDao = new CineDAO();
+        $salaDao = new SalaDAO();
+        
 
         try{
-               $cineDao->Delete($id);
+              if($cineDao->Delete($cine->getId())==true){
+                  $sala_list = $salaDao->GetByIdCine($cine->getId());
+                  foreach($sala_list as $sala_aux)
+                  {
+                      $salaDao->Delete($sala_aux->getId());
+                  }
+              }
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
@@ -55,13 +66,13 @@ class AdminController{
 
 
     public function deleteSala($id){
-        //$sala = new Sala();
-
-       // $sala->setId($id);
-  
+        $sala = new Sala();
         $salaDao = new SalaDAO();
+        $sala->setId($id);  
+        
+
         try{
-            $salaDao->Delete($id);   
+            $salaDao->Delete($sala->getId());   
         }catch(Exception $e){
             throw new Exception($e->get_messeage());
         }
@@ -152,9 +163,24 @@ class AdminController{
     public function altaSala($id)
     {
         $salaDao = new SalaDAO();
-
+        $cineDao = new CineDAO();
+     
         try{
-            $salaDao->Alta($id);   
+               $sala = $salaDao->getByID($id);
+
+                $cineList = $cineDao->getByID($sala->getIdCine());
+
+              if($cineList->getEstado()==0){
+           
+                $salaDao->Alta($id);  
+               }
+
+               else{
+                echo '<script>alert("El Cine No se Encuentra Activo");</script>';
+
+               }
+
+             
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
@@ -166,10 +192,10 @@ class AdminController{
 
     public function altaCine($id)
     {
-        $salaDao = new SalaDAO();
+        $cineDao = new CineDAO();
 
         try{
-             $salaDao->Alta($id);  
+             $cineDao->Alta($id);  
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
@@ -194,18 +220,22 @@ class AdminController{
 
 
     
-    public function addFuncion($idPelicula, $dia,$hora,$idCine, $idSalas)//Deberia recibir la pelicula(por id) y la sala (por id)
+    public function addFuncion($idPelicula, $dia,$hora,$descuento, $idCine, $idSalas)//Deveria recibir la pelicula(por id) y la sala (por id)
     {
-        $horario = $dia .' ' . $hora; //Traigo el dia y la hora por separado y las concateno , asi no hay problema con la letra del dia cuando se guarda en la base de datos
+
+     
+        $horario = $dia .' ' . $hora; //Traigo el dia y la hora por separado y las concateno , haci no hay problema con la letra del dia cuando se guarda en la base de datos
       
-        $diaDeLaSemana = $this->saber_dia($dia);
+       // $diaDeLaSemana = $this->saber_dia($dia);
         
        $funcion = new Funcion();
        $funcion->setIdPelicula($idPelicula);
        $funcion->setIdSala($idSalas);
        $funcion->setDia($dia);
        $funcion->setHora($hora);
-       $funcion->setDescuento($this->diasDeDescuento($diaDeLaSemana));
+       $funcion->setDescuento($descuento);
+       //$funcion->setDescuento($this->diasDeDescuento($diaDeLaSemana));
+ 
 
 
        if(($this->checkPeliculaEnFuncionSala($idPelicula, $dia ))==false)
@@ -334,13 +364,18 @@ class AdminController{
     {
         $lista_funciones = new FuncionDAO();
         $lista_funciones = $lista_funciones->GetAll();
+        $sala_aux = new SalaDAO();
         $flag = 0;
         
         foreach($lista_funciones as $values)
         {
             //Me va a tirar error por que ya no tengo el id de cine en funcion
+          $aux_cine = $sala_aux->getByID($values->getIdSala()); 
 
-           if(($dia == $values->getDia()) && ($sala == $values->getIdSala()) && ($cine == $values->getIdCine()))
+
+           //if(($dia == $values->getDia()) && ($sala == $values->getIdSala()) && ($cine == ($aux->getIdCine())))
+            
+           if(($dia == $values->getDia()) && ($cine == ($aux_cine->getIdCine())))
            {        
                    
                 $aux = $values->getHora();//Asigno a aux la hora de la funcion

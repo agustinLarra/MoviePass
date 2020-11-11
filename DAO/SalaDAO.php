@@ -205,6 +205,7 @@
         {
            // $parameters = $sala->getId();
             $sql ="UPDATE salas SET Eliminado = '1' WHERE salas.Id_Sala = '$id'";
+            $parameters["Eliminado"] = $id;
 
             try{
                 $parameters['Eliminado'] = 1;
@@ -221,6 +222,7 @@
         {
           
             $sql ="UPDATE salas SET Eliminado = '0' WHERE salas.Id_Sala = '$id'";
+            $parameters["Eliminado"] = 0;
 
             try{
 
@@ -238,7 +240,7 @@
 
         public function getByID($idSala){
 
-           // $sala;
+           $sala = new Sala();
             try
             {
                 $query = "SELECT * FROM salas WHERE Id_Sala = '$idSala'";
@@ -248,7 +250,7 @@
                 if(!empty($resultSet)) {
                     foreach($resultSet as $row) {
 
-                        $sala = new Sala();
+                        
                                                 
                         $sala->setId($row["Id_Sala"]);
                         $sala->setNombre($row["Nombre"]);
@@ -257,6 +259,8 @@
                         $sala->setTipoSala($row["Tipo_sala"]);
                         $sala->setIdCine($row["Id_Cine"]);
                         $sala->setEstado($row["Eliminado"]);
+
+                     
 
 
                     }
@@ -269,6 +273,8 @@
 
             return $sala;
         }
+
+
 
         
 

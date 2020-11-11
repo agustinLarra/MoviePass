@@ -1,5 +1,10 @@
 <?php namespace Views;
 
+use DAO\DescuentoDAO;
+
+$descuento = new DescuentoDAO();
+
+
 
     if(!isset($_SESSION)) session_start(); 
 ?>
@@ -117,7 +122,7 @@
                             <p>Cine:  <?= $funcion->getClassCine()->getNombre();?></p>
                             <p>Tipo de sala:  <?= $funcion->getClassSala()->getTipoSala();?></p>
                             <p>Precio:  <?= $funcion->getClassSala()->getPrecio();?></p>
-                            <p>Descuento:  <?php  if($funcion->getDescuento() == 1){ echo PORCENTAJE_DESCUENTO;} else { echo "NO"; }?> </p>
+                            <p>Descuento:  <?php  if($funcion->getDescuento() > 1){ echo ($descuento->getPorcentajeBtId($funcion->getDescuento())) . "%";} else { echo "NO"; }?> </p>
                             <P>Capacida de Sala: <?= $funcion->getClassSala()->getCapacidad()?></P>
                             <p>Entradas Disponibles: <?=($funcion->getClassSala()->getCapacidad() - $funcion->getEntradasVendidas())?></p>
 
