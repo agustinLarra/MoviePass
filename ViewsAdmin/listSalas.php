@@ -51,7 +51,7 @@ $cine = new CineDAO(); ?>
 
                                 <div> <form action="<?php echo FRONT_ROOT?>Admin/deleteSala" onclick="return ConfirmDelete()" method="POST">
                                 <input name= "id" type="hidden" value="<?=$sala->getId()?>"></input>
-                                <button type="submit" class='btn btn-danger'> BOTON BORRAR  </button>
+                                <button type="submit" class='btn btn-danger'>  Borrar  </button>
                                 </form> </div>
 
                                 <!-- DELETE-->
@@ -64,7 +64,8 @@ $cine = new CineDAO(); ?>
                                 <input name= "nombre" type="hidden" value="<?=$sala->getNombre()?>"></input> 
                                 <input name= "precio" type="hidden" value="<?=$sala->getPrecio()?>"></input> 
                                 <input name= "capacidad" type="hidden" value="<?=$sala->getCapacidad()?>"></input> 
-                                <button type="submit" class='btn btn-danger'> BOTON MODIFY  </button>
+                                <br>
+                                <button type="submit" class='btn btn-danger'> Modificar  </button>
                                 </form> </div>
 
                             </div>

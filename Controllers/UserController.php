@@ -63,7 +63,8 @@ class UserController{
                  //INICIA SESSION ANTES
                  if(!isset($_SESSION['userLog']))
                   {
-                     $_SESSION['userLog'] = $user->getEmail();
+                     $_SESSION['userLog'] = $user;
+                     $homeController = new HomeController();
                      $homeController->viewCartelera();  
                 }
 

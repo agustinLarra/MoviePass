@@ -16,7 +16,6 @@ $descuento = new DescuentoDAO();?>
                 <div class="row">
                 <?php foreach($listFunciones as $funcion){
                     if($funcion->getEstado() == 0){
-                        echo "entro en NULL";
                     ?>
                     <div class="col-lg-4 col-md-6">
                         <div class="single-do text-center mb-30">

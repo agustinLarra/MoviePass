@@ -34,12 +34,12 @@ $descuento = new DescuentoDAO();
                     <?php if(!isset($_SESSION['userLog'])) { ?>
                     <div class="col-xl-3 col-lg-3 col-md-3">
                         <div class="header-right-btn f-right d-none d-lg-block">
-                            <a href="<?= FRONT_ROOT?>Home/viewLogin" class="btn header-btn">Login</a>
+                            <a href="<?= FRONT_ROOT?>Home/viewLogin" class="btn header-btn">Iniciar sesion</a>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-3">
                         <div class="header-right-btn f-right d-none d-lg-block">
-                            <a href="<?= FRONT_ROOT?>Home/viewSignUp" class="btn header-btn">Sign Up</a>
+                            <a href="<?= FRONT_ROOT?>Home/viewSignUp" class="btn header-btn">Registrarse</a>
                         </div>
                     </div>
                     <?php	} ?>
@@ -47,7 +47,7 @@ $descuento = new DescuentoDAO();
                     <?php if(isset($_SESSION['userLog'])) { ?>
                     <div class="col-xl-3 col-lg-3 col-md-3">
                         <div class="header-right-btn f-right d-none d-lg-block">
-                            <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Logout</a>
+                            <a href="<?= FRONT_ROOT?>User/logout" class="btn header-btn">Cerrar sesion</a>
                         </div>
                     </div>
                     <?php	} ?>

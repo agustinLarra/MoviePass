@@ -45,7 +45,7 @@
                         $descuento = new Descuento();
                         
                        $descuento->setIdDescuento($row["Id_Descuento"]);
-                       $descuento->setPorcentaje($row["porcentaje"]);
+                       $descuento->setPorcentaje($row["Porcentaje"]);
 
                         array_push($descuentoList, $descuento);
                     }

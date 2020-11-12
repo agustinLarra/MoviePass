@@ -17,7 +17,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-30 p-b-50">
 				<span class="login100-form-title p-b-41">
-					Account Login
+					
 				</span>
 				<form action="<?= FRONT_ROOT ?> User/login" method="post" class="login100-form validate-form p-b-33 p-t-5">
 
@@ -33,12 +33,19 @@
 
 					<div class="container-login100-form-btn m-t-32">
 						<button type = "submit" class="button-login login100-form-btn">
-							Login
+							Iniciar sesion
 						</button>
 					</div>
 
 				</form>
-				<a href="<?=FRONT_ROOT?>Views/signUp.php">Registrarse</a>
+				<form action="<?=FRONT_ROOT?>Home/viewSignUp">
+					<div class="container-login100-form-btn m-t-32">
+							<button type = "submit" class="button-login login100-form-btn">
+							Registrarse
+							</button>
+					</div>
+				</form>
+				
 			</div>
 		</div>
 	</div>

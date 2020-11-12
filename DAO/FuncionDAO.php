@@ -186,7 +186,7 @@
             $parameters['Hora'] = $funcion->getHora();
             $parameters['Descuento'] = $funcion->getDescuento();
             $parameters['Eliminado'] = 0;
-            
+            try{
                 $this->connection = connection::GetInstance();
                 $this->connection->ExecuteNonQuery($sql,$parameters);
             }catch(PDOException $e){

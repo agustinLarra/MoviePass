@@ -62,27 +62,27 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="nombre" id="subject" type="text" minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre'" placeholder="Nombre">
+                                        <input class="form-control" name="nombre" id="subject" type="text" required minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre'" placeholder="Nombre">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="apellido" id="subject" type="text" minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Apellido'" placeholder="Apellido">
+                                        <input class="form-control" name="apellido" id="subject" type="text" required minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Apellido'" placeholder="Apellido">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="dni" id="subject" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'DNI'" placeholder="DNI">
+                                        <input class="form-control" name="dni" id="subject" type="number" required minlength="7" maxlength= "9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'DNI'" placeholder="DNI">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="email" id="subject" type="email" minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" placeholder="Email">
+                                        <input class="form-control" name="email" id="subject" type="email" required minlength="2" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" placeholder="Email">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input class="form-control" name="password" id="subject" type="password" minlength="6" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'" placeholder="Contrasena">
+                                        <input class="form-control" name="password" id="subject" type="password" required minlength="6" maxlength= "25" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'" placeholder="Contrasena">
                                     </div>
                                 </div>
                             </div>

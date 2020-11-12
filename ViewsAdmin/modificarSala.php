@@ -37,12 +37,12 @@
                                 
                                 <div class="col-12">
                                     <div class="form-group">
-                                      Precio: <input class="form-control" name="precio" id="subject" type="number" min="100" max="500" step="100" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$sala->getPrecio();?>'" placeholder="<?=$sala->getPrecio();?>">
+                                      Precio: <input class="form-control" name="precio" id="subject" type="number" min="10" max="1500" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$sala->getPrecio();?>'" placeholder="<?=$sala->getPrecio();?>">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                       Capacidad: <input class="form-control" name="capacidad" id="subject" type="number" min="50" max="200" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$sala->getCapacidad();?>''" placeholder="<?=$sala->getCapacidad();?>">
+                                       Capacidad: <input class="form-control" name="capacidad" id="subject" type="number" min="50" max="200" onfocus="this.placeholder = ''" onblur="this.placeholder = '<?=$sala->getCapacidad();?>'" placeholder="<?=$sala->getCapacidad();?>">
                                     </div>
                                 </div>
                                 <div class="col-12">

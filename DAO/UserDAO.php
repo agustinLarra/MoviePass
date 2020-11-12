@@ -95,16 +95,17 @@
 
         public function checkUsuario($email,$pass)
         {
+            $user = new User();
             try
             {
                 $query = "SELECT * FROM users WHERE Pass = '$pass' AND Email = '$email'";
                 $this->connection = connection::GetInstance();   
                 $resultSet = $this->connection->execute($query);
-            
+                
                 if(!empty($resultSet)) {
                     foreach($resultSet as $row) { ///PROBAR DE HACERLO TODO JUNTO COMO ESTA EN EL GITHUB DEL PROFESOR
                         
-                        $user = new User();
+                      
                         $user->setId($row["Id_User"]);
                         $user->setFirstName($row["FirstName"]);
                         $user->setLastName($row["LastName"]);
