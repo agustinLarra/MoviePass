@@ -7,6 +7,7 @@ if(!isset($_SESSION)) session_start();
    
    <body>
 
+
            <div class="header-area header-transparrent ">
                <div class="main-header header-sticky">
                    <div class="container">

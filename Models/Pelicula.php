@@ -12,7 +12,8 @@ class Pelicula{
     private $overview;
     private $runtime;
     private $release_date;
-
+    private $votes;
+    
     public function getId(){
         return $this->id ;
     }
@@ -86,6 +87,15 @@ class Pelicula{
     public function setReleaseDate($date)
     {
         $this->release_date = $date;
+    }
+
+    public function setVotes($votes)
+    {
+        $this->votes = $votes;
+    }
+    public function getVotes()
+    {
+        return $this->votes;
     }
 
 

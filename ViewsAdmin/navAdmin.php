@@ -15,6 +15,7 @@
                                 <ul id="navigation">    
                                     <li><a href="<?php echo FRONT_ROOT?>Home/viewHomeAdmin"> Home Admin</a></li>
                                     <!-- ACA REDIRECCIONAR BIEN-->
+                                    <li> <a href="<?php echo FRONT_ROOT?>Home/map"">mapa</a> 
                                     <li><a href="">Cines</a>
                                         <ul class="submenu">
                                             <li><a href="<?php echo FRONT_ROOT?>Home/viewAddCine">Agregar Cines</a></li>

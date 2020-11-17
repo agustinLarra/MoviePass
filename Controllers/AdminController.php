@@ -37,27 +37,29 @@ class AdminController{
     }
 
     public function deleteCine($id){
-     
+
         $cine = new Cine();
 
         $cine->setId($id);
 
         $cineDao = new CineDAO();
         $salaDao = new SalaDAO();
-        
+        $funcionDao = new FuncionDAO();
+
 
         try{
               if($cineDao->Delete($cine->getId())==true){
                   $sala_list = $salaDao->GetByIdCine($cine->getId());
                   foreach($sala_list as $sala_aux)
                   {
+                      $funcionDao->DeleteByIdSala($sala_aux->getId());
                       $salaDao->Delete($sala_aux->getId());
                   }
               }
         }catch(Exception $e){
                throw new Exception($e->get_message());
         }
-        
+
 
         $homeController = new HomeController();
         $homeController->viewListCines();
@@ -68,15 +70,18 @@ class AdminController{
     public function deleteSala($id){
         $sala = new Sala();
         $salaDao = new SalaDAO();
-        $sala->setId($id);  
-        
+        $funcion = new FuncionDAO();
+        $sala->setId($id);
+
 
         try{
-            $salaDao->Delete($sala->getId());   
+            $salaDao->Delete($sala->getId());
+            $funcion->DeleteByIdSala($sala->getId());
+
         }catch(Exception $e){
             throw new Exception($e->get_messeage());
         }
-        
+
         $homeController = new HomeController();
         $homeController->viewListSalas();
     }
@@ -207,9 +212,18 @@ class AdminController{
 
     public function altaFuncion($id){
         $funcionDAO = new funcionDAO();
+        $sala = new SalaDAO();
+        $funcion_completa = $funcionDAO->getById($id);
+        $sala = $funcionDAO->getSala($id);
 
         try{
-            $funcionDAO->Alta($id);
+            if($sala->getEstado()==0){
+             $funcionDAO->Alta($id);
+            }
+            else{
+                echo '<script>alert("La sala de esta funcion no se encuentra activa");</script>';
+
+            }
         }catch(Exception $e){
             throw new Exception($e->get_message());
         }
@@ -217,7 +231,6 @@ class AdminController{
         $homeController = new HomeController();
         $homeController->viewListFunciones();
     }
-
 
     
     public function addFuncion($idPelicula, $dia,$hora,$descuento, $idCine, $idSalas)//Deveria recibir la pelicula(por id) y la sala (por id)

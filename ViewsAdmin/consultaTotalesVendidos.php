@@ -58,7 +58,7 @@
                                     <input type="date" name="fechaInicio" id="fechaInicio"   required name="fechaInicio"/>
                                             
 
-                                    <h5>Fecha fin</h5>
+                                    <h5 class="mt-5">Fecha fin</h5>
                                     <input type="date" name="fechaFin" id="fechaFin"  required name="fechaFin" required min=<?php $hoy=date("Y-m-d"); echo $hoy;?> />
                                     
                                     </div>

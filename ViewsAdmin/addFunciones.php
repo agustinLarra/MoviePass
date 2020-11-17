@@ -6,7 +6,7 @@
         <div class="container">
             <!-- Section-tittle -->
             <div class="row d-flex justify-content-center">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="section-tittle text-center mb-80">
                         <span>Funciones</span>
                         <h2>Agregando una nueva funcion</h2>
@@ -21,7 +21,7 @@
                     <div class="col-12">
                        <!-- <h2 class="contact-title">Formulario</h2> -->
                      </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                     <form class="form-contact contact_form" action="<?php echo FRONT_ROOT?>Admin/addFuncion" method="post">
                             <div class="row">
                                 <div class="col-12">
@@ -55,13 +55,13 @@
                                     </div>
                                 </div>
                                 
-                            <h5>Aplica Descuento De:</h5>
+                            <h5>Aplica Descuento De: </h5>
                              <div class="form-group">  
-                                    <select name="descuento"  class="form-group"> 
+                                    <select name="descuento"  class="form-group" style="margin: 10px;"> 
                                         <?php foreach($descuentosList as $values)
                                         { ?>
                                        
-                                         <option value="<?=$values->getIdDescuento();?>" ><?=$values->getPorcentaje() . "%"?></option>
+                                         <option value="<?=$values->getIdDescuento();?>" ><?= $values->getPorcentaje() . "%"?></option>
                                         
                                       <?php } ?>
 
@@ -88,7 +88,7 @@
                                 </div>            
 
 
-                                <div class="col-12">
+                                <div class="col-12 mt-5">
                                     <div class="form-group">    
                                     <h5>Sala</h5>
                                     <div id="salas">      

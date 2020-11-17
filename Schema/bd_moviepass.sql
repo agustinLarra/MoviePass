@@ -58,6 +58,7 @@ create table peliculas(
     Runtime int,
     Release_date varchar(70),
     Video varchar(35),
+    vote_average float
     
     constraint `PK_Pelicula` primary key (Id_Pelicula)
 );

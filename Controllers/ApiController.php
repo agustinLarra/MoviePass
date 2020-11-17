@@ -70,7 +70,7 @@ class ApiController{
           $pelicula_completa->setReleasedate($array['release_date']);
           $pelicula_completa->setRuntime($array['runtime']);
           $pelicula_completa->setVideo($this->getTrilerPelicula($id_pelicula));
-        
+          $pelicula_completa->setVotes($array['vote_average']);
           return $pelicula_completa;
     }
 

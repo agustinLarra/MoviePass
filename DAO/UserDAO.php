@@ -95,16 +95,17 @@
 
         public function checkUsuario($email,$pass)
         {
+            $user = new User();
             try
             {
                 $query = "SELECT * FROM users WHERE Pass = '$pass' AND Email = '$email'";
                 $this->connection = connection::GetInstance();   
                 $resultSet = $this->connection->execute($query);
-            
+                
                 if(!empty($resultSet)) {
                     foreach($resultSet as $row) { ///PROBAR DE HACERLO TODO JUNTO COMO ESTA EN EL GITHUB DEL PROFESOR
                         
-                        $user = new User();
+                      
                         $user->setId($row["Id_User"]);
                         $user->setFirstName($row["FirstName"]);
                         $user->setLastName($row["LastName"]);
@@ -123,25 +124,48 @@
 
         }
 
+        function checkUserFacebook($userData = array()){
+            try{
+                if(!empty($userData)){
+                    // Revisar si la información de usuario ya existe
+                    $firstName = $userData['first_name'];
+                    $lastName = $userData['last_name'];
 
+                    $query = "SELECT * FROM users WHERE  FirstName='Aguustiin 'AND LastName='Larra'  ";
+                    $this->connection = connection::GetInstance();   
+                    $prevResult = $this->connection->execute($query);
 
-       /* public function getByEmail($email) {
-            $this->getAll();
-            //$validationGetByEmail = false;
-
-            foreach ($this->UserList as $key => $user) {
-                if($user->getEmail() == $email) {
-                    //$validationGetByEmail = true;
-                    return $user;
-                }
-            }
-            return null;
-            /*
-            if($validationGetByEmail == 'false'){
-                return $validationGetByEmail;
-            }
+                    if($prevResult->num_rows < 0){
+        
+                        $sql = "INSERT INTO users(FirstName,LastName) VALUES(:FirstName,:LastName)";
                 
-        }*/
+                        $parameters['FirstName'] =  $userData['first_name'];
+                        $parameters['LastName'] = $userData['last_name'];
+                    //    $parameters['Email'] = $userData['email'];
+                    // $parameters['Pass'] = $user->getPassword();
+
+                        $this->connection = connection::GetInstance();
+                        $this->connection->ExecuteNonQuery($sql,$parameters);
+                                
+                    }
+                    // Tomar la información de la BD
+
+                    $query = "SELECT * FROM users WHERE  FirstName='$firstName' AND LastName='lastName' ";
+                    $this->connection = connection::GetInstance();   
+                    $result = $this->connection->execute($query);
+                    $userData = $result->fetch_assoc();
+                }
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
+            
+            // return
+            return $userData;
+        }
+
+
+
+
 
         public function modify($email,$pass){
             $sql = "UPDATE users SET  email = :email , pass = :pass, WHERE email = :email";
@@ -156,56 +180,50 @@
             
         }
 
-        ///********************
-        ///********************
-/*
-        private function RetrieveData()
-        {
-            $this->UserList = array();
-
-            if(file_exists($this->fileName))
-            {
-                $jsonContent = file_get_contents($this->fileName);
-
-                $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayToDecode as $valuesArray)
-                {
-                    $user = new User();
-                   
-                    $user->setFirstName($valuesArray["firstName"]);
-                    $user->setLastName($valuesArray["lastName"]);
-                    $user->setDni($valuesArray["dni"]);
-                    $user->setEmail($valuesArray["email"]);
-                    $user->setPassword($valuesArray["password"]);
-
-                    array_push($this->UserList, $user);
-                }
-            }
-        }
-    */
-  
-
-
-        /* ELIMINAR PERSONA
-        public function Delete($email){
-            if($_SESSION['loggedUser']->getEmail() === $email){
-                session_destroy();
-                header("location: index.php");
-            }
-            $this->retrieveData();
-            $newList = array();
-            foreach ($this->usersList as $user) {
-                if($user->getEmail() != $email){
-                    array_push($newList, $user);
-                }
-            }
     
-            $this->usersList = $newList;
-            $this->saveData();
-        }
-        */
+        public function create_facebook($email)
+        {
+            $sql = "INSERT INTO users(Email) VALUES(:Email)";
 
+            $parameters['Email'] = $email;
+
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
+
+        }
+
+
+        public function getByEmail($email)
+        {
+            $user = new User();
+            try{
+                $query = "SELECT * FROM users WHERE Email = '$email'";
+                $this->connection = connection::GetInstance();
+                $resultSet = $this->connection->execute($query);
+
+                if(!empty($resultSet)) {
+                    foreach($resultSet as $row) { ///PROBAR DE HACERLO TODO JUNTO COMO ESTA EN EL GITHUB DEL PROFESOR
+
+                       
+                        $user->setId($row["Id_User"]);
+                        $user->setFirstName($row["FirstName"]);
+                        $user->setLastName($row["LastName"]);
+                        $user->setDNI($row["DNI"]);
+                        $user->setEmail($row["Email"]);
+                        $user->setPassword($row["Pass"]);
+
+                    }
+                }
+
+            }catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+            }
+            return $user;
+        }
         
     }
 ?>

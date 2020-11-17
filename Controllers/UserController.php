@@ -63,7 +63,8 @@ class UserController{
                  //INICIA SESSION ANTES
                  if(!isset($_SESSION['userLog']))
                   {
-                     $_SESSION['userLog'] = $user->getEmail();
+                     $_SESSION['userLog'] = $user;
+                     $homeController = new HomeController();
                      $homeController->viewCartelera();  
                 }
 
@@ -172,6 +173,9 @@ class UserController{
                 session_start(); 
             } 
 
+            $_SESSION['NombreCine'] = $_POST['NombreCine'];
+            $_SESSION['CalleCine'] = $_POST['CalleCine'];
+            $_SESSION['NumeroCine'] = $_POST['NumeroCine'];
             $_SESSION['total'] = $total;
             $_SESSION['descuento'] =  $descuento;
             $_SESSION['cantidadEntradas'] = $cantidadEntradas;
@@ -210,6 +214,18 @@ class UserController{
             $Funcion = $_SESSION['Funcion'];
             $tituloPelicula = $_SESSION['tituloPelicula'];
             $user = $_SESSION['userLog'];
+            if(isset($_SESSION['email_facebook']))
+            {$usuario_fb = new UserDAO();
+            $fb_user = $usuario_fb->getByEmail($_SESSION['email_facebook']);
+
+            if($fb_user == null){
+            $usuario_fb->create_facebook($_SESSION['email_facebook']);
+            }
+
+
+           $user = $usuario_fb->getByEmail($_SESSION['email_facebook']);
+
+        }
 
 
             // Guardo la compra en la base de datos

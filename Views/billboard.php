@@ -108,6 +108,7 @@
                                     <div class="do-icon"><span class="flaticon-tasks"></span></div>
                                     <div class="do-caption">
                                         <h4><?= $values->getTitle();?></h4>
+                                        <h5>Puntuacion: <?= $values->getVotes();?></h5>
                                         <p>Fecha de Estreno: <?=$values->getReleaseDate();?></p>
                                         <p>Duracion: <?=$values->getRuntime();?> Minutos</p> 
                                     </div>

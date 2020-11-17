@@ -50,6 +50,8 @@ class PeliculaJson{
                 $pelicula->setRunTime($valuesArray["RunTime"]);
                 $pelicula->setReleaseDate($valuesArray["ReleaseDate"]);
                 $pelicula->setGenre($valuesArray["genre_ids"]);
+                $pelicula->setVotes($valuesArray['vote_average']);
+                
                 array_push($this->PeliculasList, $pelicula);
             }
         }
@@ -72,6 +74,7 @@ class PeliculaJson{
                 $valuesArray["RunTime"] = $pelicula->getRunTime();
                 $valuesArray["ReleaseDate"] = $pelicula->getReleaseDate();
                 $valuesArray["genre_ids"] = $pelicula->getGenres();
+                $valuesArray['vote_average'] = $pelicula->getVotes();
 
                 array_push($arrayToEncode, $valuesArray);
             }
@@ -140,7 +143,24 @@ class PeliculaJson{
     }
 
  
-    
+    public function GetPorGenero($genero)
+    {
+        $array_pelicula = array();
+        $this->RetrieveData();
+        foreach($this->PeliculasList as $values)
+        {
+            foreach($values->getGenres() as $genero_list)
+            {
+
+                if($genero_list == $genero)
+                {
+                    array_push($array_pelicula,$values);
+                }
+        }
+        }
+        return $array_pelicula;
+
+    }
 }
 
 ?>

@@ -474,9 +474,32 @@ public function selectDinamicoSalas(){
 
     public function viewFinCompra(){
 
+      $nombreCine = $_SESSION['NombreCine'];
+      $calleCine = $_SESSION['CalleCine'] ;
+      $numeroCine = $_SESSION['NumeroCine'];
+      $lat;
+      $lng;
+
+      if($nombreCine == 'Ambasador'){
+        $lat = -38.0015825;
+        $lng = -57.5476749;
+      }
+      if($nombreCine == 'Los gallegos'){
+        $lat = -37.9992627;
+        $lng = -57.5487967;
+      }
+      if($nombreCine == 'Aldrey'){
+        $lat = -38.0124772;
+        $lng = -57.5463054;
+      }
+      if($nombreCine == 'Cine del Paseo'){
+        $lat = '-38.0022085';
+        $lng = '-57.5557408';
+      }
+      
       require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
        require_once(VIEWS_PATH.'finCompra.php');
-      require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
+     // require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
     }
 
 
@@ -609,34 +632,45 @@ public function selectDinamicoSalas(){
   
   
     }
-    public function viewPeliGeneroAdmin()
+    public function viewPeliGeneroAdmin($genero)
     {
-    
-       $seleccion = $_POST['genero'];
-       list($id,$seleccion) = explode("-",$seleccion);
-       
-  
-       $peliculasList = $this->filtarPelisXgenero($id);
-  
-  
+
+       list($id,$seleccion) = explode("-",$genero);
+
+
+       $peliculasList = $this->Json_PorGenero($id);
+
+
        $generoList = $this->cargarGeneros();
        $fechaDeFuncion = $this->cargarFunciones();
        $fechas_estreno = $this->FechaDeEstrenoOrdenada();//Fechas de estrenos ordenadas y sin repetir
-  
+
        if($this->adminIsLogged()){
 
         require_once(VIEWS_ADMIN_PATH .'headerAdmin.php');
         require_once(VIEWS_ADMIN_PATH .'navAdmin.php');
         require_once(VIEWS_ADMIN_PATH.'listaPeliculas.php');
         require_once(VIEWS_ADMIN_PATH .'footerAdmin.php');
-  
+
       }else{
         echo '<script>alert("No tiene acceso para entrar en esta pagina");</script>';
         $this->Index();
       }
-       
-  
+
+
     }
+
+    private function Json_PorGenero($genero)
+    {
+
+
+        $json = new PeliculasJson();
+        $pelicula = $json->GetPorGenero($genero);
+
+
+     return $pelicula;
+    }
+
     private function Json_PorFechaDeEstreno($fecha)
     {
       
@@ -833,6 +867,9 @@ public function selectDinamicoSalas(){
       
     }
   
+    public function map(){
+      require_once(VIEWS_PATH.'map.php');
 
+    }
 
 } ?>

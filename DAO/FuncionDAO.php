@@ -186,7 +186,7 @@
             $parameters['Hora'] = $funcion->getHora();
             $parameters['Descuento'] = $funcion->getDescuento();
             $parameters['Eliminado'] = 0;
-            
+            try{
                 $this->connection = connection::GetInstance();
                 $this->connection->ExecuteNonQuery($sql,$parameters);
             }catch(PDOException $e){
@@ -203,6 +203,21 @@
                 return $this->connection->ExecuteNonQuery($sql,$id);
             }catch(PDOException $e){
                 throw new PDOException($e->getMessage());
+            }
+        }
+
+        public function DeleteByIdSala($id_sala)
+        {
+           // $parameters = $sala->getId();
+            $sql ="UPDATE funciones SET Eliminado = '1' WHERE funciones.Id_Sala = '$id_sala'";
+            $parameters["Eliminado"] = 1;
+
+            try{
+                $this->connection = connection::GetInstance();
+                return $this->connection->ExecuteNonQuery($sql,$parameters);
+            }
+            catch(PDOException $e){
+                echo $e;
             }
         }
 
@@ -509,7 +524,37 @@
         }
 
 
+        public function getSala($idFuncion)
+        { 
+            $sala = new Sala();
+            try{
+            $query = "SELECT s.*
+            FROM funciones as f
+            INNER JOIN salas as s
+            ON f.Id_Sala = s.Id_Sala
+            WHERE f.Id_Funcion = '$idFuncion'";
 
+            $this->connection = connection::GetInstance();
+             $resultSet = $this->connection->execute($query);
+
+             if(!empty($resultSet)) {
+                foreach($resultSet as $row) {
+
+
+                    $sala->setPrecio($row["Precio"]);
+                    $sala->setId($row["Id_Sala"]);
+                    $sala->setEstado($row["Eliminado"]);
+
+                }
+            }
+            }
+            catch(PDOException $e){
+                throw new PDOException($e->getMessage());
+
+            }
+
+           return $sala; 
+        }
 
 
 

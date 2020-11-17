@@ -26,6 +26,7 @@ namespace ViewsAdmin;
     <link rel="stylesheet" href="../ViewsAdmin/assets/css/nice-select.css">
     <link rel="stylesheet" href="../ViewsAdmin/assets/css/style.css">
     <link rel="stylesheet" href="../ViewsAdmin/assets/css/responsive.css">
+	<link rel="stylesheet" type="text/css" href="../Views/css/estilo.css">
 
 
     <!-- NO BORRAR (ESTO HACE EL SELECT DINAMICO)-->

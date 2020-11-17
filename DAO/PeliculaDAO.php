@@ -57,7 +57,7 @@
                         $pelicula->setVideo($row["Video"]);
                         $pelicula->setRunTime($row["Runtime"]);
                         $pelicula->setReleaseDate($row["Release_date"]);
-       
+                        $pelicula->setVotes($row['vote_average']);
                          
                         array_push($peliculaList, $pelicula);
                     }
@@ -159,7 +159,7 @@
         //guarda todas las peliculas de la api en la base de datos
         private function SaveData($pelicula)
         {
-            $sql = "INSERT INTO peliculas (Id_Pelicula,PosterPath,PosterHorizontal,Title,Overview,Video,Runtime,Release_date) VALUES (:Id_Pelicula,:PosterPath,:PosterHorizontal,:Title,:Overview,:Video,:Runtime,:Release_date)";
+            $sql = "INSERT INTO peliculas (Id_Pelicula,PosterPath,PosterHorizontal,Title,Overview,Video,Runtime,Release_date,vote_average) VALUES (:Id_Pelicula,:PosterPath,:PosterHorizontal,:Title,:Overview,:Video,:Runtime,:Release_date,:vote_average)";
 
             $parameters["Id_Pelicula"] = $pelicula->getId();
             $parameters["PosterPath"] = $pelicula->getPosterPath();
@@ -169,6 +169,7 @@
             $parameters["Video"] = $pelicula->getVideo();
             $parameters["Runtime"] = $pelicula->getRunTime();
             $parameters["Release_date"] = $pelicula->getReleaseDate(); 
+            $parameters['vote_average'] = $pelicula->getVotes();
            
 
             try{
@@ -213,7 +214,8 @@
                         $pelicula->setVideo($row["Video"]);
                         $pelicula->setRunTime($row["Runtime"]);
                         $pelicula->setReleaseDate($row["Release_date"]);
-       
+                        $pelicula->setVotes($row['vote_average']);
+
                         // Es para que no se repitan las peliculas y se muestren mas de una vez en la cartelera
                          if($this->checkRepetido($peliculaList, $pelicula) == false ){
                              array_push($peliculaList, $pelicula);
@@ -307,6 +309,7 @@
                         $pelicula->setVideo($row["Video"]);
                         $pelicula->setRunTime($row["Runtime"]);
                         $pelicula->setReleaseDate($row["Release_date"]);
+                        $pelicula->setVotes($row['vote_average']);
                     }
                 }
             

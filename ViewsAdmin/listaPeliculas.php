@@ -5,17 +5,14 @@
          <div class="container" style="padding:50px">
 
             <div class="filtados">
-            
-                      
-            <div class="col-lg-4" style="float:left; padding: 20px;">
-                            <!---------------------FILTRO POR GENERO------------------>             
-                            <form action="<?=FRONT_ROOT?>Home/viewListPeliculas" method="post">
-                                <div class="header-left-btn f-left d-none d-lg-block" style="padding: 30px;">
-                                    <button type="submit" class="btn header-btn">Todas las peliculas</button>
-                                </div>
-                            </form>
-                </div> 
-                
+
+            <div class="col-lg-4">         
+            <form action="<?=FRONT_ROOT?>Home/viewListPeliculas" method="post">
+                <div class=" d-none d-lg-block " style="padding: 30px;">
+                    <button type="submit" class="btn header-btn">Todas las peliculas</button>
+                </div>
+            </form>
+            </div>
                 <div class="col-lg-4" style="float:left;padding: 20px;">
                             <!---------------------FILTRO POR FECHA DE ESTRENOS------------------>             
                             <form action="<?=FRONT_ROOT?>Home/viewPeliEstrenoAdmin" method="post">
@@ -56,7 +53,6 @@
                                 <h3>Buscar por Genero</h3>
                                 <select name="genero">
                                 <option selected disable>Seleccionar opcion</option>
-                                <option value="todos">Todos los generos</option>  
                                     <?php
                                     foreach($generoList as $values)  {?>
                                         <option value="<?=$values->getId()."-".$values->getTipo();?>"><?=$values->getTipo();?></option>
@@ -69,16 +65,10 @@
                             </form>
                 </div> 
 
-          
+           
               
         </div>
-        <div class="col-lg-12">         
-            <form action="<?=FRONT_ROOT?>Home/viewListPeliculas" method="post">
-                <div class=" d-none d-lg-block " style="padding: 30px;">
-                    <button type="submit" class="btn header-btn">Todas las peliculas</button>
-                </div>
-            </form>
-        </div> 
+      
 
         <div class="peliculas"> 
             <div class="row d-flex justify-content-center">

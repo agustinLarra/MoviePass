@@ -16,7 +16,6 @@ $descuento = new DescuentoDAO();?>
                 <div class="row">
                 <?php foreach($listFunciones as $funcion){
                     if($funcion->getEstado() == 0){
-                        echo "entro en NULL";
                     ?>
                     <div class="col-lg-4 col-md-6">
                         <div class="single-do text-center mb-30">
@@ -36,8 +35,8 @@ $descuento = new DescuentoDAO();?>
                                                             echo "No";
                                                         }?></p>
                                  <p>Valor Unitario de Entrada:  <?= $funcion->getClassSala()->getPrecio();?></p>
-                                 <p>Entradas Vendidas:  <?= $funcion->getEntradasVendidas();?></p>    
-                                 <p>Recaudacion Total:  <?= $funcion->getRecaudacionTotal();?></p> 
+                        <!--         <p>Entradas Vendidas:   //$funcion->getEntradasVendidas()</p>   --> 
+                              <!--      <p>Recaudacion Total:   //$funcion->getRecaudacionTotal()</p> -->
                                  <p>Entradas disponibles:  <?= $funcion->getClassSala()->getCapacidad() - $funcion->getEntradasVendidas();?></p> 
 
                                                       
